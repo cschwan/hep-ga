@@ -1,0 +1,17 @@
+BUILTIN_STL_SUPPORT = YES
+EXAMPLE_PATH        = @top_srcdir@/test
+GENERATE_HTML       = YES
+GENERATE_LATEX      = NO
+HTML_OUTPUT         = @builddir@/html
+INPUT               = @top_srcdir@/include @top_srcdir@/src
+FILE_PATTERNS       = *.hpp *.cpp
+OUTPUT_DIRECTORY    = @top_builddir@/doc
+PROJECT_NAME        = @PACKAGE_NAME@
+PROJECT_NUMBER      = @PACKAGE_VERSION@
+RECURSIVE           = YES
+SOURCE_BROWSER      = YES
+STRIP_FROM_PATH     = @top_srcdir@/include @top_srcdir@/src
+TAB_SIZE            = 4
+USE_MATHJAX         = YES
+QUIET               = YES
+WARNINGS            = YES
