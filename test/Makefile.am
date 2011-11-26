@@ -1,4 +1,5 @@
 AM_CPPFLAGS = -I$(top_srcdir)/include
+AM_CXXFLAGS = -std=c++0x
 
 check_PROGRAMS = test_ga
 

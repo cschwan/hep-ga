@@ -1,0 +1,6 @@
+Hep-ga is a C++11 library for numeric treatment of Geometric Algebra. It
+provides a template class for multi-vectors in G_{p,q} and the corresponding
+operations, such as the geometric product, dot product, wedge product and much
+more.
+
+For more information see Doxygen documentation.
