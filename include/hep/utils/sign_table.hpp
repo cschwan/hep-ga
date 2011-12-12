@@ -19,24 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/sign_table.hpp>
+#include <hep/utils/pop_count.hpp>
+
+#include <cstddef>
 
 namespace hep
 {
 
-/// \cond HEP_DOCUMENT_INTERNAL
-
-/**
- * Computes the number of bits set to '1' in \c bits.
- */
-constexpr std::size_t pop_count(std::size_t bits)
-{
-	return (bits == 0) ? 0 : 1 + pop_count(bits & (bits - 1));
-}
-
-/**
- * Recursive constexpr implementation for sign_table.
- */
+/// \cond DOXYGEN_IGNORE
 template <std::size_t P, std::size_t Q>
 constexpr int sign_table_loop(
 	std::size_t i,
@@ -64,9 +54,16 @@ constexpr int sign_table_loop(
 #undef i_pop_count
 #undef is_bit_set
 }
-
 /// \endcond
 
+/**
+ * Returns the sign for multiplication of components \c i and \c j of two
+ * multi-vectors.
+ *
+ * \tparam T Type used for components of the multi vector
+ * \tparam P Number of basis vectors which square to \f$ +1 \f$
+ * \tparam Q Number of basis vectors which square to \f$ -1 \f$
+ */
 template <typename T, std::size_t P, std::size_t Q>
 constexpr T sign_table(std::size_t i, std::size_t j)
 {

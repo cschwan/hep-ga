@@ -41,6 +41,6 @@ multi_vector<T, P, Q> operator*(
 
 }
 
-#include <hep/implementation/operations.hpp>
+#include <hep/impl/operations.hpp>
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef HEP_IMPLEMENTATION_OPERATIONS_HPP
-#define HEP_IMPLEMENTATION_OPERATIONS_HPP
+#ifndef HEP_IMPLEMENTATION_POP_COUNT_HPP
+#define HEP_IMPLEMENTATION_POP_COUNT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,29 +19,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/operations.hpp>
-#include <hep/sign_table.hpp>
+#include <cstddef>
 
 namespace hep
 {
 
-template <typename T, std::size_t P, std::size_t Q>
-multi_vector<T, P, Q> operator*(
-	multi_vector<T, P, Q> const& lhs,
-	multi_vector<T, P, Q> const& rhs
-) {
-	multi_vector<T, P, Q> result;
-	constexpr std::size_t no_of_components = (1 << (P + Q));
-
-	for (std::size_t i = 0; i != no_of_components; ++i)
-	{
-		for (std::size_t j = 0; j != no_of_components; ++j)
-		{
-			result[i ^ j] += sign_table<T, P, Q>(i, j) * lhs[i] * rhs[j];
-		}
-	}
-
-	return result;
+/**
+ * Computes the number of bits set to '1' in \c bits.
+ */
+constexpr std::size_t pop_count(std::size_t bits)
+{
+	return (bits == 0) ? 0 : 1 + pop_count(bits & (bits - 1));
 }
 
 }
