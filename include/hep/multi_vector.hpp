@@ -79,10 +79,10 @@ public:
 
 	/**
 	 * Constructor. This constructor is used to initialize all of the
-	 * multi-vector's components. Note that you have to specify all \f$ 2^{p+q}
-	 * \f$ components, otherwise compilation will fail. Furthmore note that you
-	 * have to specify the components in the order described in the class
-	 * description of multi_vector.
+	 * multi-vector's components. Note that unspecified components will be
+	 * default-initialized (i.e. to zero for built-in types). Furthmore note
+	 * that you have to specify the components in the order described in the
+	 * class description of multi_vector.
 	 * 
 	 * \param components Components of the multi-vector
 	 */

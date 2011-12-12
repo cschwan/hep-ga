@@ -21,26 +21,24 @@
 
 #include <hep/multi_vector.hpp>
 
-#include <algorithm>
-
 namespace hep
 {
 
 template <typename T, std::size_t P, std::size_t Q>
 multi_vector<T, P, Q>::multi_vector()
+	// default initialize all elements of m_components; for integral types this
+	// means initialization to zero
+	: m_components{}
 {
-	std::fill(m_components, m_components + no_of_components, T(0.0));
 }
 
 template <typename T, std::size_t P, std::size_t Q>
 template <typename ... Args>
 multi_vector<T, P, Q>::multi_vector(Args ... components)
+	// initialize m_components with given arguments; if there are less arguments
+	// than m_components has, the remaining elements will be set to zero
 	: m_components{components ...}
 {
-	static_assert(
-		sizeof... (Args) == no_of_components,
-		"not every component was specified"
-	);
 }
 
 template <typename T, std::size_t P, std::size_t Q>
