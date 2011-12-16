@@ -7,4 +7,4 @@ if HAVE_DOXYGEN
     DOCDIR = doc
 endif
 
-SUBDIRS = include test $(DOCDIR)
+SUBDIRS = include tests $(DOCDIR)

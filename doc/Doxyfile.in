@@ -1,7 +1,7 @@
 BUILTIN_STL_SUPPORT  = YES
 CITE_BIB_FILES       = @srcdir@/references.bib
 ENABLE_PREPROCESSING = NO
-EXAMPLE_PATH         = @top_srcdir@/test
+EXAMPLE_PATH         = @top_srcdir@/tests
 EXTRACT_ALL          = YES
 GENERATE_HTML        = YES
 GENERATE_LATEX       = NO

@@ -103,7 +103,7 @@ AC_CONFIG_FILES([
 	doc/Doxyfile
 	doc/Makefile
 	include/Makefile
-	test/Makefile
+	tests/Makefile
 ])
 
 # write configure script
