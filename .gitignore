@@ -48,4 +48,5 @@ AUTHORS
 ChangeLog
 VERSION
 
-# shell scripts to binaries created by libtool
+# build related files
+build/

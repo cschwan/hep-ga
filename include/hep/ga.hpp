@@ -26,8 +26,8 @@
  *
  * Hep-ga is a C++11 library for numeric treatment of Geometric Algebra. It
  * provides a template class for multi-vectors in \f$ \mathcal{G}_{p,q} \f$ and
- * the corresponding operations, such as the geometric product, dot product,
- * wedge product and much more.
+ * the corresponding operations, such as the geometric product, dot product and
+ * wedge product.
  *
  * The implementation is based on Jaap Suter's ideas described in his
  * implementation \cite JaapSuterVital and making use of the new features of
@@ -38,6 +38,8 @@
  *   - Variadic templates
  *   - Generalized const expressions (constexpr)
  *
+ * GCC users will need at least version 4.5 in order use hep-ga.
+ *
  * \section geometric_algebra Geometric Algebra
  *
  * There are a lot of good introductions to Geometric Algebra available, e.g. in
@@ -47,7 +49,7 @@
  * implementation details, take a look at the software documentation of NKlein's
  * GA implementation \cite NKlein.
  *
- * \section usage_of_this_library Usage of This Library
+ * \section how_to_use_hep_ga How to use hep-ga
  *
  * To use this library, you first have to include its header:
  * \code
@@ -63,9 +65,9 @@
  * mv2 c;
  * \endcode
  * The first multi-vector \c a is a scalar plus a bivector with components
- * initialized to one, the vector part is zero. Note that you have to specify
- * every component of a multi_vector or no component, as shown with the
- * definition of \c c. In this case all component are initialized to zero.
+ * initialized to \c 1.0, the vector part is zero. Note that you do not
+ * need to specify every component; unspecified components are initialized with
+ * zero.
  *
  * The geometric product is evaluated by simply using the multiplication
  * operator:
