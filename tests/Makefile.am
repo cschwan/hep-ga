@@ -8,8 +8,12 @@ AM_CXXFLAGS = -std=c++0x
 
 check_PROGRAMS = \
 	test_ga \
+	test_binomial_coefficient \
 	test_pop_count \
 	test_sign_table
+
+test_binomial_coefficient_SOURCES = test_binomial_coefficient.cpp
+test_binomial_coefficient_LDADD = -lboost_unit_test_framework
 
 test_ga_SOURCES = test_ga.cpp
 test_ga_LDADD = -lboost_unit_test_framework
