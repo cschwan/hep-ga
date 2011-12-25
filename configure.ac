@@ -32,10 +32,6 @@ AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2 no-dist-gzip nostdinc 1.11])
 # use silent rules by default
 AM_SILENT_RULES([yes])
 
-# initialize libtool
-LT_PREREQ([2.2])
-LT_INIT
-
 # C++ is our language
 AC_LANG([C++])
 
