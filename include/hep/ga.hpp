@@ -84,7 +84,10 @@ namespace hep {}
 #include <hep/operations.hpp>
 
 /**
- * \example test_ga.cpp
+ * \example test_multi_vector.cpp
+ * \example test_geometric_product_for_g2.cpp
+ * \example test_geometric_product_for_g3.cpp
+ * \example test_geometric_product_for_g4.cpp
  */
 
 #endif

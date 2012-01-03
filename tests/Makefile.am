@@ -7,9 +7,12 @@ AM_CPPFLAGS = \
 AM_CXXFLAGS = -std=c++0x
 
 check_PROGRAMS = \
-	test_ga \
 	test_binomial_coefficient \
+	test_geometric_product_for_g2 \
+	test_geometric_product_for_g3 \
+	test_geometric_product_for_g4 \
 	test_index_representation \
+	test_multi_vector \
 	test_next_bit_permutation \
 	test_num_of_components \
 	test_pop_count \
@@ -19,11 +22,20 @@ check_PROGRAMS = \
 test_binomial_coefficient_SOURCES = test_binomial_coefficient.cpp
 test_binomial_coefficient_LDADD = -lboost_unit_test_framework
 
-test_ga_SOURCES = test_ga.cpp
-test_ga_LDADD = -lboost_unit_test_framework
+test_geometric_product_for_g2_SOURCES = test_geometric_product_for_g2.cpp
+test_geometric_product_for_g2_LDADD = -lboost_unit_test_framework
+
+test_geometric_product_for_g3_SOURCES = test_geometric_product_for_g3.cpp
+test_geometric_product_for_g3_LDADD = -lboost_unit_test_framework
+
+test_geometric_product_for_g4_SOURCES = test_geometric_product_for_g4.cpp
+test_geometric_product_for_g4_LDADD = -lboost_unit_test_framework
 
 test_index_representation_SOURCES = test_index_representation.cpp
 test_index_representation_LDADD = -lboost_unit_test_framework
+
+test_multi_vector_SOURCES = test_multi_vector.cpp
+test_multi_vector_LDADD = -lboost_unit_test_framework
 
 test_next_bit_permutation_SOURCES = test_next_bit_permutation.cpp
 test_next_bit_permutation_LDADD = -lboost_unit_test_framework
