@@ -39,6 +39,7 @@ doc/html
 # ignore files in m4/ subdir, but track the directory itself via .keep
 m4/*
 !m4/.keep
+!m4/std_cxx.m4
 
 # distribution packages
 *.tar.*

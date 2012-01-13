@@ -32,14 +32,14 @@ AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2 no-dist-gzip nostdinc 1.11])
 # use silent rules by default
 AM_SILENT_RULES([yes])
 
-# C++ is our language
-AC_LANG([C++])
-
-# check for C++ compiler
-AC_PROG_CXX
-
 # put aclocal macros into m4
 AC_CONFIG_MACRO_DIR([m4])
+
+# check for C++11 conforming compiler (custom macro)
+AC_PROG_CXX_CXX11
+
+# C++ is our language
+AC_LANG([C++])
 
 # point to a source file in order to let ./configure find itself
 AC_CONFIG_SRCDIR([include/hep/ga.hpp])
