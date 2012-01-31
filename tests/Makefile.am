@@ -13,6 +13,7 @@ check_PROGRAMS = \
 	test_geometric_product_for_g2 \
 	test_geometric_product_for_g3 \
 	test_geometric_product_for_g4 \
+	test_grade_list_product \
 	test_index_representation \
 	test_multi_vector \
 	test_next_bit_permutation \
