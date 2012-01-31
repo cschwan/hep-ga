@@ -8,6 +8,7 @@ nobase_include_HEADERS = \
 	hep/utils/num_of_components.hpp \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \
+	hep/utils/trailing_zeroes.hpp \
 	hep/ga.hpp \
 	hep/multi_vector.hpp \
 	hep/operations.hpp

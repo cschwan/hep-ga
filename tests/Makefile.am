@@ -19,7 +19,8 @@ check_PROGRAMS = \
 	test_nth_bit_permutation_inverse \
 	test_num_of_components \
 	test_pop_count \
-	test_sign_table
+	test_sign_table \
+	test_trailing_zeroes
 
 LDADD = -lboost_unit_test_framework
 
