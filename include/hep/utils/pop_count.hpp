@@ -1,9 +1,9 @@
-#ifndef HEP_IMPLEMENTATION_POP_COUNT_HPP
-#define HEP_IMPLEMENTATION_POP_COUNT_HPP
+#ifndef HEP_UTILS_POP_COUNT_HPP
+#define HEP_UTILS_POP_COUNT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
