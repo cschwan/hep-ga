@@ -1,9 +1,9 @@
-#ifndef HEP_IMPLEMENTATION_POP_COUNT_HPP
-#define HEP_IMPLEMENTATION_POP_COUNT_HPP
+#ifndef HEP_UTILS_NUM_OF_COMPONENTS_HPP
+#define HEP_UTILS_NUM_OF_COMPONENTS_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ constexpr std::size_t num_of_components_loop(
 	std::size_t grade_list,
 	std::size_t k
 ) {
-#define end_of_recursion ((1 << k) > grade_list)
+#define end_of_recursion ((1u << k) > grade_list)
 #define in_grade_list ((1 << k) & grade_list)
 #define do_recursion (num_of_components_loop(n, grade_list, k + 1))
 
