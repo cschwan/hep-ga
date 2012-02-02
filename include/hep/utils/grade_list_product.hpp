@@ -49,9 +49,11 @@ constexpr std::size_t recursive_grade_list_product(
 #define hep_min_grade ((hep_grade_a > hep_grade_b) ? \
 	(hep_grade_a - hep_grade_b) : (hep_grade_b - hep_grade_a))
 
-// compute maximum grade possible - constraint by algebra dimension
-#define hep_max_grade (((hep_grade_a + hep_grade_b) > n) ? n : \
-	(hep_grade_a + hep_grade_b))
+#define hep_grade_sum (hep_grade_a + hep_grade_b)
+
+// compute maximum grade possible
+#define hep_max_grade ((hep_grade_sum > n) ? (2 * n - hep_grade_sum) : \
+	hep_grade_sum)
 
 // generate every grade between min/max in steps of two
 #define hep_grade_list_ab ((0x55555555 << hep_min_grade) & \
@@ -67,8 +69,9 @@ constexpr std::size_t recursive_grade_list_product(
 	));
 
 #undef hep_finished
-#undef hep_grade_ab
+#undef hep_grade_list_ab
 #undef hep_max_grade
+#undef hep_grade_sum
 #undef hep_min_grade
 #undef hep_grade_b
 #undef hep_grade_a
