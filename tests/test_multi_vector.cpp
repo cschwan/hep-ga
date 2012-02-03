@@ -834,7 +834,7 @@ BOOST_AUTO_TEST_CASE(component_access_g4)
 	hep::multi_vector<float, 1, 3> z = { 1049.0f, 1051.0f, 1061.0f, 1063.0f,
 	                                     1069.0f, 1087.0f, 1091.0f, 1093.0f,
 	                                     1097.0f, 1103.0f, 1109.0f, 1117.0f,
-	                                     1123.0f, 1129.0f, 1151.0f, 1153.0f };
+	                                     1123.0f, 1129.0f, 1151.0f, 0.0f };
 
 	BOOST_CHECK_EQUAL(z[0], 1049.0f);
 	BOOST_CHECK_EQUAL(z[1], 1051.0f);
@@ -851,5 +851,120 @@ BOOST_AUTO_TEST_CASE(component_access_g4)
 	BOOST_CHECK_EQUAL(z[12], 1123.0f);
 	BOOST_CHECK_EQUAL(z[13], 1129.0f);
 	BOOST_CHECK_EQUAL(z[14], 1151.0f);
-	BOOST_CHECK_EQUAL(z[15], 1153.0f);
+	BOOST_CHECK_EQUAL(z[15], 0.0f);
+
+	// scalar + vector + bivector + quadvector
+	hep::multi_vector<float, 1, 3> z1 = { 1163.0f, 1171.0f, 1181.0f, 1187.0f,
+	                                      1193.0f, 1201.0f, 1213.0f, 0.0f,
+	                                      1217.0f, 1223.0f, 1229.0f, 0.0f,
+	                                      1231.0f, 0.0f, 0.0f, 1237.0f };
+
+	BOOST_CHECK_EQUAL(z1[0], 1163.0f);
+	BOOST_CHECK_EQUAL(z1[1], 1171.0f);
+	BOOST_CHECK_EQUAL(z1[2], 1181.0f);
+	BOOST_CHECK_EQUAL(z1[3], 1187.0f);
+	BOOST_CHECK_EQUAL(z1[4], 1193.0f);
+	BOOST_CHECK_EQUAL(z1[5], 1201.0f);
+	BOOST_CHECK_EQUAL(z1[6], 1213.0f);
+	BOOST_CHECK_EQUAL(z1[7], 0.0f);
+	BOOST_CHECK_EQUAL(z1[8], 1217.0f);
+	BOOST_CHECK_EQUAL(z1[9], 1223.0f);
+	BOOST_CHECK_EQUAL(z1[10], 1229.0f);
+	BOOST_CHECK_EQUAL(z1[11], 0.0f);
+	BOOST_CHECK_EQUAL(z1[12], 1231.0f);
+	BOOST_CHECK_EQUAL(z1[13], 0.0f);
+	BOOST_CHECK_EQUAL(z1[14], 0.0f);
+	BOOST_CHECK_EQUAL(z1[15], 1237.0f);
+
+	// scalar + vector + trivector + quadvector
+	hep::multi_vector<float, 1, 3> z2 = { 1249.0f, 1259.0f, 1277.0f, 0.0f,
+	                                      1279.0f, 0.0f, 0.0f, 1283.0f,
+	                                      1289.0f, 0.0f, 0.0f, 1291.0f,
+	                                      0.0f, 1297.0f, 1301.0f, 1303.0f };
+
+	BOOST_CHECK_EQUAL(z2[0], 1249.0f);
+	BOOST_CHECK_EQUAL(z2[1], 1259.0f);
+	BOOST_CHECK_EQUAL(z2[2], 1277.0f);
+	BOOST_CHECK_EQUAL(z2[3], 0.0f);
+	BOOST_CHECK_EQUAL(z2[4], 1279.0f);
+	BOOST_CHECK_EQUAL(z2[5], 0.0f);
+	BOOST_CHECK_EQUAL(z2[6], 0.0f);
+	BOOST_CHECK_EQUAL(z2[7], 1283.0f);
+	BOOST_CHECK_EQUAL(z2[8], 1289.0f);
+	BOOST_CHECK_EQUAL(z2[9], 0.0f);
+	BOOST_CHECK_EQUAL(z2[10], 0.0f);
+	BOOST_CHECK_EQUAL(z2[11], 1291.0f);
+	BOOST_CHECK_EQUAL(z2[12], 0.0f);
+	BOOST_CHECK_EQUAL(z2[13], 1297.0f);
+	BOOST_CHECK_EQUAL(z2[14], 1301.0f);
+	BOOST_CHECK_EQUAL(z2[15], 1303.0f);
+
+	// scalar + bivector + trivector + quadvector
+	hep::multi_vector<float, 1, 3> z3 = { 1307.0f, 0.0f, 0.0f, 1319.0f,
+	                                      0.0f, 1321.0f, 1327.0f, 1361.0f,
+	                                      0.0f, 1367.0f, 1373.0f, 1381.0f,
+	                                      1399.0f, 1409.0f, 1423.0f, 1427.0f };
+
+	BOOST_CHECK_EQUAL(z3[0], 1307.0f);
+	BOOST_CHECK_EQUAL(z3[1], 0.0f);
+	BOOST_CHECK_EQUAL(z3[2], 0.0f);
+	BOOST_CHECK_EQUAL(z3[3], 1319.0f);
+	BOOST_CHECK_EQUAL(z3[4], 0.0f);
+	BOOST_CHECK_EQUAL(z3[5], 1321.0f);
+	BOOST_CHECK_EQUAL(z3[6], 1327.0f);
+	BOOST_CHECK_EQUAL(z3[7], 1361.0f);
+	BOOST_CHECK_EQUAL(z3[8], 0.0f);
+	BOOST_CHECK_EQUAL(z3[9], 1367.0f);
+	BOOST_CHECK_EQUAL(z3[10], 1373.0f);
+	BOOST_CHECK_EQUAL(z3[11], 1381.0f);
+	BOOST_CHECK_EQUAL(z3[12], 1399.0f);
+	BOOST_CHECK_EQUAL(z3[13], 1409.0f);
+	BOOST_CHECK_EQUAL(z3[14], 1423.0f);
+	BOOST_CHECK_EQUAL(z3[15], 1427.0f);
+
+	// vector + bivector + trivector + quadvector
+	hep::multi_vector<float, 1, 3> z4 = { 0.0f, 1429.0f, 1433.0f, 1439.0f,
+	                                      1447.0f, 1451.0f, 1453.0f, 1459.0f,
+	                                      1471.0f, 1481.0f, 1483.0f, 1487.0f,
+	                                      1489.0f, 1493.0f, 1499.0f, 1511.0f };
+
+	BOOST_CHECK_EQUAL(z4[0], 0.0f);
+	BOOST_CHECK_EQUAL(z4[1], 1429.0f);
+	BOOST_CHECK_EQUAL(z4[2], 1433.0f);
+	BOOST_CHECK_EQUAL(z4[3], 1439.0f);
+	BOOST_CHECK_EQUAL(z4[4], 1447.0f);
+	BOOST_CHECK_EQUAL(z4[5], 1451.0f);
+	BOOST_CHECK_EQUAL(z4[6], 1453.0f);
+	BOOST_CHECK_EQUAL(z4[7], 1459.0f);
+	BOOST_CHECK_EQUAL(z4[8], 1471.0f);
+	BOOST_CHECK_EQUAL(z4[9], 1481.0f);
+	BOOST_CHECK_EQUAL(z4[10], 1483.0f);
+	BOOST_CHECK_EQUAL(z4[11], 1487.0f);
+	BOOST_CHECK_EQUAL(z4[12], 1489.0f);
+	BOOST_CHECK_EQUAL(z4[13], 1493.0f);
+	BOOST_CHECK_EQUAL(z4[14], 1499.0f);
+	BOOST_CHECK_EQUAL(z4[15], 1511.0f);
+
+	// scalar + vector + bivector + trivector + quadvector
+	hep::multi_vector<float, 1, 3> z5 = { 1523.0f, 1531.0f, 1543.0f, 1549.0f,
+	                                      1553.0f, 1559.0f, 1567.0f, 1571.0f,
+	                                      1579.0f, 1583.0f, 1597.0f, 1601.0f,
+	                                      1607.0f, 1609.0f, 1613.0f, 1619.0f };
+
+	BOOST_CHECK_EQUAL(z5[0], 1523.0f);
+	BOOST_CHECK_EQUAL(z5[1], 1531.0f);
+	BOOST_CHECK_EQUAL(z5[2], 1543.0f);
+	BOOST_CHECK_EQUAL(z5[3], 1549.0f);
+	BOOST_CHECK_EQUAL(z5[4], 1553.0f);
+	BOOST_CHECK_EQUAL(z5[5], 1559.0f);
+	BOOST_CHECK_EQUAL(z5[6], 1567.0f);
+	BOOST_CHECK_EQUAL(z5[7], 1571.0f);
+	BOOST_CHECK_EQUAL(z5[8], 1579.0f);
+	BOOST_CHECK_EQUAL(z5[9], 1583.0f);
+	BOOST_CHECK_EQUAL(z5[10], 1597.0f);
+	BOOST_CHECK_EQUAL(z5[11], 1601.0f);
+	BOOST_CHECK_EQUAL(z5[12], 1607.0f);
+	BOOST_CHECK_EQUAL(z5[13], 1609.0f);
+	BOOST_CHECK_EQUAL(z5[14], 1613.0f);
+	BOOST_CHECK_EQUAL(z5[15], 1619.0f);
 }
