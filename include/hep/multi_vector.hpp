@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include <hep/utils/num_of_components.hpp>
 
 #include <cstddef>
 
@@ -34,49 +36,45 @@ namespace hep
  *     e_i^2 = \begin{cases} +1 & \forall \, 0 \le i < p \\
  *                           -1 & \forall \, p \le i < p+q \end{cases}
  * \f]
- * For example, \f$ \mathcal{G}_{2,0} \f$ is the geometric algebra of the
- * (euclidian) plane, \f$ \mathcal{G}_{3,0} \f$ is the GA of euclidian space and
+ * For example, \f$ \mathcal{G}_{2,0} \f$ is the geometric algebra (GA) of the
+ * euclidian plane, \f$ \mathcal{G}_{3,0} \f$ is the GA of euclidian space and
  * \f$ \mathcal{G}_{1,3} \f$ denotes the GA of Minkowski space with basis
  * vectors satisfying \f$ e_0^2 = +1 \f$, \f$ e_1^2 = -1 \f$, \f$ e_2^2 = -1 \f$
  * and \f$ e_3^2 = -1 \f$.
  *
  * \section component_storage_layout Component Storage Layout
  *
- * The multi_vector class stores its components in a form which follows the
- * bit-representation of a multi-vector:
+ * By the template parameter \c L it is possible to select which grades are
+ * saved in the multi-vector. For example, the following type includes the
+ * scalar and all bivector parts:
+ * \code
+ * typedef hep::multi_vector<float, 2, 0, 1+4> complex;
  *
- *   - Index \f$ 0 = 000_2 \mapsto 1 \f$
- *   - Index \f$ 1 = 001_2 \mapsto e_0 \f$
- *   - Index \f$ 2 = 010_2 \mapsto e_1 \f$
- *   - Index \f$ 3 = 011_2 \mapsto e_0 e_1 \f$
- *   - Index \f$ 4 = 100_2 \mapsto e_2 \f$
- *   - Index \f$ 5 = 101_2 \mapsto e_0 e_2 \f$
- *   - Index \f$ 6 = 110_2 \mapsto e_1 e_2 \f$
- *   - Index \f$ 7 = 111_2 \mapsto e_0 e_1 e_2 \f$
- *   - \f$ \ldots \f$
- *
- * For example, the first component (index \f$ 0 \f$) denotes the scalar part of
- * every multi-vector and index \f$ 6 \f$ points to the component with basis
- * blade \f$ e_1 e_2 \f$.
- *
- * Note that the basis blade of a single grade in general will not have
- * consecutive indices, e.g. the vectors always have indices which are powers
- * of \f$ 2 \f$.The reason for choosing such a scheme is that multiplication
- * (geometric product) becomes very easy and also efficient to implement.
+ * complex a = { 1.0f, 2.0f };
+ * \endcode
+ * The scalar part is set to \c 1.0f, the bivector to \c 2.0f. Note that in
+ * general, the multi-vector's basis-blades are initialized in ascending
+ * grade-order. Components which are not specified are initialized to zero
+ * (default C++ behavior).
  *
  * \tparam T Type used for components of the multi vector
  * \tparam P Number of basis vectors which square to \f$ +1 \f$
  * \tparam Q Number of basis vectors which square to \f$ -1 \f$
+ * \tparam L Grade list. Bits which are set signal that the corresponding blades
+ *         are included in the multi-vector. For example, \c 1 means scalar,
+ *         \c 2 means vector, \c 4 bivector and so on
  */
-template <typename T, std::size_t P, std::size_t Q>
+template <typename T, std::size_t P, std::size_t Q, std::size_t L>
 class multi_vector
 {
-public:
-	/**
-	 * Constructor. Initializes all components to zero.
-	 */
-	multi_vector();
+	static_assert (P + Q > 0, "algebra dimension is zero");
 
+	static_assert (L != 0, "grade list is zero");
+
+	static_assert (L < (1 << (P + Q + 1)),
+		"grade list contains grades higher than the algebra dimension");
+
+public:
 	/**
 	 * Constructor. This constructor is used to initialize all of the
 	 * multi-vector's components. Note that unspecified components will be
@@ -103,14 +101,9 @@ public:
 
 private:
 	/**
-	 * Number of components of this multi-vector.
-	 */
-	constexpr static std::size_t no_of_components = 1 << (P + Q);
-
-	/**
 	 * Array storing the components of this multi-vector.
 	 */
-	T m_components[no_of_components];
+	T components[num_of_components(P + Q, L)];
 };
 
 }

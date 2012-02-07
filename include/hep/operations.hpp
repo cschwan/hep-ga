@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  */
 
 #include <hep/multi_vector.hpp>
+#include <hep/utils/grade_list_product.hpp>
 
 #include <cstddef>
 
@@ -33,10 +34,16 @@ namespace hep
  * \tparam P Number of basis vectors which square to \f$ +1 \f$
  * \tparam Q Number of basis vectors which square to \f$ -1 \f$
  */
-template <typename T, std::size_t P, std::size_t Q>
-multi_vector<T, P, Q> operator*(
-	multi_vector<T, P, Q> const& lhs,
-	multi_vector<T, P, Q> const& rhs
+template
+	< typename T
+	, std::size_t P
+	, std::size_t Q
+	, std::size_t L1
+	, std::size_t L2
+	>
+multi_vector<T, P, Q, grade_list_product(L1, L2, P + Q)> operator*(
+	multi_vector<T, P, Q, L1> const& lhs,
+	multi_vector<T, P, Q, L2> const& rhs
 );
 
 }

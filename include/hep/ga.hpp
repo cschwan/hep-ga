@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,30 +24,32 @@
  *
  * \section introduction Introduction
  *
- * Hep-ga is a C++11 library for numeric treatment of Geometric Algebra. It
+ * hep-ga is a C++ library for numeric calculations with Geometric Algebra. It
  * provides a template class for multi-vectors in \f$ \mathcal{G}_{p,q} \f$ and
- * the corresponding operations, such as the geometric product, dot product and
- * wedge product.
+ * template-expression based functions for the corresponding operations, such as
+ * the geometric product, dot product and wedge product.
  *
- * The implementation is based on Jaap Suter's ideas described in his
- * implementation \cite JaapSuterVital and making use of the new features of
- * C++11 which allow for much simpler coding. Therefore, in order to use this
- * library, you will need a recent C++ compiler supporting at least the
- * following features:
+ * \section technical_details Technical Details
  *
- *   - Variadic templates
- *   - Generalized const expressions (constexpr)
+ * This library is largely based on Jaap Suter's implementation and his ideas
+ * \cite JaapSuterVital. Opposed to existing implementations, hep-ga makes use
+ * of C++11 features and thus requires the user to have a compiler supporting
+ * certain features of this new C++ standard. In particular, the following
+ * features are required:
+ *   - Variadic Templates,
+ *   - Constant Expression Eunctions and
+ *   - Static Assertions.
  *
- * GCC users will need at least version 4.5 in order use hep-ga.
+ * \section installation Installation
  *
- * \section geometric_algebra Geometric Algebra
- *
- * There are a lot of good introductions to Geometric Algebra available, e.g. in
- * \cite GAForPhysicists. If you do not have access to this book, I recommend
- * reading papers freely available online \cite PHDDoran, \cite GAPrimer,
- * \cite ImagNumAreNotReal, \cite PrimerOnGA. If you are interested in
- * implementation details, take a look at the software documentation of NKlein's
- * GA implementation \cite NKlein.
+ * hep-ga is a header-only library, so you do not need to install
+ * any binaries or shared libraries. To install it, use the usual series of
+ * commands for autotools-based projects, for example:
+ * \code
+ * ./configure --prefix=/usr/local --disable-doxygen
+ * make
+ * make install
+ * \endcode
  *
  * \section how_to_use_hep_ga How to use hep-ga
  *
@@ -55,27 +57,51 @@
  * \code
  * #include <hep/ga.hpp>
  * \endcode
- * Multi-vectors are defined by using the multi_vector class. For example, a
- * multi_vector in \f$ \mathcal{G}_{2,0} \f$ is defined as
+ * Multi-vectors are defined by using the \c multi_vector class. For example,
+ * two multi-vectors representing complex numbers are defined as:
  * \code
- * typedef hep::multi_vector<float, 2, 0> mv2;
+ * // - float -> type used for numerical comutations
+ * // - 2,0 -> Euclidean plane (3,0 -> Euclidean space; 1,3 -> Minkowski space)
+ * // - 1+4 means scalar + bivector (log 1 = 0, log 4 = 2)
+ * typedef hep::multi_vector<float, 2, 0, 1+4> complex;
  *
- * mv2 a = { 1.0f, 0.0f, 0.0f,  1.0f };
- * mv2 b = { 1.0f, 0.0f, 0.0f, -1.0f };
- * mv2 c;
+ * complex a = { 2.0f, 3.0f };
+ * complex b = { 5.0f, 7.0f };
  * \endcode
- * The first multi-vector \c a is a scalar plus a bivector with components
- * initialized to \c 1.0, the vector part is zero. Note that you do not
- * need to specify every component; unspecified components are initialized with
- * zero.
+ * To simplify matters, you should use type definitions for your different
+ * multi-vectors (shown above) or use those defined in TODO which are useful for
+ * physics-related computations.
  *
- * The geometric product is evaluated by simply using the multiplication
- * operator:
+ * In order to speed up calculations, it was decided that the type of
+ * basis-blades which can be handled with a \c multi_vector must be explitly
+ * stated in its definition. In the example above, you can see that a complex
+ * number consists of a scalar and a bivector. Since the grade of of a scalar is
+ * zero and two of the bivector, the zeroeth and second bit in the grade list
+ * must be set. This results in the number \c 1+4. Note that every operation
+ * automatically computes the resulting grades, e.g. the geometric product of
+ * \c a and \c b is also a \c complex
  * \code
- * c = a * b;
+ * complex c = a * b;
+ * \endcode
+ * This automatic type-deduction does not take into account algebraic relations,
+ * i.e. if certain grades vanish, those will nevertheless be present. In that
+ * case you may use the TODO function to select the desired grades:
+ * \code
+ * // select scalar part of c
+ * complex d = hep::grade<1>(c);
  * \endcode
  *
  * For further examples have a look at the examples section.
+ *
+ * \section recommended_reading Recommended Reading
+ *
+ * If you want to learn Geometric Algebra and you are interested in its
+ * applications in physics, we recommend you to read \cite GAForPhysicists. We
+ * also recommend to read papers which are freely available online:
+ * \cite PHDDoran, \cite GAPrimer, \cite ImagNumAreNotReal, \cite PrimerOnGA.
+ * If you are interested in implementation-related concepts, have a look at the
+ * software documentation of NKlein's GA implementation \cite NKlein.
+ *
  */
 
 namespace hep {}
@@ -84,10 +110,12 @@ namespace hep {}
 #include <hep/operations.hpp>
 
 /**
- * \example test_multi_vector.cpp
- * \example test_geometric_product_for_g2.cpp
- * \example test_geometric_product_for_g3.cpp
- * \example test_geometric_product_for_g4.cpp
+ * \example test_geometric_product_in_g2.cpp
+ * \example test_geometric_product_in_g3.cpp
+ * \example test_geometric_product_in_g4.cpp
+ * \example test_multi_vector_in_g2.cpp
+ * \example test_multi_vector_in_g3.cpp
+ * \example test_multi_vector_in_g4.cpp
  */
 
 #endif

@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +20,53 @@
  */
 
 #include <hep/operations.hpp>
+#include <hep/utils/index_representation.hpp>
+#include <hep/utils/pop_count.hpp>
 #include <hep/utils/sign_table.hpp>
 
 namespace hep
 {
 
-template <typename T, std::size_t P, std::size_t Q>
-multi_vector<T, P, Q> operator*(
-	multi_vector<T, P, Q> const& lhs,
-	multi_vector<T, P, Q> const& rhs
+template
+	< typename T
+	, std::size_t P
+	, std::size_t Q
+	, std::size_t L1
+	, std::size_t L2
+	>
+multi_vector<T, P, Q, grade_list_product(L1, L2, P + Q)> operator*(
+	multi_vector<T, P, Q, L1> const& lhs,
+	multi_vector<T, P, Q, L2> const& rhs
 ) {
-	multi_vector<T, P, Q> result;
-	constexpr std::size_t no_of_components = (1 << (P + Q));
+	constexpr std::size_t result_list = grade_list_product(L1, L2, P + Q);
+	constexpr std::size_t size = 1 << (P + Q);
 
-	for (std::size_t i = 0; i != no_of_components; ++i)
+	multi_vector<T, P, Q, result_list> result;
+
+	// loop over every possible element of a multi-vector of the type (P,Q) ...
+	for (std::size_t i = 0; i != size; ++i)
 	{
-		for (std::size_t j = 0; j != no_of_components; ++j)
+		// but veto access to componenents of lhs which do not exist ...
+		if (!(L1 & (1 << pop_count(i))))
 		{
-			result[i ^ j] += sign_table<T, P, Q>(i, j) * lhs[i] * rhs[j];
+			continue;
+		}
+
+		for (std::size_t j = 0; j != size; ++j)
+		{
+			// and do the same for rhs
+			if (!(L2 & (1 << pop_count(j))))
+			{
+				continue;
+			}
+
+			std::size_t index_ij =
+				index_representation(i ^ j, result_list, P + Q);
+			std::size_t index_i = index_representation(i, L1, P + Q);
+			std::size_t index_j = index_representation(j, L2, P + Q);
+
+			result[index_ij] +=
+				sign_table<T, P, Q>(i, j) * lhs[index_i] * rhs[index_j];
 		}
 	}
 

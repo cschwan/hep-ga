@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,33 +24,25 @@
 namespace hep
 {
 
-template <typename T, std::size_t P, std::size_t Q>
-multi_vector<T, P, Q>::multi_vector()
-	// default initialize all elements of m_components; for integral types this
-	// means initialization to zero
-	: m_components{}
-{
-}
-
-template <typename T, std::size_t P, std::size_t Q>
+template <typename T, std::size_t P, std::size_t Q, std::size_t L>
 template <typename ... Args>
-multi_vector<T, P, Q>::multi_vector(Args ... components)
-	// initialize m_components with given arguments; if there are less arguments
+multi_vector<T, P, Q, L>::multi_vector(Args ... components)
+	// initialize components with given arguments; if there are less arguments
 	// than m_components has, the remaining elements will be set to zero
-	: m_components{components ...}
+	: components{components ...}
 {
 }
 
-template <typename T, std::size_t P, std::size_t Q>
-T& multi_vector<T, P, Q>::operator[](std::size_t index)
+template <typename T, std::size_t P, std::size_t Q, std::size_t L>
+T& multi_vector<T, P, Q, L>::operator[](std::size_t index)
 {
-	return m_components[index];
+	return components[index];
 }
 
-template <typename T, std::size_t P, std::size_t Q>
-T const& multi_vector<T, P, Q>::operator[](std::size_t index) const
+template <typename T, std::size_t P, std::size_t Q, std::size_t L>
+T const& multi_vector<T, P, Q, L>::operator[](std::size_t index) const
 {
-	return m_components[index];
+	return components[index];
 }
 
 }
