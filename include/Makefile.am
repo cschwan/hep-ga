@@ -1,4 +1,5 @@
 nobase_include_HEADERS = \
+	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/operations.hpp \
 	hep/utils/binomial_coefficient.hpp \
@@ -11,6 +12,7 @@ nobase_include_HEADERS = \
 	hep/utils/sign_table.hpp \
 	hep/utils/trailing_zeroes.hpp \
 	hep/ga.hpp \
+	hep/grade.hpp \
 	hep/multi_vector.hpp \
 	hep/operations.hpp
 

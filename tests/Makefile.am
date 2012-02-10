@@ -14,6 +14,7 @@ check_PROGRAMS = \
 	test_geometric_product_in_g3 \
 	test_geometric_product_in_g4 \
 	test_grade_list_product \
+	test_grade_projection \
 	test_index_representation \
 	test_multi_vector_in_g2 \
 	test_multi_vector_in_g3 \

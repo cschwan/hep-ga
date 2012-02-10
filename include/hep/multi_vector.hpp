@@ -88,14 +88,25 @@ public:
 	multi_vector(Args ... components);
 
 	/**
-	 * Component write-access operator. Note the order of components described
-	 * in multi_vector.
+	 * Copy contructor.
+	 */
+	multi_vector(multi_vector<T, P, Q, L> const& object) = default;
+
+	/**
+	 * Grade selection contructor. This constructor takes a multi_vector with a
+	 * different grade list \c N and selects only those which also appear in 
+	 * this's grade list. Other grades are set to zero.
+	 */
+	template <std::size_t N>
+	multi_vector(multi_vector<T, P, Q, N> const& object);
+
+	/**
+	 * Component read-/write-access operator.
 	 */
 	T& operator[](std::size_t index);
 
 	/**
-	 * Component read-access operator. Note the order of components described in
-	 * multi_vector.
+	 * Component read-access operator.
 	 */
 	T const& operator[](std::size_t index) const;
 

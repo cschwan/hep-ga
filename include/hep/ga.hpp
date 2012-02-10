@@ -106,6 +106,7 @@
 
 namespace hep {}
 
+#include <hep/grade.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/operations.hpp>
 
@@ -113,6 +114,7 @@ namespace hep {}
  * \example test_geometric_product_in_g2.cpp
  * \example test_geometric_product_in_g3.cpp
  * \example test_geometric_product_in_g4.cpp
+ * \example test_grade_projection.cpp
  * \example test_multi_vector_in_g2.cpp
  * \example test_multi_vector_in_g3.cpp
  * \example test_multi_vector_in_g4.cpp
