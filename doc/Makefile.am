@@ -2,10 +2,12 @@ doxygen-files: Doxyfile $(top_builddir)/include/stamp-headers
 	$(DOXYGEN) Doxyfile
 	-rm html/installdox
 	tar cf html.tar html/
-	rm -rf html/
 	tar tf html.tar > doxygen-files
 
 all-local: doxygen-files
+
+mostlyclean-local:
+	rm -rf html/
 
 install-data-local:
 	$(MKDIR_P) "$(DESTDIR)$(docdir)"
