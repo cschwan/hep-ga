@@ -108,7 +108,7 @@ namespace hep {}
 
 #include <hep/grade.hpp>
 #include <hep/multi_vector.hpp>
-#include <hep/operations.hpp>
+#include <hep/product.hpp>
 
 /**
  * \example test_geometric_product_in_g2.cpp

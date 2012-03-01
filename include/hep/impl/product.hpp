@@ -1,5 +1,5 @@
-#ifndef HEP_IMPLEMENTATION_OPERATIONS_HPP
-#define HEP_IMPLEMENTATION_OPERATIONS_HPP
+#ifndef HEP_IMPLEMENTATION_PRODUCT_HPP
+#define HEP_IMPLEMENTATION_PRODUCT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/operations.hpp>
+#include <hep/product.hpp>
 #include <hep/utils/index_representation.hpp>
 #include <hep/utils/pop_count.hpp>
 #include <hep/utils/sign_table.hpp>

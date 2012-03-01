@@ -1,7 +1,7 @@
 nobase_include_HEADERS = \
 	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \
-	hep/impl/operations.hpp \
+	hep/impl/product.hpp \
 	hep/utils/binomial_coefficient.hpp \
 	hep/utils/grade_list_product.hpp \
 	hep/utils/index_representation.hpp \
@@ -14,7 +14,7 @@ nobase_include_HEADERS = \
 	hep/ga.hpp \
 	hep/grade.hpp \
 	hep/multi_vector.hpp \
-	hep/operations.hpp
+	hep/product.hpp
 
 # create a timestamp file so we can depend on it instead of depending on every
 # single header

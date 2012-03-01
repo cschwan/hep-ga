@@ -1,6 +1,6 @@
 #include <tuple>
 
-#include <hep/operations.hpp>
+#include <hep/product.hpp>
 
 #include <boost/test/unit_test.hpp>
 

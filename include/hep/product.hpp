@@ -1,5 +1,5 @@
-#ifndef HEP_OPERATIONS_HPP
-#define HEP_OPERATIONS_HPP
+#ifndef HEP_PRODUCT_HPP
+#define HEP_PRODUCT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -48,6 +48,6 @@ multi_vector<T, P, Q, grade_list_product(L1, L2, P + Q)> operator*(
 
 }
 
-#include <hep/impl/operations.hpp>
+#include <hep/impl/product.hpp>
 
 #endif
