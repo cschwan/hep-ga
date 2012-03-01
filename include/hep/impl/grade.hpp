@@ -20,15 +20,56 @@
  */
 
 #include <hep/grade.hpp>
+#include <hep/utils/binomial_coefficient.hpp>
+#include <hep/utils/num_of_components.hpp>
+#include <hep/utils/trailing_zeroes.hpp>
 
 namespace hep
 {
 
 template
 	<std::size_t N, typename T, std::size_t P, std::size_t Q, std::size_t L>
-inline multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv)
+multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv)
 {
-	return multi_vector<T, P, Q, N>(mv);
+	std::size_t index = 0;
+
+	std::size_t bits = N;
+	std::size_t next_bits;
+
+	multi_vector<T, P, Q, N> result;
+
+	// iterate over every grade, represented by the position of the only bit set
+	// in `grade'
+	do
+	{
+		// remove least significant bit in `bits'
+		next_bits = bits & (bits - 1);
+
+		// contains a single bit whose position represents the grade
+		std::size_t grade = bits ^ next_bits;
+
+		// get number of components for the current grade
+		std::size_t length =
+			binomial_coefficient(P + Q, trailing_zeroes(grade));
+
+		// index where we will copy from
+		std::size_t source_index = num_of_components(P + Q, L & (grade - 1));
+
+		// is that grade contained in object?
+		bool non_zero = (grade & L) != 0;
+
+		// copy components or zeroes for the length computed before
+		for (std::size_t i = 0; i != length; ++i)
+		{
+			result[i + index] = non_zero ? mv[source_index + i] : T(0.0);
+		}
+
+		bits = next_bits;
+		index += length;
+	}
+	while (next_bits != 0);
+
+	return result;
 }
 
 }
