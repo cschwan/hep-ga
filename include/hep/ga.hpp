@@ -106,6 +106,7 @@
 
 namespace hep {}
 
+#include <hep/addition.hpp>
 #include <hep/grade.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/product.hpp>

@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 AM_DEFAULT_SOURCE_EXT = .cpp
 
 check_PROGRAMS = \
+	test_addition_in_g2 \
 	test_binomial_coefficient \
 	test_geometric_product_in_g2 \
 	test_geometric_product_in_g3 \
