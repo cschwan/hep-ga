@@ -1,12 +1,11 @@
+#include <cstddef>
 #include <tuple>
-
-#include <hep/multi_vector.hpp>
-
+#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
 
 // multi vector with metric (2,0) and general grade list
 template <std::size_t L>
-using mv2 = hep::multi_vector<float, 2, 0, L>;
+using mv2 = hep::multi_vector<hep::algebra<float, 2, 0>, L>;
 
 auto mvs = std::make_tuple(
 	mv2<1>{ 2.0f },

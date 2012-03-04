@@ -29,11 +29,10 @@ namespace hep
 /**
  * Addition operator.
  */
-template
-	<typename T, std::size_t P, std::size_t Q, std::size_t L1, std::size_t L2>
-multi_vector<T, P, Q, L1 | L2> operator+(
-	multi_vector<T, P, Q, L1> const& lhs,
-	multi_vector<T, P, Q, L2> const& rhs
+template <typename A, std::size_t L1, std::size_t L2>
+multi_vector<A, L1 | L2> operator+(
+	multi_vector<A, L1> const& lhs,
+	multi_vector<A, L2> const& rhs
 );
 
 }

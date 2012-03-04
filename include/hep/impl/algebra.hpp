@@ -1,9 +1,9 @@
-#ifndef HEP_PRODUCT_HPP
-#define HEP_PRODUCT_HPP
+#ifndef HEP_IMPL_ALGEBRA_HPP
+#define HEP_IMPL_ALGEBRA_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +19,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/multi_vector.hpp>
-#include <hep/utils/grade_list_product.hpp>
-
 #include <cstddef>
 
 namespace hep
 {
 
-/**
- * Implements the Geometric Product of two multi-vectors \c lhs and \c rhs.
- */
-template <typename A , std::size_t L1, std::size_t L2>
-multi_vector<A, grade_list_product(L1, L2, A::dim())> operator*(
-	multi_vector<A, L1> const& lhs,
-	multi_vector<A, L2> const& rhs
-);
-
+template <typename T, std::size_t P, std::size_t Q>
+constexpr std::size_t algebra<T, P, Q>::p()
+{
+	return P;
 }
 
-#include <hep/impl/product.hpp>
+template <typename T, std::size_t P, std::size_t Q>
+constexpr std::size_t algebra<T, P, Q>::q()
+{
+	return Q;
+}
+
+template <typename T, std::size_t P, std::size_t Q>
+constexpr std::size_t algebra<T, P, Q>::dim()
+{
+	return P + Q;
+}
+
+}
 
 #endif

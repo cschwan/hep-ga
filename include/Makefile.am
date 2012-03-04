@@ -1,5 +1,6 @@
 nobase_include_HEADERS = \
 	hep/impl/addition.hpp \
+	hep/impl/algebra.hpp \
 	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/product.hpp \
@@ -13,6 +14,7 @@ nobase_include_HEADERS = \
 	hep/utils/sign_table.hpp \
 	hep/utils/trailing_zeroes.hpp \
 	hep/addition.hpp \
+	hep/algebra.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \
 	hep/multi_vector.hpp \

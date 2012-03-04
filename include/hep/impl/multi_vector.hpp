@@ -24,23 +24,24 @@
 namespace hep
 {
 
-template <typename T, std::size_t P, std::size_t Q, std::size_t L>
+template <typename A, std::size_t L>
 template <typename ... Args>
-multi_vector<T, P, Q, L>::multi_vector(Args ... components)
+multi_vector<A, L>::multi_vector(Args ... components)
 	// initialize components with given arguments; if there are less arguments
 	// than m_components has, the remaining elements will be set to zero
 	: components{components ...}
 {
 }
 
-template <typename T, std::size_t P, std::size_t Q, std::size_t L>
-T& multi_vector<T, P, Q, L>::operator[](std::size_t index)
+template <typename A, std::size_t L>
+typename A::value_type& multi_vector<A, L>::operator[](std::size_t index)
 {
 	return components[index];
 }
 
-template <typename T, std::size_t P, std::size_t Q, std::size_t L>
-T const& multi_vector<T, P, Q, L>::operator[](std::size_t index) const
+template <typename A, std::size_t L>
+typename A::value_type const& multi_vector<A, L>::operator[](std::size_t index)
+const
 {
 	return components[index];
 }

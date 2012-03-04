@@ -28,19 +28,18 @@ namespace hep
 /**
  * 
  */
-template
-	<typename T, std::size_t P, std::size_t Q, std::size_t L1, std::size_t L2>
-multi_vector<T, P, Q, L1 | L2> operator+(
-	multi_vector<T, P, Q, L1> const& lhs,
-	multi_vector<T, P, Q, L2> const& rhs
+template <typename A, std::size_t L1, std::size_t L2>
+multi_vector<A, L1 | L2> operator+(
+	multi_vector<A, L1> const& lhs,
+	multi_vector<A, L2> const& rhs
 ) {
-	multi_vector<T, P, Q, L1 | L2> result;
+	multi_vector<A, L1 | L2> result;
 
 	std::size_t index = 0;
 	std::size_t index1 = 0;
 	std::size_t index2 = 0;
 
-	for (std::size_t i = 0; i != (P + Q) + 1; ++i)
+	for (std::size_t i = 0; i != A::dim() + 1; ++i)
 	{
 		// if grade is contained in neither lists, continue
 		if (!((1 << i) & (L1 | L2)))
@@ -49,10 +48,12 @@ multi_vector<T, P, Q, L1 | L2> operator+(
 		}
 
 		// iterate over every component of grade i
-		for (std::size_t j = 0; j != binomial_coefficient(P + Q, i); ++j)
+		for (std::size_t j = 0; j != binomial_coefficient(A::dim(), i); ++j)
 		{
-			T const value1 = (((1 << i) & L1) ? lhs[index1++] : T(0.0));
-			T const value2 = (((1 << i) & L2) ? rhs[index2++] : T(0.0));
+			typename A::value_type const value1 =
+				(((1 << i) & L1) ? lhs[index1++] : typename A::value_type(0.0));
+			typename A::value_type const value2 =
+				(((1 << i) & L2) ? rhs[index2++] : typename A::value_type(0.0));
 
 			result[index++] = value1 + value2;
 		}

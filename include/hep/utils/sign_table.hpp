@@ -27,8 +27,8 @@ namespace hep
 {
 
 /// \cond DOXYGEN_IGNORE
-template <std::size_t P, std::size_t Q>
-constexpr int sign_table_loop(
+template <typename A>
+constexpr int recursive_sign_table(
 	std::size_t i,
 	std::size_t j,
 	std::size_t k,
@@ -39,13 +39,13 @@ constexpr int sign_table_loop(
 #define is_bit_set(x)   (((x) & (1 << k)) != 0)
 #define i_pop_count     (grade + (is_bit_set(i) ? -1 : 0))
 #define condition_1     (is_bit_set(j))
-#define condition_2     (is_bit_set(i) && (k >= P))
+#define condition_2     (is_bit_set(i) && (k >= A::p()))
 #define condition_3     (i_pop_count & 1)
 
 	// k is the loop variable; we start with 0 and end the recursion if k is P+Q
-	return (k == P + Q) ? 1 : (
+	return (k == A::dim()) ? 1 : (
 		((condition_1 && (condition_2 != condition_3)) ? -1 : 1) *
-		sign_table_loop<P, Q>(i, j, k + 1, i_pop_count)
+		recursive_sign_table<A>(i, j, k + 1, i_pop_count)
 	);
 
 #undef condition_3
@@ -59,15 +59,13 @@ constexpr int sign_table_loop(
 /**
  * Returns the sign for multiplication of components \c i and \c j of two
  * multi-vectors.
- *
- * \tparam T Type used for components of the multi vector
- * \tparam P Number of basis vectors which square to \f$ +1 \f$
- * \tparam Q Number of basis vectors which square to \f$ -1 \f$
  */
-template <typename T, std::size_t P, std::size_t Q>
-constexpr T sign_table(std::size_t i, std::size_t j)
+template <typename A>
+constexpr typename A::value_type sign_table(std::size_t i, std::size_t j)
 {
-	return T(sign_table_loop<P, Q>(i, j, 0, pop_count(i)));
+	return typename A::value_type(
+		recursive_sign_table<A>(i, j, 0, pop_count(i))
+	);
 }
 
 }

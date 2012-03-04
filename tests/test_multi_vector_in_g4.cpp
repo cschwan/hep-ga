@@ -1,12 +1,11 @@
+#include <cstddef>
 #include <tuple>
-
-#include <hep/multi_vector.hpp>
-
+#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
 
 // multi vector with metric (1,3) and general grade list
 template <std::size_t L>
-using mv4 = hep::multi_vector<float, 1, 3, L>;
+using mv4 = hep::multi_vector<hep::algebra<float, 1, 3>, L>;
 
 BOOST_AUTO_TEST_CASE(component_access)
 {

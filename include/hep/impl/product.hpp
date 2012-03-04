@@ -27,21 +27,15 @@
 namespace hep
 {
 
-template
-	< typename T
-	, std::size_t P
-	, std::size_t Q
-	, std::size_t L1
-	, std::size_t L2
-	>
-multi_vector<T, P, Q, grade_list_product(L1, L2, P + Q)> operator*(
-	multi_vector<T, P, Q, L1> const& lhs,
-	multi_vector<T, P, Q, L2> const& rhs
+template <typename A, std::size_t L1, std::size_t L2>
+multi_vector<A, grade_list_product(L1, L2, A::dim())> operator*(
+	multi_vector<A, L1> const& lhs,
+	multi_vector<A, L2> const& rhs
 ) {
-	constexpr std::size_t result_list = grade_list_product(L1, L2, P + Q);
-	constexpr std::size_t size = 1 << (P + Q);
+	constexpr std::size_t result_list = grade_list_product(L1, L2, A::dim());
+	constexpr std::size_t size = 1 << A::dim();
 
-	multi_vector<T, P, Q, result_list> result;
+	multi_vector<A, result_list> result;
 
 	// loop over every possible element of a multi-vector of the type (P,Q) ...
 	for (std::size_t i = 0; i != size; ++i)
@@ -61,12 +55,12 @@ multi_vector<T, P, Q, grade_list_product(L1, L2, P + Q)> operator*(
 			}
 
 			std::size_t index_ij =
-				index_representation(i ^ j, result_list, P + Q);
-			std::size_t index_i = index_representation(i, L1, P + Q);
-			std::size_t index_j = index_representation(j, L2, P + Q);
+				index_representation(i ^ j, result_list, A::dim());
+			std::size_t index_i = index_representation(i, L1, A::dim());
+			std::size_t index_j = index_representation(j, L2, A::dim());
 
 			result[index_ij] +=
-				sign_table<T, P, Q>(i, j) * lhs[index_i] * rhs[index_j];
+				sign_table<A>(i, j) * lhs[index_i] * rhs[index_j];
 		}
 	}
 

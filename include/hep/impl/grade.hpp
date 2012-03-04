@@ -27,16 +27,15 @@
 namespace hep
 {
 
-template
-	<std::size_t N, typename T, std::size_t P, std::size_t Q, std::size_t L>
-multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv)
+template <std::size_t N, typename A, std::size_t L>
+multi_vector<A, N> grade(multi_vector<A, L> const& mv)
 {
 	std::size_t index = 0;
 
 	std::size_t bits = N;
 	std::size_t next_bits;
 
-	multi_vector<T, P, Q, N> result;
+	multi_vector<A, N> result;
 
 	// iterate over every grade, represented by the position of the only bit set
 	// in `grade'
@@ -50,10 +49,10 @@ multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv)
 
 		// get number of components for the current grade
 		std::size_t length =
-			binomial_coefficient(P + Q, trailing_zeroes(grade));
+			binomial_coefficient(A::dim(), trailing_zeroes(grade));
 
 		// index where we will copy from
-		std::size_t source_index = num_of_components(P + Q, L & (grade - 1));
+		std::size_t source_index = num_of_components(A::dim(), L & (grade - 1));
 
 		// is that grade contained in object?
 		bool non_zero = (grade & L) != 0;
@@ -61,7 +60,8 @@ multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv)
 		// copy components or zeroes for the length computed before
 		for (std::size_t i = 0; i != length; ++i)
 		{
-			result[i + index] = non_zero ? mv[source_index + i] : T(0.0);
+			result[i + index] = non_zero ? mv[source_index + i] :
+				typename A::value_type(0.0);
 		}
 
 		bits = next_bits;

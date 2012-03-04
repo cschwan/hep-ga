@@ -38,9 +38,8 @@ namespace hep
  * auto imag_part = hep::grade<4>(complex_number);
  * \endcode
  */
-template
-	<std::size_t N, typename T, std::size_t P, std::size_t Q, std::size_t L>
-multi_vector<T, P, Q, N> grade(multi_vector<T, P, Q, L> const& mv);
+template <std::size_t N, typename A, std::size_t L>
+multi_vector<A, N> grade(multi_vector<A, L> const& mv);
 
 }
 

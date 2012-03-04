@@ -63,7 +63,7 @@
  * // - float -> type used for numerical comutations
  * // - 2,0 -> Euclidean plane (3,0 -> Euclidean space; 1,3 -> Minkowski space)
  * // - 1+4 means scalar + bivector (log 1 = 0, log 4 = 2)
- * typedef hep::multi_vector<float, 2, 0, 1+4> complex;
+ * typedef hep::multi_vector<hep::algebra<float, 2, 0>, 1+4> complex;
  *
  * complex a = { 2.0f, 3.0f };
  * complex b = { 5.0f, 7.0f };
@@ -107,6 +107,7 @@
 namespace hep {}
 
 #include <hep/addition.hpp>
+#include <hep/algebra.hpp>
 #include <hep/grade.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/product.hpp>
