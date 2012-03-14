@@ -1,5 +1,4 @@
-#include <hep/utils/pop_count.hpp>
-
+#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(pop_count_0_bits)

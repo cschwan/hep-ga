@@ -19,54 +19,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/num_of_components.hpp>
-
-#include <cstddef>
+#include <hep/expression.hpp>
 
 namespace hep
 {
 
 /**
- * \section introduction Introduction
- *
  * An implementation for multi-vectors of a geometric algebra represented by
- * \c A which must be a hep::algebra.
- *
- * \section component_storage_layout Component Storage Layout
- *
- * With the template parameter \c L it is possible to select which grades are
- * included in the multi-vector. For example, the following type includes the
- * scalar and bivector parts:
+ * \c A which must be of type hep::algebra. The template parameter \c L must be
+ * a hep::list and is used to specify the components which should be included
+ * in this multi_vector. This list also specifies the order of components. For
+ * example, the following type includes the scalar component and the bivector
+ * component of a multi-vector in \f$ \mathcal{G}_{2,0} \f$:
  * \code
- * typedef hep::algebra<float, 2, 0> eucl_plane;
- * typedef hep::multi_vector<eucl_plane, 1+4> complex;
+ * typedef hep::algebra<float, 2, 0> euclidean_plane;
+ * typedef hep::list<0, 3> scalar_bivector;
+ * typedef hep::multi_vector<euclidean_plane, scalar_bivector> complex;
  *
  * complex a = { 1.0f, 2.0f };
  * \endcode
- * The scalar part is set to \c 1.0f, the bivector to \c 2.0f. Note that in
- * general, the multi-vector's basis-blades are initialized in ascending
- * grade-order. Components which are not specified are default initialized.
- *
- * \tparam A Algebra. See documentation of hep::algebra
- * \tparam L Grade list. Bits which are set signal that the corresponding blades
- *         are included in the multi-vector. For example, \c 1 means scalar,
- *         \c 2 means vector, \c 4 bivector and so on
+ * The scalar part is set to \c 1.0f, the bivector to \c 2.0f. Note that the
+ * component list must be sorted and thus the scalar component (component with
+ * index \c 0) has to be specified before the bivector component (with index
+ * \c 3) in the initialization of \c a.
  */
-template <typename A, std::size_t L>
-class multi_vector
+template <typename A, typename L>
+class multi_vector : public expression<A, L>
 {
-	static_assert (L != 0, "grade list is zero");
-
-	static_assert (L < (1u << (A::dim() + 1)),
-		"grade list contains grades higher than the algebra dimension");
-
 public:
 	/**
 	 * Constructor. This constructor is used to initialize all of the
 	 * multi-vector's components. Note that unspecified components will be
 	 * default-initialized (i.e. to zero for built-in types). Furthmore note
-	 * that you have to specify the components in the order described in the
-	 * class description of multi_vector.
+	 * that you have to specify the components in one-to-one correspondence
+	 * with the component-list. See class documentation for examples.
 	 * 
 	 * \param components Components of the multi-vector
 	 */
@@ -74,25 +60,39 @@ public:
 	multi_vector(Args ... components);
 
 	/**
-	 * Copy contructor.
+	 * Component-constructor. This initializes the first component with \c value
+	 * and default initializes all remaining components. The purpose of this
+	 * constructor is to prevent the expression-contructor which would yield in
+	 * a compiler error.
 	 */
-	multi_vector(multi_vector<A, L> const& object) = default;
+	multi_vector(typename A::scalar_type const& value);
 
 	/**
-	 * Component read-/write-access operator.
+	 * Expression-constructor.
 	 */
-	typename A::value_type& operator[](std::size_t index);
+	template <typename E>
+	multi_vector(E const& expression);
 
 	/**
-	 * Component read-access operator.
+	 * Literal-index read-access operator. This member function is primarily
+	 * intended for use with expression templates in this library.
 	 */
-	typename A::value_type const& operator[](std::size_t index) const;
+	template <int index>
+	typename A::scalar_type const& at() const;
+
+	/**
+	 * Literal-index read-/write-access operator. This member function is
+	 * primarily intended for use with expression templates in this library.
+	 */
+	template <int index>
+	typename A::scalar_type& at();
 
 private:
 	/**
-	 * Array storing the components of this multi-vector.
+	 * Array storing the components of this multi-vector. The size of this array
+	 * is equal to the number of elements in \c L.
 	 */
-	typename A::value_type components[num_of_components(A::dim(), L)];
+	typename A::scalar_type components[L::size()];
 };
 
 }

@@ -1,612 +1,624 @@
-#include <cstddef>
 #include <tuple>
 #include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
 
 // multi vector with metric (1,3) and general grade list
-template <std::size_t L>
-using mv4 = hep::multi_vector<hep::algebra<float, 1, 3>, L>;
+template <int... C>
+using mv4 = hep::multi_vector<hep::algebra<double, 1, 3>, hep::list<C...>>;
 
 BOOST_AUTO_TEST_CASE(geometric_product)
 {
 	auto lhs = std::make_tuple(
-		mv4< 1>{ 2.0f },
-		mv4< 2>{ 5.0f, 7.0f, 11.0f, 13.0f },
-		mv4< 4>{ 31.0f, 37.0f, 41.0f, 43.0f,
-		         47.0f, 53.0f },
-		mv4< 8>{ 83.0f, 89.0f, 97.0f, 101.0f },
-		mv4<16>{ 127.0f },
-		mv4<21>{ 137.0f, 139.0f, 149.0f, 151.0f,
-		         157.0f, 163.0f, 167.0f, 173.0f },
-		mv4<31>{ 227.0f, 229.0f, 233.0f, 241.0f,
-		         269.0f, 239.0f, 251.0f, 257.0f,
-		         271.0f, 277.0f, 283.0f, 263.0f,
-		         281.0f, 293.0f, 307.0f, 311.0f }
+		mv4<0>{ 2.0 },
+		mv4<1,2,4,8>{ 5.0, 7.0, 11.0, 13.0 },
+		mv4<3,5,6,9,10,12>{ 31.0, 37.0, 41.0, 43.0, 47.0, 53.0 },
+		mv4<7,11,13,14>{ 83.0, 89.0, 97.0, 101.0 },
+		mv4<15>{ 127.0 },
+		mv4<0,3,5,6,9,10,12,15>{
+			137.0, 139.0, 149.0, 151.0, 157.0, 163.0, 167.0, 173.0
+		},
+		mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15>{
+			227.0, 229.0, 233.0, 239.0, 241.0, 251.0, 257.0, 263.0, 269.0,
+			271.0, 277.0, 281.0, 283.0, 293.0, 307.0, 311.0
+		}
 	);
 
 	auto rhs = std::make_tuple(
-		mv4< 1>{ 3.0f },
-		mv4< 2>{ 17.0f, 19.0f, 23.0f, 29.0f },
-		mv4< 4>{ 59.0f, 61.0f, 67.0f, 71.0f,
-		         73.0f, 79.0f },
-		mv4< 8>{ 103.0f, 107.0f, 109.0f, 113.0f },
-		mv4<16>{ 131.0f },
-		mv4<21>{ 179.0f, 181.0f, 191.0f, 193.0f,
-		         197.0f, 199.0f, 211.0f, 223.0f },
-		mv4<31>{ 313.0f, 317.0f, 331.0f, 347.0f,
-		         367.0f, 337.0f, 349.0f, 353.0f,
-		         373.0f, 379.0f, 389.0f, 359.0f,
-		         383.0f, 397.0f, 401.0f, 409.0f }
+		mv4<0>{ 3.0 },
+		mv4<1,2,4,8>{ 17.0, 19.0, 23.0, 29.0 },
+		mv4<3,5,6,9,10,12>{ 59.0, 61.0, 67.0, 71.0, 73.0, 79.0 },
+		mv4<7,11,13,14>{ 103.0, 107.0, 109.0, 113.0 },
+		mv4<15>{ 131.0 },
+		mv4<0,3,5,6,9,10,12,15>{
+			179.0, 181.0, 191.0, 193.0, 197.0, 199.0, 211.0, 223.0
+		},
+		mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15>{
+			313.0, 317.0, 331.0, 337.0, 347.0, 349.0, 353.0, 359.0, 367.0,
+			373.0, 379.0, 383.0, 389.0, 397.0, 401.0, 409.0
+		}
 	);
 
-	mv4<1> mv00 = std::get<0>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv00[0], 6.0f);
-
-	mv4<2> mv01 = std::get<0>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv01[0], 34.0f);
-	BOOST_CHECK_EQUAL(mv01[1], 38.0f);
-	BOOST_CHECK_EQUAL(mv01[2], 46.0f);
-	BOOST_CHECK_EQUAL(mv01[3], 58.0f);
-
-	mv4<4> mv02 = std::get<0>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv02[0], 118.0f);
-	BOOST_CHECK_EQUAL(mv02[1], 122.0f);
-	BOOST_CHECK_EQUAL(mv02[2], 134.0f);
-	BOOST_CHECK_EQUAL(mv02[3], 142.0f);
-	BOOST_CHECK_EQUAL(mv02[4], 146.0f);
-	BOOST_CHECK_EQUAL(mv02[5], 158.0f);
-
-	mv4<8> mv03 = std::get<0>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv03[0], 206.0f);
-	BOOST_CHECK_EQUAL(mv03[1], 214.0f);
-	BOOST_CHECK_EQUAL(mv03[2], 218.0f);
-	BOOST_CHECK_EQUAL(mv03[3], 226.0f);
-
-	mv4<16> mv04 = std::get<0>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv04[0], 262.0f);
-
-	mv4<21> mv05 = std::get<0>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv05[0], 358.0f);
-	BOOST_CHECK_EQUAL(mv05[1], 362.0f);
-	BOOST_CHECK_EQUAL(mv05[2], 382.0f);
-	BOOST_CHECK_EQUAL(mv05[3], 386.0f);
-	BOOST_CHECK_EQUAL(mv05[4], 394.0f);
-	BOOST_CHECK_EQUAL(mv05[5], 398.0f);
-	BOOST_CHECK_EQUAL(mv05[6], 422.0f);
-	BOOST_CHECK_EQUAL(mv05[7], 446.0f);
-
-	mv4<31> mv06 = std::get<0>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv06[0], 626.0f);
-	BOOST_CHECK_EQUAL(mv06[1], 634.0f);
-	BOOST_CHECK_EQUAL(mv06[2], 662.0f);
-	BOOST_CHECK_EQUAL(mv06[3], 694.0f);
-	BOOST_CHECK_EQUAL(mv06[4], 734.0f);
-	BOOST_CHECK_EQUAL(mv06[5], 674.0f);
-	BOOST_CHECK_EQUAL(mv06[6], 698.0f);
-	BOOST_CHECK_EQUAL(mv06[7], 706.0f);
-	BOOST_CHECK_EQUAL(mv06[8], 746.0f);
-	BOOST_CHECK_EQUAL(mv06[9], 758.0f);
-	BOOST_CHECK_EQUAL(mv06[10], 778.0f);
-	BOOST_CHECK_EQUAL(mv06[11], 718.0f);
-	BOOST_CHECK_EQUAL(mv06[12], 766.0f);
-	BOOST_CHECK_EQUAL(mv06[13], 794.0f);
-	BOOST_CHECK_EQUAL(mv06[14], 802.0f);
-	BOOST_CHECK_EQUAL(mv06[15], 818.0f);
-
-	mv4<2> mv10 = std::get<1>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv10[0], 15.0f);
-	BOOST_CHECK_EQUAL(mv10[1], 21.0f);
-	BOOST_CHECK_EQUAL(mv10[2], 33.0f);
-	BOOST_CHECK_EQUAL(mv10[3], 39.0f);
-
-	mv4<5> mv11 = std::get<1>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv11[0], -678.0f);
-	BOOST_CHECK_EQUAL(mv11[1], -24.0f);
-	BOOST_CHECK_EQUAL(mv11[2], -72.0f);
-	BOOST_CHECK_EQUAL(mv11[3], -48.0f);
-	BOOST_CHECK_EQUAL(mv11[4], -76.0f);
-	BOOST_CHECK_EQUAL(mv11[5], -44.0f);
-	BOOST_CHECK_EQUAL(mv11[6], 20.0f);
-
-	mv4<10> mv12 = std::get<1>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv12[0], 2007.0f);
-	BOOST_CHECK_EQUAL(mv12[1], 1981.0f);
-	BOOST_CHECK_EQUAL(mv12[2], 863.0f);
-	BOOST_CHECK_EQUAL(mv12[3], -1025.0f);
-	BOOST_CHECK_EQUAL(mv12[4], 557.0f);
-	BOOST_CHECK_EQUAL(mv12[5], 635.0f);
-	BOOST_CHECK_EQUAL(mv12[6], 407.0f);
-	BOOST_CHECK_EQUAL(mv12[7], 621.0f);
-
-	mv4<20> mv13 = std::get<1>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv13[0], -2524.0f);
-	BOOST_CHECK_EQUAL(mv13[1], -696.0f);
-	BOOST_CHECK_EQUAL(mv13[2], -954.0f);
-	BOOST_CHECK_EQUAL(mv13[3], 1948.0f);
-	BOOST_CHECK_EQUAL(mv13[4], 1778.0f);
-	BOOST_CHECK_EQUAL(mv13[5], -246.0f);
-	BOOST_CHECK_EQUAL(mv13[6], -360.0f);
-
-	mv4<8> mv14 = std::get<1>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv14[0], 1703.0f);
-	BOOST_CHECK_EQUAL(mv14[1], -1441.0f);
-	BOOST_CHECK_EQUAL(mv14[2], 917.0f);
-	BOOST_CHECK_EQUAL(mv14[3], 655.0f);
-
-	mv4<10> mv15 = std::get<1>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv15[0], 6824.0f);
-	BOOST_CHECK_EQUAL(mv15[1], 6868.0f);
-	BOOST_CHECK_EQUAL(mv15[2], 4316.0f);
-	BOOST_CHECK_EQUAL(mv15[3], -402.0f);
-	BOOST_CHECK_EQUAL(mv15[4], 4518.0f);
-	BOOST_CHECK_EQUAL(mv15[5], -484.0f);
-	BOOST_CHECK_EQUAL(mv15[6], 2932.0f);
-	BOOST_CHECK_EQUAL(mv15[7], 2912.0f);
-
-	mv4<31> mv16 = std::get<1>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv16[0], -9320.0f);
-	BOOST_CHECK_EQUAL(mv16[1], 12612.0f);
-	BOOST_CHECK_EQUAL(mv16[2], 12686.0f);
-	BOOST_CHECK_EQUAL(mv16[3], 7774.0f);
-	BOOST_CHECK_EQUAL(mv16[4], -998.0f);
-	BOOST_CHECK_EQUAL(mv16[5], -9492.0f);
-	BOOST_CHECK_EQUAL(mv16[6], -4400.0f);
-	BOOST_CHECK_EQUAL(mv16[7], -4630.0f);
-	BOOST_CHECK_EQUAL(mv16[8], 4762.0f);
-	BOOST_CHECK_EQUAL(mv16[9], 4592.0f);
-	BOOST_CHECK_EQUAL(mv16[10], -1296.0f);
-	BOOST_CHECK_EQUAL(mv16[11], 8346.0f);
-	BOOST_CHECK_EQUAL(mv16[12], -834.0f);
-	BOOST_CHECK_EQUAL(mv16[13], 5242.0f);
-	BOOST_CHECK_EQUAL(mv16[14], 5188.0f);
-	BOOST_CHECK_EQUAL(mv16[15], -1228.0f);
-
-	mv4<4> mv20 = std::get<2>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv20[0], 93.0f);
-	BOOST_CHECK_EQUAL(mv20[1], 111.0f);
-	BOOST_CHECK_EQUAL(mv20[2], 123.0f);
-	BOOST_CHECK_EQUAL(mv20[3], 129.0f);
-	BOOST_CHECK_EQUAL(mv20[4], 141.0f);
-	BOOST_CHECK_EQUAL(mv20[5], 159.0f);
-
-	mv4<10> mv21 = std::get<2>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv21[0], -2687.0f);
-	BOOST_CHECK_EQUAL(mv21[1], -2833.0f);
-	BOOST_CHECK_EQUAL(mv21[2], -1387.0f);
-	BOOST_CHECK_EQUAL(mv21[3], 1381.0f);
-	BOOST_CHECK_EQUAL(mv21[4], 707.0f);
-	BOOST_CHECK_EQUAL(mv21[5], 881.0f);
-	BOOST_CHECK_EQUAL(mv21[6], 985.0f);
-	BOOST_CHECK_EQUAL(mv21[7], 1115.0f);
-
-	mv4<21> mv22 = std::get<2>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv22[0], -3226.0f);
-	BOOST_CHECK_EQUAL(mv22[1], -220.0f);
-	BOOST_CHECK_EQUAL(mv22[2], -24.0f);
-	BOOST_CHECK_EQUAL(mv22[3], 136.0f);
-	BOOST_CHECK_EQUAL(mv22[4], 820.0f);
-	BOOST_CHECK_EQUAL(mv22[5], 648.0f);
-	BOOST_CHECK_EQUAL(mv22[6], -160.0f);
-	BOOST_CHECK_EQUAL(mv22[7], 5800.0f);
-
-	mv4<10> mv23 = std::get<2>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv23[0], -15029.0f);
-	BOOST_CHECK_EQUAL(mv23[1], -14401.0f);
-	BOOST_CHECK_EQUAL(mv23[2], 3817.0f);
-	BOOST_CHECK_EQUAL(mv23[3], 2717.0f);
-	BOOST_CHECK_EQUAL(mv23[4], -5407.0f);
-	BOOST_CHECK_EQUAL(mv23[5], 5171.0f);
-	BOOST_CHECK_EQUAL(mv23[6], -3957.0f);
-	BOOST_CHECK_EQUAL(mv23[7], -3849.0f);
-
-	mv4<4> mv24 = std::get<2>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv24[0], -6943.0f);
-	BOOST_CHECK_EQUAL(mv24[1], 6157.0f);
-	BOOST_CHECK_EQUAL(mv24[2], 5633.0f);
-	BOOST_CHECK_EQUAL(mv24[3], -5371.0f);
-	BOOST_CHECK_EQUAL(mv24[4], -4847.0f);
-	BOOST_CHECK_EQUAL(mv24[5], 4061.0f);
-
-	mv4<21> mv25 = std::get<2>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv25[0], -7300.0f);
-	BOOST_CHECK_EQUAL(mv25[1], -7662.0f);
-	BOOST_CHECK_EQUAL(mv25[2], 17174.0f);
-	BOOST_CHECK_EQUAL(mv25[3], 17074.0f);
-	BOOST_CHECK_EQUAL(mv25[4], 3208.0f);
-	BOOST_CHECK_EQUAL(mv25[5], 3416.0f);
-	BOOST_CHECK_EQUAL(mv25[6], 16412.0f);
-	BOOST_CHECK_EQUAL(mv25[7], 16170.0f);
-
-	mv4<31> mv26 = std::get<2>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv26[0], -13504.0f);
-	BOOST_CHECK_EQUAL(mv26[1], -92642.0f);
-	BOOST_CHECK_EQUAL(mv26[2], -92308.0f);
-	BOOST_CHECK_EQUAL(mv26[3], -4704.0f);
-	BOOST_CHECK_EQUAL(mv26[4], 30438.0f);
-	BOOST_CHECK_EQUAL(mv26[5], -14456.0f);
-	BOOST_CHECK_EQUAL(mv26[6], 30636.0f);
-	BOOST_CHECK_EQUAL(mv26[7], 30266.0f);
-	BOOST_CHECK_EQUAL(mv26[8], 4884.0f);
-	BOOST_CHECK_EQUAL(mv26[9], 5266.0f);
-	BOOST_CHECK_EQUAL(mv26[10], 29422.0f);
-	BOOST_CHECK_EQUAL(mv26[11], -7376.0f);
-	BOOST_CHECK_EQUAL(mv26[12], 29630.0f);
-	BOOST_CHECK_EQUAL(mv26[13], 1858.0f);
-	BOOST_CHECK_EQUAL(mv26[14], 2708.0f);
-	BOOST_CHECK_EQUAL(mv26[15], 29966.0f);
-
-	mv4<8> mv30 = std::get<3>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv30[0], 249.0f);
-	BOOST_CHECK_EQUAL(mv30[1], 267.0f);
-	BOOST_CHECK_EQUAL(mv30[2], 291.0f);
-	BOOST_CHECK_EQUAL(mv30[3], 303.0f);
-
-	mv4<20> mv31 = std::get<3>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv31[0], -4490.0f);
-	BOOST_CHECK_EQUAL(mv31[1], -1236.0f);
-	BOOST_CHECK_EQUAL(mv31[2], -1518.0f);
-	BOOST_CHECK_EQUAL(mv31[3], 3922.0f);
-	BOOST_CHECK_EQUAL(mv31[4], 3836.0f);
-	BOOST_CHECK_EQUAL(mv31[5], -270.0f);
-	BOOST_CHECK_EQUAL(mv31[6], 486.0f);
-
-	mv4<10> mv32 = std::get<3>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv32[0], -19721.0f);
-	BOOST_CHECK_EQUAL(mv32[1], -19361.0f);
-	BOOST_CHECK_EQUAL(mv32[2], 5383.0f);
-	BOOST_CHECK_EQUAL(mv32[3], 4401.0f);
-	BOOST_CHECK_EQUAL(mv32[4], 7121.0f);
-	BOOST_CHECK_EQUAL(mv32[5], -6219.0f);
-	BOOST_CHECK_EQUAL(mv32[6], 6055.0f);
-	BOOST_CHECK_EQUAL(mv32[7], 6187.0f);
-
-	mv4<5> mv33 = std::get<3>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv33[0], -17232.0f);
-	BOOST_CHECK_EQUAL(mv33[1], 48.0f);
-	BOOST_CHECK_EQUAL(mv33[2], -750.0f);
-	BOOST_CHECK_EQUAL(mv33[3], -678.0f);
-	BOOST_CHECK_EQUAL(mv33[4], 1024.0f);
-	BOOST_CHECK_EQUAL(mv33[5], 944.0f);
-	BOOST_CHECK_EQUAL(mv33[6], -286.0f);
-
-	mv4<2> mv34 = std::get<3>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv34[0], -13231.0f);
-	BOOST_CHECK_EQUAL(mv34[1], -12707.0f);
-	BOOST_CHECK_EQUAL(mv34[2], 11659.0f);
-	BOOST_CHECK_EQUAL(mv34[3], -10873.0f);
-
-	mv4<10> mv35 = std::get<3>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv35[0], -76720.0f);
-	BOOST_CHECK_EQUAL(mv35[1], -76328.0f);
-	BOOST_CHECK_EQUAL(mv35[2], 35860.0f);
-	BOOST_CHECK_EQUAL(mv35[3], -3366.0f);
-	BOOST_CHECK_EQUAL(mv35[4], 34230.0f);
-	BOOST_CHECK_EQUAL(mv35[5], -2152.0f);
-	BOOST_CHECK_EQUAL(mv35[6], 34984.0f);
-	BOOST_CHECK_EQUAL(mv35[7], 34988.0f);
-
-	mv4<31> mv36 = std::get<3>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv36[0], -61892.0f);
-	BOOST_CHECK_EQUAL(mv36[1], -142072.0f);
-	BOOST_CHECK_EQUAL(mv36[2], -141126.0f);
-	BOOST_CHECK_EQUAL(mv36[3], 66470.0f);
-	BOOST_CHECK_EQUAL(mv36[4], -5754.0f);
-	BOOST_CHECK_EQUAL(mv36[5], -60264.0f);
-	BOOST_CHECK_EQUAL(mv36[6], -11120.0f);
-	BOOST_CHECK_EQUAL(mv36[7], -12574.0f);
-	BOOST_CHECK_EQUAL(mv36[8], 66094.0f);
-	BOOST_CHECK_EQUAL(mv36[9], 65132.0f);
-	BOOST_CHECK_EQUAL(mv36[10], -2844.0f);
-	BOOST_CHECK_EQUAL(mv36[11], 61510.0f);
-	BOOST_CHECK_EQUAL(mv36[12], -5438.0f);
-	BOOST_CHECK_EQUAL(mv36[13], 64438.0f);
-	BOOST_CHECK_EQUAL(mv36[14], 64200.0f);
-	BOOST_CHECK_EQUAL(mv36[15], -332.0f);
-
-	mv4<16> mv40 = std::get<4>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv40[0], 381.0f);
-
-	mv4<8> mv41 = std::get<4>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv41[0], -3683.0f);
-	BOOST_CHECK_EQUAL(mv41[1], 2921.0f);
-	BOOST_CHECK_EQUAL(mv41[2], -2413.0f);
-	BOOST_CHECK_EQUAL(mv41[3], -2159.0f);
-
-	mv4<4> mv42 = std::get<4>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv42[0], -10033.0f);
-	BOOST_CHECK_EQUAL(mv42[1], 9271.0f);
-	BOOST_CHECK_EQUAL(mv42[2], 9017.0f);
-	BOOST_CHECK_EQUAL(mv42[3], -8509.0f);
-	BOOST_CHECK_EQUAL(mv42[4], -7747.0f);
-	BOOST_CHECK_EQUAL(mv42[5], 7493.0f);
-
-	mv4<2> mv43 = std::get<4>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv43[0], 14351.0f);
-	BOOST_CHECK_EQUAL(mv43[1], 13843.0f);
-	BOOST_CHECK_EQUAL(mv43[2], -13589.0f);
-	BOOST_CHECK_EQUAL(mv43[3], 13081.0f);
-
-	mv4<1> mv44 = std::get<4>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv44[0], -16637.0f);
-
-	mv4<21> mv45 = std::get<4>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv45[0], -28321.0f);
-	BOOST_CHECK_EQUAL(mv45[1], -26797.0f);
-	BOOST_CHECK_EQUAL(mv45[2], 25273.0f);
-	BOOST_CHECK_EQUAL(mv45[3], 25019.0f);
-	BOOST_CHECK_EQUAL(mv45[4], -24511.0f);
-	BOOST_CHECK_EQUAL(mv45[5], -24257.0f);
-	BOOST_CHECK_EQUAL(mv45[6], 22987.0f);
-	BOOST_CHECK_EQUAL(mv45[7], 22733.0f);
-
-	mv4<31> mv46 = std::get<4>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv46[0], -51943.0f);
-	BOOST_CHECK_EQUAL(mv46[1], 50927.0f);
-	BOOST_CHECK_EQUAL(mv46[2], 50419.0f);
-	BOOST_CHECK_EQUAL(mv46[3], -48641.0f);
-	BOOST_CHECK_EQUAL(mv46[4], 45593.0f);
-	BOOST_CHECK_EQUAL(mv46[5], -49403.0f);
-	BOOST_CHECK_EQUAL(mv46[6], 48133.0f);
-	BOOST_CHECK_EQUAL(mv46[7], 47371.0f);
-	BOOST_CHECK_EQUAL(mv46[8], -44831.0f);
-	BOOST_CHECK_EQUAL(mv46[9], -44323.0f);
-	BOOST_CHECK_EQUAL(mv46[10], 42799.0f);
-	BOOST_CHECK_EQUAL(mv46[11], -46609.0f);
-	BOOST_CHECK_EQUAL(mv46[12], 44069.0f);
-	BOOST_CHECK_EQUAL(mv46[13], -42037.0f);
-	BOOST_CHECK_EQUAL(mv46[14], -40259.0f);
-	BOOST_CHECK_EQUAL(mv46[15], 39751.0f);
-
-	mv4<21> mv50 = std::get<5>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv50[0], 411.0f);
-	BOOST_CHECK_EQUAL(mv50[1], 417.0f);
-	BOOST_CHECK_EQUAL(mv50[2], 447.0f);
-	BOOST_CHECK_EQUAL(mv50[3], 453.0f);
-	BOOST_CHECK_EQUAL(mv50[4], 471.0f);
-	BOOST_CHECK_EQUAL(mv50[5], 489.0f);
-	BOOST_CHECK_EQUAL(mv50[6], 501.0f);
-	BOOST_CHECK_EQUAL(mv50[7], 519.0f);
-
-	mv4<10> mv51 = std::get<5>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv51[0], -8292.0f);
-	BOOST_CHECK_EQUAL(mv51[1], -7960.0f);
-	BOOST_CHECK_EQUAL(mv51[2], -1356.0f);
-	BOOST_CHECK_EQUAL(mv51[3], 8242.0f);
-	BOOST_CHECK_EQUAL(mv51[4], -2084.0f);
-	BOOST_CHECK_EQUAL(mv51[5], 7798.0f);
-	BOOST_CHECK_EQUAL(mv51[6], 262.0f);
-	BOOST_CHECK_EQUAL(mv51[7], 862.0f);
-
-	mv4<21> mv52 = std::get<5>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv52[0], -6772.0f);
-	BOOST_CHECK_EQUAL(mv52[1], -4924.0f);
-	BOOST_CHECK_EQUAL(mv52[2], 21128.0f);
-	BOOST_CHECK_EQUAL(mv52[3], 22460.0f);
-	BOOST_CHECK_EQUAL(mv52[4], -3978.0f);
-	BOOST_CHECK_EQUAL(mv52[5], -1898.0f);
-	BOOST_CHECK_EQUAL(mv52[6], 20130.0f);
-	BOOST_CHECK_EQUAL(mv52[7], 21254.0f);
-
-	mv4<10> mv53 = std::get<5>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv53[0], -31648.0f);
-	BOOST_CHECK_EQUAL(mv53[1], -32160.0f);
-	BOOST_CHECK_EQUAL(mv53[2], -2888.0f);
-	BOOST_CHECK_EQUAL(mv53[3], 31870.0f);
-	BOOST_CHECK_EQUAL(mv53[4], -3732.0f);
-	BOOST_CHECK_EQUAL(mv53[5], 32238.0f);
-	BOOST_CHECK_EQUAL(mv53[6], -1406.0f);
-	BOOST_CHECK_EQUAL(mv53[7], 102.0f);
-
-	mv4<21> mv54 = std::get<5>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv54[0], -22663.0f);
-	BOOST_CHECK_EQUAL(mv54[1], -21877.0f);
-	BOOST_CHECK_EQUAL(mv54[2], 21353.0f);
-	BOOST_CHECK_EQUAL(mv54[3], 20567.0f);
-	BOOST_CHECK_EQUAL(mv54[4], -19781.0f);
-	BOOST_CHECK_EQUAL(mv54[5], -19519.0f);
-	BOOST_CHECK_EQUAL(mv54[6], 18209.0f);
-	BOOST_CHECK_EQUAL(mv54[7], 17947.0f);
-
-	mv4<21> mv55 = std::get<5>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv55[0], -26326.0f);
-	BOOST_CHECK_EQUAL(mv55[1], -25018.0f);
-	BOOST_CHECK_EQUAL(mv55[2], 124346.0f);
-	BOOST_CHECK_EQUAL(mv55[3], 124142.0f);
-	BOOST_CHECK_EQUAL(mv55[4], -9670.0f);
-	BOOST_CHECK_EQUAL(mv55[5], -8426.0f);
-	BOOST_CHECK_EQUAL(mv55[6], 120334.0f);
-	BOOST_CHECK_EQUAL(mv55[7], 120338.0f);
-
-	mv4<31> mv56 = std::get<5>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv56[0], -50514.0f);
-	BOOST_CHECK_EQUAL(mv56[1], -225466.0f);
-	BOOST_CHECK_EQUAL(mv56[2], -222842.0f);
-	BOOST_CHECK_EQUAL(mv56[3], -24326.0f);
-	BOOST_CHECK_EQUAL(mv56[4], 226358.0f);
-	BOOST_CHECK_EQUAL(mv56[5], -47322.0f);
-	BOOST_CHECK_EQUAL(mv56[6], 227286.0f);
-	BOOST_CHECK_EQUAL(mv56[7], 226182.0f);
-	BOOST_CHECK_EQUAL(mv56[8], -20014.0f);
-	BOOST_CHECK_EQUAL(mv56[9], -17102.0f);
-	BOOST_CHECK_EQUAL(mv56[10], 219622.0f);
-	BOOST_CHECK_EQUAL(mv56[11], -29734.0f);
-	BOOST_CHECK_EQUAL(mv56[12], 222974.0f);
-	BOOST_CHECK_EQUAL(mv56[13], -6154.0f);
-	BOOST_CHECK_EQUAL(mv56[14], -250.0f);
-	BOOST_CHECK_EQUAL(mv56[15], 218918.0f);
-
-	mv4<31> mv60 = std::get<6>(lhs) * std::get<0>(rhs);
-
-	BOOST_CHECK_EQUAL(mv60[0], 681.0f);
-	BOOST_CHECK_EQUAL(mv60[1], 687.0f);
-	BOOST_CHECK_EQUAL(mv60[2], 699.0f);
-	BOOST_CHECK_EQUAL(mv60[3], 723.0f);
-	BOOST_CHECK_EQUAL(mv60[4], 807.0f);
-	BOOST_CHECK_EQUAL(mv60[5], 717.0f);
-	BOOST_CHECK_EQUAL(mv60[6], 753.0f);
-	BOOST_CHECK_EQUAL(mv60[7], 771.0f);
-	BOOST_CHECK_EQUAL(mv60[8], 813.0f);
-	BOOST_CHECK_EQUAL(mv60[9], 831.0f);
-	BOOST_CHECK_EQUAL(mv60[10], 849.0f);
-	BOOST_CHECK_EQUAL(mv60[11], 789.0f);
-	BOOST_CHECK_EQUAL(mv60[12], 843.0f);
-	BOOST_CHECK_EQUAL(mv60[13], 879.0f);
-	BOOST_CHECK_EQUAL(mv60[14], 921.0f);
-	BOOST_CHECK_EQUAL(mv60[15], 933.0f);
-
-	mv4<31> mv61 = std::get<6>(lhs) * std::get<1>(rhs);
-
-	BOOST_CHECK_EQUAL(mv61[0], -13878.0f);
-	BOOST_CHECK_EQUAL(mv61[1], -14314.0f);
-	BOOST_CHECK_EQUAL(mv61[2], -13694.0f);
-	BOOST_CHECK_EQUAL(mv61[3], -2370.0f);
-	BOOST_CHECK_EQUAL(mv61[4], 13748.0f);
-	BOOST_CHECK_EQUAL(mv61[5], -13808.0f);
-	BOOST_CHECK_EQUAL(mv61[6], -2330.0f);
-	BOOST_CHECK_EQUAL(mv61[7], -3652.0f);
-	BOOST_CHECK_EQUAL(mv61[8], 14146.0f);
-	BOOST_CHECK_EQUAL(mv61[9], 13484.0f);
-	BOOST_CHECK_EQUAL(mv61[10], -50.0f);
-	BOOST_CHECK_EQUAL(mv61[11], -3922.0f);
-	BOOST_CHECK_EQUAL(mv61[12], 13644.0f);
-	BOOST_CHECK_EQUAL(mv61[13], -52.0f);
-	BOOST_CHECK_EQUAL(mv61[14], 1172.0f);
-	BOOST_CHECK_EQUAL(mv61[15], 1512.0f);
-
-	mv4<31> mv62 = std::get<6>(lhs) * std::get<2>(rhs);
-
-	BOOST_CHECK_EQUAL(mv62[0], -11144.0f);
-	BOOST_CHECK_EQUAL(mv62[1], -13734.0f);
-	BOOST_CHECK_EQUAL(mv62[2], -10952.0f);
-	BOOST_CHECK_EQUAL(mv62[3], 36734.0f);
-	BOOST_CHECK_EQUAL(mv62[4], -5906.0f);
-	BOOST_CHECK_EQUAL(mv62[5], -9920.0f);
-	BOOST_CHECK_EQUAL(mv62[6], 37016.0f);
-	BOOST_CHECK_EQUAL(mv62[7], 38744.0f);
-	BOOST_CHECK_EQUAL(mv62[8], -8390.0f);
-	BOOST_CHECK_EQUAL(mv62[9],  -4722.0f);
-	BOOST_CHECK_EQUAL(mv62[10], 35194.0f);
-	BOOST_CHECK_EQUAL(mv62[11],37956.0f);
-	BOOST_CHECK_EQUAL(mv62[12], -3828.0f);
-	BOOST_CHECK_EQUAL(mv62[13], 35874.0f);
-	BOOST_CHECK_EQUAL(mv62[14], 37656.0f);
-	BOOST_CHECK_EQUAL(mv62[15], 36762.0f);
-
-	mv4<31> mv63 = std::get<6>(lhs) * std::get<3>(rhs);
-
-	BOOST_CHECK_EQUAL(mv63[0], -54402.0f);
-	BOOST_CHECK_EQUAL(mv63[1], -51814.0f);
-	BOOST_CHECK_EQUAL(mv63[2], -52930.0f);
-	BOOST_CHECK_EQUAL(mv63[3], -6898.0f);
-	BOOST_CHECK_EQUAL(mv63[4], 55924.0f);
-	BOOST_CHECK_EQUAL(mv63[5], -53252.0f);
-	BOOST_CHECK_EQUAL(mv63[6], -6418.0f);
-	BOOST_CHECK_EQUAL(mv63[7], -7532.0f);
-	BOOST_CHECK_EQUAL(mv63[8], 53102.0f);
-	BOOST_CHECK_EQUAL(mv63[9], 53248.0f);
-	BOOST_CHECK_EQUAL(mv63[10], -2170.0f);
-	BOOST_CHECK_EQUAL(mv63[11], -7330.0f);
-	BOOST_CHECK_EQUAL(mv63[12], 53788.0f);
-	BOOST_CHECK_EQUAL(mv63[13], -3296.0f);
-	BOOST_CHECK_EQUAL(mv63[14], -1456.0f);
-	BOOST_CHECK_EQUAL(mv63[15], -1440.0f);
-
-	mv4<31> mv64 = std::get<6>(lhs) * std::get<4>(rhs);
-
-	BOOST_CHECK_EQUAL(mv64[0], -40741.0f);
-	BOOST_CHECK_EQUAL(mv64[1], -40217.0f);
-	BOOST_CHECK_EQUAL(mv64[2], -38383.0f);
-	BOOST_CHECK_EQUAL(mv64[3], 36811.0f);
-	BOOST_CHECK_EQUAL(mv64[4], -34453.0f);
-	BOOST_CHECK_EQUAL(mv64[5], -37073.0f);
-	BOOST_CHECK_EQUAL(mv64[6], 36287.0f);
-	BOOST_CHECK_EQUAL(mv64[7], 35501.0f);
-	BOOST_CHECK_EQUAL(mv64[8], -33667.0f);
-	BOOST_CHECK_EQUAL(mv64[9],  -32881.0f);
-	BOOST_CHECK_EQUAL(mv64[10], 31309.0f);
-	BOOST_CHECK_EQUAL(mv64[11],35239.0f);
-	BOOST_CHECK_EQUAL(mv64[12], -31571.0f);
-	BOOST_CHECK_EQUAL(mv64[13], 30523.0f);
-	BOOST_CHECK_EQUAL(mv64[14], 29999.0f);
-	BOOST_CHECK_EQUAL(mv64[15], 29737.0f);
-
-	mv4<31> mv65 = std::get<6>(lhs) * std::get<5>(rhs);
-
-	BOOST_CHECK_EQUAL(mv65[0], -48570.0f);
-	BOOST_CHECK_EQUAL(mv65[1], -54774.0f);
-	BOOST_CHECK_EQUAL(mv65[2], -52506.0f);
-	BOOST_CHECK_EQUAL(mv65[3], 212306.0f);
-	BOOST_CHECK_EQUAL(mv65[4], -15030.0f);
-	BOOST_CHECK_EQUAL(mv65[5], -46146.0f);
-	BOOST_CHECK_EQUAL(mv65[6], 213766.0f);
-	BOOST_CHECK_EQUAL(mv65[7], 213426.0f);
-	BOOST_CHECK_EQUAL(mv65[8], -20438.0f);
-	BOOST_CHECK_EQUAL(mv65[9],  -18258.0f);
-	BOOST_CHECK_EQUAL(mv65[10], 208138.0f);
-	BOOST_CHECK_EQUAL(mv65[11], 211842.0f);
-	BOOST_CHECK_EQUAL(mv65[12], -12666.0f);
-	BOOST_CHECK_EQUAL(mv65[13], 210298.0f);
-	BOOST_CHECK_EQUAL(mv65[14], 210314.0f);
-	BOOST_CHECK_EQUAL(mv65[15], 208018.0f);
-
-	mv4<31> mv66 = std::get<6>(lhs) * std::get<6>(rhs);
-
-	BOOST_CHECK_EQUAL(mv66[0], -474848.0f);
-	BOOST_CHECK_EQUAL(mv66[1], -483932.0f);
-	BOOST_CHECK_EQUAL(mv66[2], -474116.0f);
-	BOOST_CHECK_EQUAL(mv66[3], 338956.0f);
-	BOOST_CHECK_EQUAL(mv66[4], 355640.0f);
-	BOOST_CHECK_EQUAL(mv66[5], -464732.0f);
-	BOOST_CHECK_EQUAL(mv66[6], 345592.0f);
-	BOOST_CHECK_EQUAL(mv66[7], 334548.0f);
-	BOOST_CHECK_EQUAL(mv66[8], 341612.0f);
-	BOOST_CHECK_EQUAL(mv66[9], 340844.0f);
-	BOOST_CHECK_EQUAL(mv66[10], 363716.0f);
-	BOOST_CHECK_EQUAL(mv66[11], 327436.0f);
-	BOOST_CHECK_EQUAL(mv66[12], 354796.0f);
-	BOOST_CHECK_EQUAL(mv66[13], 362136.0f);
-	BOOST_CHECK_EQUAL(mv66[14], 371052.0f);
-	BOOST_CHECK_EQUAL(mv66[15], 371988.0f);
+	mv4<0> mv00 = std::get<0>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv00.at<0>(), 6.0);
+
+	mv4<1,2,4,8> mv01 = std::get<0>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv01.at<1>(), 34.0);
+	BOOST_CHECK_EQUAL(mv01.at<2>(), 38.0);
+	BOOST_CHECK_EQUAL(mv01.at<4>(), 46.0);
+	BOOST_CHECK_EQUAL(mv01.at<8>(), 58.0);
+
+	mv4<3,5,6,9,10,12> mv02 = std::get<0>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv02.at<3>(), 118.0);
+	BOOST_CHECK_EQUAL(mv02.at<5>(), 122.0);
+	BOOST_CHECK_EQUAL(mv02.at<6>(), 134.0);
+	BOOST_CHECK_EQUAL(mv02.at<9>(), 142.0);
+	BOOST_CHECK_EQUAL(mv02.at<10>(), 146.0);
+	BOOST_CHECK_EQUAL(mv02.at<12>(), 158.0);
+
+	mv4<7,11,13,14> mv03 = std::get<0>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv03.at<7>(), 206.0);
+	BOOST_CHECK_EQUAL(mv03.at<11>(), 214.0);
+	BOOST_CHECK_EQUAL(mv03.at<13>(), 218.0);
+	BOOST_CHECK_EQUAL(mv03.at<14>(), 226.0);
+
+	mv4<15> mv04 = std::get<0>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv04.at<15>(), 262.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv05 = std::get<0>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv05.at<0>(), 358.0);
+	BOOST_CHECK_EQUAL(mv05.at<3>(), 362.0);
+	BOOST_CHECK_EQUAL(mv05.at<5>(), 382.0);
+	BOOST_CHECK_EQUAL(mv05.at<6>(), 386.0);
+	BOOST_CHECK_EQUAL(mv05.at<9>(), 394.0);
+	BOOST_CHECK_EQUAL(mv05.at<10>(), 398.0);
+	BOOST_CHECK_EQUAL(mv05.at<12>(), 422.0);
+	BOOST_CHECK_EQUAL(mv05.at<15>(), 446.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv06
+		= std::get<0>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv06.at<0>(), 626.0);
+	BOOST_CHECK_EQUAL(mv06.at<1>(), 634.0);
+	BOOST_CHECK_EQUAL(mv06.at<2>(), 662.0);
+	BOOST_CHECK_EQUAL(mv06.at<3>(), 674.0);
+	BOOST_CHECK_EQUAL(mv06.at<4>(), 694.0);
+	BOOST_CHECK_EQUAL(mv06.at<5>(), 698.0);
+	BOOST_CHECK_EQUAL(mv06.at<6>(), 706.0);
+	BOOST_CHECK_EQUAL(mv06.at<7>(), 718.0);
+	BOOST_CHECK_EQUAL(mv06.at<8>(), 734.0);
+	BOOST_CHECK_EQUAL(mv06.at<9>(), 746.0);
+	BOOST_CHECK_EQUAL(mv06.at<10>(), 758.0);
+	BOOST_CHECK_EQUAL(mv06.at<11>(), 766.0);
+	BOOST_CHECK_EQUAL(mv06.at<12>(), 778.0);
+	BOOST_CHECK_EQUAL(mv06.at<13>(), 794.0);
+	BOOST_CHECK_EQUAL(mv06.at<14>(), 802.0);
+	BOOST_CHECK_EQUAL(mv06.at<15>(), 818.0);
+
+	mv4<1,2,4,8> mv10 = std::get<1>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv10.at<1>(), 15.0);
+	BOOST_CHECK_EQUAL(mv10.at<2>(), 21.0);
+	BOOST_CHECK_EQUAL(mv10.at<4>(), 33.0);
+	BOOST_CHECK_EQUAL(mv10.at<8>(), 39.0);
+
+	mv4<0,3,5,6,9,10,12> mv11 = std::get<1>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv11.at<0>(), -678.0);
+	BOOST_CHECK_EQUAL(mv11.at<3>(), -24.0);
+	BOOST_CHECK_EQUAL(mv11.at<5>(), -72.0);
+	BOOST_CHECK_EQUAL(mv11.at<6>(), -48.0);
+	BOOST_CHECK_EQUAL(mv11.at<9>(), -76.0);
+	BOOST_CHECK_EQUAL(mv11.at<10>(), -44.0);
+	BOOST_CHECK_EQUAL(mv11.at<12>(), 20.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv12 = std::get<1>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv12.at<1>(), 2007.0);
+	BOOST_CHECK_EQUAL(mv12.at<2>(), 1981.0);
+	BOOST_CHECK_EQUAL(mv12.at<4>(), 863.0);
+	BOOST_CHECK_EQUAL(mv12.at<7>(), 557.0);
+	BOOST_CHECK_EQUAL(mv12.at<8>(), -1025.0);
+	BOOST_CHECK_EQUAL(mv12.at<11>(), 635.0);
+	BOOST_CHECK_EQUAL(mv12.at<13>(), 407.0);
+	BOOST_CHECK_EQUAL(mv12.at<14>(), 621.0);
+
+	mv4<3,5,6,9,10,12,15> mv13 = std::get<1>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv13.at<3>(), -2524.0);
+	BOOST_CHECK_EQUAL(mv13.at<5>(), -696.0);
+	BOOST_CHECK_EQUAL(mv13.at<6>(), -954.0);
+	BOOST_CHECK_EQUAL(mv13.at<9>(), 1948.0);
+	BOOST_CHECK_EQUAL(mv13.at<10>(), 1778.0);
+	BOOST_CHECK_EQUAL(mv13.at<12>(), -246.0);
+	BOOST_CHECK_EQUAL(mv13.at<15>(), -360.0);
+
+	mv4<7,11,13,14> mv14 = std::get<1>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv14.at<7>(), 1703.0);
+	BOOST_CHECK_EQUAL(mv14.at<11>(), -1441.0);
+	BOOST_CHECK_EQUAL(mv14.at<13>(), 917.0);
+	BOOST_CHECK_EQUAL(mv14.at<14>(), 655.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv15 = std::get<1>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv15.at<1>(), 6824.0);
+	BOOST_CHECK_EQUAL(mv15.at<2>(), 6868.0);
+	BOOST_CHECK_EQUAL(mv15.at<4>(), 4316.0);
+	BOOST_CHECK_EQUAL(mv15.at<7>(), 4518.0);
+	BOOST_CHECK_EQUAL(mv15.at<8>(), -402.0);
+	BOOST_CHECK_EQUAL(mv15.at<11>(), -484.0);
+	BOOST_CHECK_EQUAL(mv15.at<13>(), 2932.0);
+	BOOST_CHECK_EQUAL(mv15.at<14>(), 2912.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv16
+		= std::get<1>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv16.at<0>(), -9320.0);
+	BOOST_CHECK_EQUAL(mv16.at<1>(), 12612.0);
+	BOOST_CHECK_EQUAL(mv16.at<2>(), 12686.0);
+	BOOST_CHECK_EQUAL(mv16.at<3>(), -9492.0);
+	BOOST_CHECK_EQUAL(mv16.at<4>(), 7774.0);
+	BOOST_CHECK_EQUAL(mv16.at<5>(), -4400.0);
+	BOOST_CHECK_EQUAL(mv16.at<6>(), -4630.0);
+	BOOST_CHECK_EQUAL(mv16.at<7>(), 8346.0);
+	BOOST_CHECK_EQUAL(mv16.at<8>(), -998.0);
+	BOOST_CHECK_EQUAL(mv16.at<9>(), 4762.0);
+	BOOST_CHECK_EQUAL(mv16.at<10>(), 4592.0);
+	BOOST_CHECK_EQUAL(mv16.at<11>(), -834.0);
+	BOOST_CHECK_EQUAL(mv16.at<12>(), -1296.0);
+	BOOST_CHECK_EQUAL(mv16.at<13>(), 5242.0);
+	BOOST_CHECK_EQUAL(mv16.at<14>(), 5188.0);
+	BOOST_CHECK_EQUAL(mv16.at<15>(), -1228.0);
+
+	mv4<3,5,6,9,10,12> mv20 = std::get<2>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv20.at<3>(), 93.0);
+	BOOST_CHECK_EQUAL(mv20.at<5>(), 111.0);
+	BOOST_CHECK_EQUAL(mv20.at<6>(), 123.0);
+	BOOST_CHECK_EQUAL(mv20.at<9>(), 129.0);
+	BOOST_CHECK_EQUAL(mv20.at<10>(), 141.0);
+	BOOST_CHECK_EQUAL(mv20.at<12>(), 159.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv21 = std::get<2>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv21.at<1>(), -2687.0);
+	BOOST_CHECK_EQUAL(mv21.at<2>(), -2833.0);
+	BOOST_CHECK_EQUAL(mv21.at<4>(), -1387.0);
+	BOOST_CHECK_EQUAL(mv21.at<7>(), 707.0);
+	BOOST_CHECK_EQUAL(mv21.at<8>(), 1381.0);
+	BOOST_CHECK_EQUAL(mv21.at<11>(), 881.0);
+	BOOST_CHECK_EQUAL(mv21.at<13>(), 985.0);
+	BOOST_CHECK_EQUAL(mv21.at<14>(), 1115.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv22 = std::get<2>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv22.at<0>(), -3226.0);
+	BOOST_CHECK_EQUAL(mv22.at<3>(), -220.0);
+	BOOST_CHECK_EQUAL(mv22.at<5>(), -24.0);
+	BOOST_CHECK_EQUAL(mv22.at<6>(), 136.0);
+	BOOST_CHECK_EQUAL(mv22.at<9>(), 820.0);
+	BOOST_CHECK_EQUAL(mv22.at<10>(), 648.0);
+	BOOST_CHECK_EQUAL(mv22.at<12>(), -160.0);
+	BOOST_CHECK_EQUAL(mv22.at<15>(), 5800.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv23 = std::get<2>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv23.at<1>(), -15029.0);
+	BOOST_CHECK_EQUAL(mv23.at<2>(), -14401.0);
+	BOOST_CHECK_EQUAL(mv23.at<4>(), 3817.0);
+	BOOST_CHECK_EQUAL(mv23.at<7>(), -5407.0);
+	BOOST_CHECK_EQUAL(mv23.at<8>(), 2717.0);
+	BOOST_CHECK_EQUAL(mv23.at<11>(), 5171.0);
+	BOOST_CHECK_EQUAL(mv23.at<13>(), -3957.0);
+	BOOST_CHECK_EQUAL(mv23.at<14>(), -3849.0);
+
+	mv4<3,5,6,9,10,12> mv24 = std::get<2>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv24.at<3>(), -6943.0);
+	BOOST_CHECK_EQUAL(mv24.at<5>(), 6157.0);
+	BOOST_CHECK_EQUAL(mv24.at<6>(), 5633.0);
+	BOOST_CHECK_EQUAL(mv24.at<9>(), -5371.0);
+	BOOST_CHECK_EQUAL(mv24.at<10>(), -4847.0);
+	BOOST_CHECK_EQUAL(mv24.at<12>(), 4061.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv25 = std::get<2>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv25.at<0>(), -7300.0);
+	BOOST_CHECK_EQUAL(mv25.at<3>(), -7662.0);
+	BOOST_CHECK_EQUAL(mv25.at<5>(), 17174.0);
+	BOOST_CHECK_EQUAL(mv25.at<6>(), 17074.0);
+	BOOST_CHECK_EQUAL(mv25.at<9>(), 3208.0);
+	BOOST_CHECK_EQUAL(mv25.at<10>(), 3416.0);
+	BOOST_CHECK_EQUAL(mv25.at<12>(), 16412.0);
+	BOOST_CHECK_EQUAL(mv25.at<15>(), 16170.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv26
+		= std::get<2>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv26.at<0>(), -13504.0);
+	BOOST_CHECK_EQUAL(mv26.at<1>(), -92642.0);
+	BOOST_CHECK_EQUAL(mv26.at<2>(), -92308.0);
+	BOOST_CHECK_EQUAL(mv26.at<3>(), -14456.0);
+	BOOST_CHECK_EQUAL(mv26.at<4>(), -4704.0);
+	BOOST_CHECK_EQUAL(mv26.at<5>(), 30636.0);
+	BOOST_CHECK_EQUAL(mv26.at<6>(), 30266.0);
+	BOOST_CHECK_EQUAL(mv26.at<7>(), -7376.0);
+	BOOST_CHECK_EQUAL(mv26.at<8>(), 30438.0);
+	BOOST_CHECK_EQUAL(mv26.at<9>(), 4884.0);
+	BOOST_CHECK_EQUAL(mv26.at<10>(), 5266.0);
+	BOOST_CHECK_EQUAL(mv26.at<11>(), 29630.0);
+	BOOST_CHECK_EQUAL(mv26.at<12>(), 29422.0);
+	BOOST_CHECK_EQUAL(mv26.at<13>(), 1858.0);
+	BOOST_CHECK_EQUAL(mv26.at<14>(), 2708.0);
+	BOOST_CHECK_EQUAL(mv26.at<15>(), 29966.0);
+
+	mv4<7,11,13,14> mv30 = std::get<3>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv30.at<7>(), 249.0);
+	BOOST_CHECK_EQUAL(mv30.at<11>(), 267.0);
+	BOOST_CHECK_EQUAL(mv30.at<13>(), 291.0);
+	BOOST_CHECK_EQUAL(mv30.at<14>(), 303.0);
+
+	mv4<3,5,6,9,10,12,15> mv31 = std::get<3>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv31.at<3>(), -4490.0);
+	BOOST_CHECK_EQUAL(mv31.at<5>(), -1236.0);
+	BOOST_CHECK_EQUAL(mv31.at<6>(), -1518.0);
+	BOOST_CHECK_EQUAL(mv31.at<9>(), 3922.0);
+	BOOST_CHECK_EQUAL(mv31.at<10>(), 3836.0);
+	BOOST_CHECK_EQUAL(mv31.at<12>(), -270.0);
+	BOOST_CHECK_EQUAL(mv31.at<15>(), 486.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv32 = std::get<3>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv32.at<1>(), -19721.0);
+	BOOST_CHECK_EQUAL(mv32.at<2>(), -19361.0);
+	BOOST_CHECK_EQUAL(mv32.at<4>(), 5383.0);
+	BOOST_CHECK_EQUAL(mv32.at<7>(), 7121.0);
+	BOOST_CHECK_EQUAL(mv32.at<8>(), 4401.0);
+	BOOST_CHECK_EQUAL(mv32.at<11>(), -6219.0);
+	BOOST_CHECK_EQUAL(mv32.at<13>(), 6055.0);
+	BOOST_CHECK_EQUAL(mv32.at<14>(), 6187.0);
+
+	mv4<0,3,5,6,9,10,12> mv33 = std::get<3>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv33.at<0>(), -17232.0);
+	BOOST_CHECK_EQUAL(mv33.at<3>(), 48.0);
+	BOOST_CHECK_EQUAL(mv33.at<5>(), -750.0);
+	BOOST_CHECK_EQUAL(mv33.at<6>(), -678.0);
+	BOOST_CHECK_EQUAL(mv33.at<9>(), 1024.0);
+	BOOST_CHECK_EQUAL(mv33.at<10>(), 944.0);
+	BOOST_CHECK_EQUAL(mv33.at<12>(), -286.0);
+
+	mv4<1,2,4,8> mv34 = std::get<3>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv34.at<1>(), -13231.0);
+	BOOST_CHECK_EQUAL(mv34.at<2>(), -12707.0);
+	BOOST_CHECK_EQUAL(mv34.at<4>(), 11659.0);
+	BOOST_CHECK_EQUAL(mv34.at<8>(), -10873.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv35 = std::get<3>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv35.at<1>(), -76720.0);
+	BOOST_CHECK_EQUAL(mv35.at<2>(), -76328.0);
+	BOOST_CHECK_EQUAL(mv35.at<4>(), 35860.0);
+	BOOST_CHECK_EQUAL(mv35.at<7>(), 34230.0);
+	BOOST_CHECK_EQUAL(mv35.at<8>(), -3366.0);
+	BOOST_CHECK_EQUAL(mv35.at<11>(), -2152.0);
+	BOOST_CHECK_EQUAL(mv35.at<13>(), 34984.0);
+	BOOST_CHECK_EQUAL(mv35.at<14>(), 34988.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv36
+		= std::get<3>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv36.at<0>(), -61892.0);
+	BOOST_CHECK_EQUAL(mv36.at<1>(), -142072.0);
+	BOOST_CHECK_EQUAL(mv36.at<2>(), -141126.0);
+	BOOST_CHECK_EQUAL(mv36.at<3>(), -60264.0);
+	BOOST_CHECK_EQUAL(mv36.at<4>(), 66470.0);
+	BOOST_CHECK_EQUAL(mv36.at<5>(), -11120.0);
+	BOOST_CHECK_EQUAL(mv36.at<6>(), -12574.0);
+	BOOST_CHECK_EQUAL(mv36.at<7>(), 61510.0);
+	BOOST_CHECK_EQUAL(mv36.at<8>(), -5754.0);
+	BOOST_CHECK_EQUAL(mv36.at<9>(), 66094.0);
+	BOOST_CHECK_EQUAL(mv36.at<10>(), 65132.0);
+	BOOST_CHECK_EQUAL(mv36.at<11>(), -5438.0);
+	BOOST_CHECK_EQUAL(mv36.at<12>(), -2844.0);
+	BOOST_CHECK_EQUAL(mv36.at<13>(), 64438.0);
+	BOOST_CHECK_EQUAL(mv36.at<14>(), 64200.0);
+	BOOST_CHECK_EQUAL(mv36.at<15>(), -332.0);
+
+	mv4<15> mv40 = std::get<4>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv40.at<15>(), 381.0);
+
+	mv4<7,11,13,14> mv41 = std::get<4>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv41.at<7>(), -3683.0);
+	BOOST_CHECK_EQUAL(mv41.at<11>(), 2921.0);
+	BOOST_CHECK_EQUAL(mv41.at<13>(), -2413.0);
+	BOOST_CHECK_EQUAL(mv41.at<14>(), -2159.0);
+
+	mv4<3,5,6,9,10,12> mv42 = std::get<4>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv42.at<3>(), -10033.0);
+	BOOST_CHECK_EQUAL(mv42.at<5>(), 9271.0);
+	BOOST_CHECK_EQUAL(mv42.at<6>(), 9017.0);
+	BOOST_CHECK_EQUAL(mv42.at<9>(), -8509.0);
+	BOOST_CHECK_EQUAL(mv42.at<10>(), -7747.0);
+	BOOST_CHECK_EQUAL(mv42.at<12>(), 7493.0);
+
+	mv4<1,2,4,8> mv43 = std::get<4>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv43.at<1>(), 14351.0);
+	BOOST_CHECK_EQUAL(mv43.at<2>(), 13843.0);
+	BOOST_CHECK_EQUAL(mv43.at<4>(), -13589.0);
+	BOOST_CHECK_EQUAL(mv43.at<8>(), 13081.0);
+
+	mv4<0> mv44 = std::get<4>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv44.at<0>(), -16637.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv45 = std::get<4>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv45.at<0>(), -28321.0);
+	BOOST_CHECK_EQUAL(mv45.at<3>(), -26797.0);
+	BOOST_CHECK_EQUAL(mv45.at<5>(), 25273.0);
+	BOOST_CHECK_EQUAL(mv45.at<6>(), 25019.0);
+	BOOST_CHECK_EQUAL(mv45.at<9>(), -24511.0);
+	BOOST_CHECK_EQUAL(mv45.at<10>(), -24257.0);
+	BOOST_CHECK_EQUAL(mv45.at<12>(), 22987.0);
+	BOOST_CHECK_EQUAL(mv45.at<15>(), 22733.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv46
+		= std::get<4>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv46.at<0>(), -51943.0);
+	BOOST_CHECK_EQUAL(mv46.at<1>(), 50927.0);
+	BOOST_CHECK_EQUAL(mv46.at<2>(), 50419.0);
+	BOOST_CHECK_EQUAL(mv46.at<3>(), -49403.0);
+	BOOST_CHECK_EQUAL(mv46.at<4>(), -48641.0);
+	BOOST_CHECK_EQUAL(mv46.at<5>(), 48133.0);
+	BOOST_CHECK_EQUAL(mv46.at<6>(), 47371.0);
+	BOOST_CHECK_EQUAL(mv46.at<7>(), -46609.0);
+	BOOST_CHECK_EQUAL(mv46.at<8>(), 45593.0);
+	BOOST_CHECK_EQUAL(mv46.at<9>(), -44831.0);
+	BOOST_CHECK_EQUAL(mv46.at<10>(), -44323.0);
+	BOOST_CHECK_EQUAL(mv46.at<11>(), 44069.0);
+	BOOST_CHECK_EQUAL(mv46.at<12>(), 42799.0);
+	BOOST_CHECK_EQUAL(mv46.at<13>(), -42037.0);
+	BOOST_CHECK_EQUAL(mv46.at<14>(), -40259.0);
+	BOOST_CHECK_EQUAL(mv46.at<15>(), 39751.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv50 = std::get<5>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv50.at<0>(), 411.0);
+	BOOST_CHECK_EQUAL(mv50.at<3>(), 417.0);
+	BOOST_CHECK_EQUAL(mv50.at<5>(), 447.0);
+	BOOST_CHECK_EQUAL(mv50.at<6>(), 453.0);
+	BOOST_CHECK_EQUAL(mv50.at<9>(), 471.0);
+	BOOST_CHECK_EQUAL(mv50.at<10>(), 489.0);
+	BOOST_CHECK_EQUAL(mv50.at<12>(), 501.0);
+	BOOST_CHECK_EQUAL(mv50.at<15>(), 519.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv51 = std::get<5>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv51.at<1>(), -8292.0);
+	BOOST_CHECK_EQUAL(mv51.at<2>(), -7960.0);
+	BOOST_CHECK_EQUAL(mv51.at<4>(), -1356.0);
+	BOOST_CHECK_EQUAL(mv51.at<7>(), -2084.0);
+	BOOST_CHECK_EQUAL(mv51.at<8>(), 8242.0);
+	BOOST_CHECK_EQUAL(mv51.at<11>(), 7798.0);
+	BOOST_CHECK_EQUAL(mv51.at<13>(), 262.0);
+	BOOST_CHECK_EQUAL(mv51.at<14>(), 862.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv52 = std::get<5>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv52.at<0>(), -6772.0);
+	BOOST_CHECK_EQUAL(mv52.at<3>(), -4924.0);
+	BOOST_CHECK_EQUAL(mv52.at<5>(), 21128.0);
+	BOOST_CHECK_EQUAL(mv52.at<6>(), 22460.0);
+	BOOST_CHECK_EQUAL(mv52.at<9>(), -3978.0);
+	BOOST_CHECK_EQUAL(mv52.at<10>(), -1898.0);
+	BOOST_CHECK_EQUAL(mv52.at<12>(), 20130.0);
+	BOOST_CHECK_EQUAL(mv52.at<15>(), 21254.0);
+
+	mv4<1,2,4,7,8,11,13,14> mv53 = std::get<5>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv53.at<1>(), -31648.0);
+	BOOST_CHECK_EQUAL(mv53.at<2>(), -32160.0);
+	BOOST_CHECK_EQUAL(mv53.at<4>(), -2888.0);
+	BOOST_CHECK_EQUAL(mv53.at<7>(), -3732.0);
+	BOOST_CHECK_EQUAL(mv53.at<8>(), 31870.0);
+	BOOST_CHECK_EQUAL(mv53.at<11>(), 32238.0);
+	BOOST_CHECK_EQUAL(mv53.at<13>(), -1406.0);
+	BOOST_CHECK_EQUAL(mv53.at<14>(), 102.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv54 = std::get<5>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv54.at<0>(), -22663.0);
+	BOOST_CHECK_EQUAL(mv54.at<3>(), -21877.0);
+	BOOST_CHECK_EQUAL(mv54.at<5>(), 21353.0);
+	BOOST_CHECK_EQUAL(mv54.at<6>(), 20567.0);
+	BOOST_CHECK_EQUAL(mv54.at<9>(), -19781.0);
+	BOOST_CHECK_EQUAL(mv54.at<10>(), -19519.0);
+	BOOST_CHECK_EQUAL(mv54.at<12>(), 18209.0);
+	BOOST_CHECK_EQUAL(mv54.at<15>(), 17947.0);
+
+	mv4<0,3,5,6,9,10,12,15> mv55 = std::get<5>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv55.at<0>(), -26326.0);
+	BOOST_CHECK_EQUAL(mv55.at<3>(), -25018.0);
+	BOOST_CHECK_EQUAL(mv55.at<5>(), 124346.0);
+	BOOST_CHECK_EQUAL(mv55.at<6>(), 124142.0);
+	BOOST_CHECK_EQUAL(mv55.at<9>(), -9670.0);
+	BOOST_CHECK_EQUAL(mv55.at<10>(), -8426.0);
+	BOOST_CHECK_EQUAL(mv55.at<12>(), 120334.0);
+	BOOST_CHECK_EQUAL(mv55.at<15>(), 120338.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv56
+		= std::get<5>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv56.at<0>(), -50514.0);
+	BOOST_CHECK_EQUAL(mv56.at<1>(), -225466.0);
+	BOOST_CHECK_EQUAL(mv56.at<2>(), -222842.0);
+	BOOST_CHECK_EQUAL(mv56.at<3>(), -47322.0);
+	BOOST_CHECK_EQUAL(mv56.at<4>(), -24326.0);
+	BOOST_CHECK_EQUAL(mv56.at<5>(), 227286.0);
+	BOOST_CHECK_EQUAL(mv56.at<6>(), 226182.0);
+	BOOST_CHECK_EQUAL(mv56.at<7>(), -29734.0);
+	BOOST_CHECK_EQUAL(mv56.at<8>(), 226358.0);
+	BOOST_CHECK_EQUAL(mv56.at<9>(), -20014.0);
+	BOOST_CHECK_EQUAL(mv56.at<10>(), -17102.0);
+	BOOST_CHECK_EQUAL(mv56.at<11>(), 222974.0);
+	BOOST_CHECK_EQUAL(mv56.at<12>(), 219622.0);
+	BOOST_CHECK_EQUAL(mv56.at<13>(), -6154.0);
+	BOOST_CHECK_EQUAL(mv56.at<14>(), -250.0);
+	BOOST_CHECK_EQUAL(mv56.at<15>(), 218918.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv60
+		= std::get<6>(lhs) * std::get<0>(rhs);
+
+	BOOST_CHECK_EQUAL(mv60.at<0>(), 681.0);
+	BOOST_CHECK_EQUAL(mv60.at<1>(), 687.0);
+	BOOST_CHECK_EQUAL(mv60.at<2>(), 699.0);
+	BOOST_CHECK_EQUAL(mv60.at<3>(), 717.0);
+	BOOST_CHECK_EQUAL(mv60.at<4>(), 723.0);
+	BOOST_CHECK_EQUAL(mv60.at<5>(), 753.0);
+	BOOST_CHECK_EQUAL(mv60.at<6>(), 771.0);
+	BOOST_CHECK_EQUAL(mv60.at<7>(), 789.0);
+	BOOST_CHECK_EQUAL(mv60.at<8>(), 807.0);
+	BOOST_CHECK_EQUAL(mv60.at<9>(), 813.0);
+	BOOST_CHECK_EQUAL(mv60.at<10>(), 831.0);
+	BOOST_CHECK_EQUAL(mv60.at<11>(), 843.0);
+	BOOST_CHECK_EQUAL(mv60.at<12>(), 849.0);
+	BOOST_CHECK_EQUAL(mv60.at<13>(), 879.0);
+	BOOST_CHECK_EQUAL(mv60.at<14>(), 921.0);
+	BOOST_CHECK_EQUAL(mv60.at<15>(), 933.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv61
+		= std::get<6>(lhs) * std::get<1>(rhs);
+
+	BOOST_CHECK_EQUAL(mv61.at<0>(), -13878.0);
+	BOOST_CHECK_EQUAL(mv61.at<1>(), -14314.0);
+	BOOST_CHECK_EQUAL(mv61.at<2>(), -13694.0);
+	BOOST_CHECK_EQUAL(mv61.at<3>(), -13808.0);
+	BOOST_CHECK_EQUAL(mv61.at<4>(), -2370.0);
+	BOOST_CHECK_EQUAL(mv61.at<5>(), -2330.0);
+	BOOST_CHECK_EQUAL(mv61.at<6>(), -3652.0);
+	BOOST_CHECK_EQUAL(mv61.at<7>(), -3922.0);
+	BOOST_CHECK_EQUAL(mv61.at<8>(), 13748.0);
+	BOOST_CHECK_EQUAL(mv61.at<9>(), 14146.0);
+	BOOST_CHECK_EQUAL(mv61.at<10>(), 13484.0);
+	BOOST_CHECK_EQUAL(mv61.at<11>(), 13644.0);
+	BOOST_CHECK_EQUAL(mv61.at<12>(), -50.0);
+	BOOST_CHECK_EQUAL(mv61.at<13>(), -52.0);
+	BOOST_CHECK_EQUAL(mv61.at<14>(), 1172.0);
+	BOOST_CHECK_EQUAL(mv61.at<15>(), 1512.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv62
+		= std::get<6>(lhs) * std::get<2>(rhs);
+
+	BOOST_CHECK_EQUAL(mv62.at<0>(), -11144.0);
+	BOOST_CHECK_EQUAL(mv62.at<1>(), -13734.0);
+	BOOST_CHECK_EQUAL(mv62.at<2>(), -10952.0);
+	BOOST_CHECK_EQUAL(mv62.at<3>(), -9920.0);
+	BOOST_CHECK_EQUAL(mv62.at<4>(), 36734.0);
+	BOOST_CHECK_EQUAL(mv62.at<5>(), 37016.0);
+	BOOST_CHECK_EQUAL(mv62.at<6>(), 38744.0);
+	BOOST_CHECK_EQUAL(mv62.at<7>(),37956.0);
+	BOOST_CHECK_EQUAL(mv62.at<8>(), -5906.0);
+	BOOST_CHECK_EQUAL(mv62.at<9>(), -8390.0);
+	BOOST_CHECK_EQUAL(mv62.at<10>(),  -4722.0);
+	BOOST_CHECK_EQUAL(mv62.at<11>(), -3828.0);
+	BOOST_CHECK_EQUAL(mv62.at<12>(), 35194.0);
+	BOOST_CHECK_EQUAL(mv62.at<13>(), 35874.0);
+	BOOST_CHECK_EQUAL(mv62.at<14>(), 37656.0);
+	BOOST_CHECK_EQUAL(mv62.at<15>(), 36762.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv63
+		= std::get<6>(lhs) * std::get<3>(rhs);
+
+	BOOST_CHECK_EQUAL(mv63.at<0>(), -54402.0);
+	BOOST_CHECK_EQUAL(mv63.at<1>(), -51814.0);
+	BOOST_CHECK_EQUAL(mv63.at<2>(), -52930.0);
+	BOOST_CHECK_EQUAL(mv63.at<3>(), -53252.0);
+	BOOST_CHECK_EQUAL(mv63.at<4>(), -6898.0);
+	BOOST_CHECK_EQUAL(mv63.at<5>(), -6418.0);
+	BOOST_CHECK_EQUAL(mv63.at<6>(), -7532.0);
+	BOOST_CHECK_EQUAL(mv63.at<7>(), -7330.0);
+	BOOST_CHECK_EQUAL(mv63.at<8>(), 55924.0);
+	BOOST_CHECK_EQUAL(mv63.at<9>(), 53102.0);
+	BOOST_CHECK_EQUAL(mv63.at<10>(), 53248.0);
+	BOOST_CHECK_EQUAL(mv63.at<11>(), 53788.0);
+	BOOST_CHECK_EQUAL(mv63.at<12>(), -2170.0);
+	BOOST_CHECK_EQUAL(mv63.at<13>(), -3296.0);
+	BOOST_CHECK_EQUAL(mv63.at<14>(), -1456.0);
+	BOOST_CHECK_EQUAL(mv63.at<15>(), -1440.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv64
+		= std::get<6>(lhs) * std::get<4>(rhs);
+
+	BOOST_CHECK_EQUAL(mv64.at<0>(), -40741.0);
+	BOOST_CHECK_EQUAL(mv64.at<1>(), -40217.0);
+	BOOST_CHECK_EQUAL(mv64.at<2>(), -38383.0);
+	BOOST_CHECK_EQUAL(mv64.at<3>(), -37073.0);
+	BOOST_CHECK_EQUAL(mv64.at<4>(), 36811.0);
+	BOOST_CHECK_EQUAL(mv64.at<5>(), 36287.0);
+	BOOST_CHECK_EQUAL(mv64.at<6>(), 35501.0);
+	BOOST_CHECK_EQUAL(mv64.at<7>(),35239.0);
+	BOOST_CHECK_EQUAL(mv64.at<8>(), -34453.0);
+	BOOST_CHECK_EQUAL(mv64.at<9>(), -33667.0);
+	BOOST_CHECK_EQUAL(mv64.at<10>(),  -32881.0);
+	BOOST_CHECK_EQUAL(mv64.at<11>(), -31571.0);
+	BOOST_CHECK_EQUAL(mv64.at<12>(), 31309.0);
+	BOOST_CHECK_EQUAL(mv64.at<13>(), 30523.0);
+	BOOST_CHECK_EQUAL(mv64.at<14>(), 29999.0);
+	BOOST_CHECK_EQUAL(mv64.at<15>(), 29737.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv65
+		= std::get<6>(lhs) * std::get<5>(rhs);
+
+	BOOST_CHECK_EQUAL(mv65.at<0>(), -48570.0);
+	BOOST_CHECK_EQUAL(mv65.at<1>(), -54774.0);
+	BOOST_CHECK_EQUAL(mv65.at<2>(), -52506.0);
+	BOOST_CHECK_EQUAL(mv65.at<3>(), -46146.0);
+	BOOST_CHECK_EQUAL(mv65.at<4>(), 212306.0);
+	BOOST_CHECK_EQUAL(mv65.at<5>(), 213766.0);
+	BOOST_CHECK_EQUAL(mv65.at<6>(), 213426.0);
+	BOOST_CHECK_EQUAL(mv65.at<7>(), 211842.0);
+	BOOST_CHECK_EQUAL(mv65.at<8>(), -15030.0);
+	BOOST_CHECK_EQUAL(mv65.at<9>(), -20438.0);
+	BOOST_CHECK_EQUAL(mv65.at<10>(),  -18258.0);
+	BOOST_CHECK_EQUAL(mv65.at<11>(), -12666.0);
+	BOOST_CHECK_EQUAL(mv65.at<12>(), 208138.0);
+	BOOST_CHECK_EQUAL(mv65.at<13>(), 210298.0);
+	BOOST_CHECK_EQUAL(mv65.at<14>(), 210314.0);
+	BOOST_CHECK_EQUAL(mv65.at<15>(), 208018.0);
+
+	mv4<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15> mv66
+		= std::get<6>(lhs) * std::get<6>(rhs);
+
+	BOOST_CHECK_EQUAL(mv66.at<0>(), -474848.0);
+	BOOST_CHECK_EQUAL(mv66.at<1>(), -483932.0);
+	BOOST_CHECK_EQUAL(mv66.at<2>(), -474116.0);
+	BOOST_CHECK_EQUAL(mv66.at<3>(), -464732.0);
+	BOOST_CHECK_EQUAL(mv66.at<4>(), 338956.0);
+	BOOST_CHECK_EQUAL(mv66.at<5>(), 345592.0);
+	BOOST_CHECK_EQUAL(mv66.at<6>(), 334548.0);
+	BOOST_CHECK_EQUAL(mv66.at<7>(), 327436.0);
+	BOOST_CHECK_EQUAL(mv66.at<8>(), 355640.0);
+	BOOST_CHECK_EQUAL(mv66.at<9>(), 341612.0);
+	BOOST_CHECK_EQUAL(mv66.at<10>(), 340844.0);
+	BOOST_CHECK_EQUAL(mv66.at<11>(), 354796.0);
+	BOOST_CHECK_EQUAL(mv66.at<12>(), 363716.0);
+	BOOST_CHECK_EQUAL(mv66.at<13>(), 362136.0);
+	BOOST_CHECK_EQUAL(mv66.at<14>(), 371052.0);
+	BOOST_CHECK_EQUAL(mv66.at<15>(), 371988.0);
 }

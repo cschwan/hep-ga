@@ -1,9 +1,9 @@
-#ifndef HEP_UTILS_NEXT_BIT_PERMUTATION_HPP
-#define HEP_UTILS_NEXT_BIT_PERMUTATION_HPP
+#ifndef HEP_EXPRESSION_HPP
+#define HEP_EXPRESSION_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,29 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstddef>
-
 namespace hep
 {
 
 /**
- * Computes the next lexicographical bit permutation with the same number of
- * bits set in \c permutation. For example, this function realizes the following
- * mapping:
- *   - \f$ 0001_2 \mapsto 0010_2 \f$
- *   - \f$ 0010_2 \mapsto 0100_2 \f$
- *   - \f$ 1001_2 \mapsto 1010_2 \f$
+ * Base-class for all objects which may be expressions.
  */
-constexpr std::size_t next_bit_permutation(std::size_t permutation)
+template <typename A, typename L>
+class expression
 {
-#define v permutation
-#define t ((v | (v - 1)) + 1)
+	static_assert (L::size() != 0, "list does not contain any components");
 
-	return t | ((((t & -t) / (v & -v)) >> 1) - 1);
+public:
+	/**
+	 * Algebra of the expression. See hep::algebra.
+	 */
+	typedef A algebra;
 
-#undef t
-#undef v
-}
+	/**
+	 * The component list of the expression.
+	 */
+	typedef L list;
+};
 
 }
 

@@ -1,5 +1,5 @@
-#ifndef HEP_IMPLEMENTATION_PRODUCT_HPP
-#define HEP_IMPLEMENTATION_PRODUCT_HPP
+#ifndef HEP_IMPL_PRODUCT_HPP
+#define HEP_IMPL_PRODUCT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -20,51 +20,93 @@
  */
 
 #include <hep/product.hpp>
-#include <hep/utils/index_representation.hpp>
-#include <hep/utils/pop_count.hpp>
+#include <hep/utils/find.hpp>
 #include <hep/utils/sign_table.hpp>
 
 namespace hep
 {
 
-template <typename A, std::size_t L1, std::size_t L2>
-multi_vector<A, grade_list_product(L1, L2, A::dim())> operator*(
-	multi_vector<A, L1> const& lhs,
-	multi_vector<A, L2> const& rhs
+/// \cond DOXYGEN_IGNORE
+template <int i, int j, typename L, typename R>
+typename L::algebra::scalar_type product_at(
+	L const& lhs,
+	R const& rhs,
+	std::true_type
 ) {
-	constexpr std::size_t result_list = grade_list_product(L1, L2, A::dim());
-	constexpr std::size_t size = 1 << A::dim();
+	return sign_table<typename L::algebra>(i, j) * lhs.template at<i>() *
+		rhs.template at<j>();
+}
 
-	multi_vector<A, result_list> result;
+template <int i, int j, typename L, typename R>
+typename L::algebra::scalar_type product_at(L const&, R const&, std::false_type)
+{
+	return 0.0;
+}
 
-	// loop over every possible element of a multi-vector of the type (P,Q) ...
-	for (std::size_t i = 0; i != size; ++i)
-	{
-		// but veto access to componenents of lhs which do not exist ...
-		if (!(L1 & (1 << pop_count(i))))
-		{
-			continue;
-		}
+template <typename List>
+struct summation
+{
+	template <int index, typename L, typename R>
+	static typename L::algebra::scalar_type perform(L const& lhs, R const& rhs);
+};
 
-		for (std::size_t j = 0; j != size; ++j)
-		{
-			// and do the same for rhs
-			if (!(L2 & (1 << pop_count(j))))
-			{
-				continue;
-			}
+template <>
+struct summation<list<>>
+{
+	template <int index, typename L, typename R>
+	static typename L::algebra::scalar_type perform(L const&, R const&);
+};
 
-			std::size_t index_ij =
-				index_representation(i ^ j, result_list, A::dim());
-			std::size_t index_i = index_representation(i, L1, A::dim());
-			std::size_t index_j = index_representation(j, L2, A::dim());
+template <int index, typename L, typename R>
+typename L::algebra::scalar_type summation<list<>>::perform(L const&, R const&)
+{
+	return 0.0;
+}
 
-			result[index_ij] +=
-				sign_table<A>(i, j) * lhs[index_i] * rhs[index_j];
-		}
-	}
+template <typename List>
+template <int index, typename L, typename R>
+typename L::algebra::scalar_type summation<List>::perform(
+	L const& lhs,
+	R const& rhs
+) {
+	// find all components in L::list that multiply with those in R::list to
+	// index; multiply the actual components, sum up and return result
 
-	return result;
+	// Idea: i ^ j = index  <=>  j = i ^ index
+	//
+	// 1. Take first element from L::list and assign to i
+	// 2. XOR with index
+	// 3. find result in R::list
+	//    a) if found, multiply corresonding components together with the entry
+	//       of sign_table and add it to function result
+	// 4. goto 1. and repeat with remaining elements in L::list
+
+	constexpr int i = List::value();
+	constexpr int j = List::value() ^ index;
+
+	return product_at<i, j>(lhs, rhs, found<typename R::list, j>()) +
+		summation<typename List::next>::template perform<index>(lhs, rhs);
+}
+/// \endcond
+
+template <typename L, typename R>
+product<L, R>::product(L const& lhs, R const& rhs)
+	: lhs(lhs), rhs(rhs)
+{
+}
+
+template <typename L, typename R>
+template <int index>
+typename L::algebra::scalar_type product<L, R>::at() const
+{
+	// delegate computation in order to use partial template specialization
+	return summation<typename L::list>::template perform<index>(lhs, rhs);
+}
+
+template <typename L, typename R>
+inline product<L, R> operator*(L const& lhs, R const& rhs)
+{
+	return product<L, R>(lhs, rhs);
 }
 
 }

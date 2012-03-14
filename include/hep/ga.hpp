@@ -24,31 +24,38 @@
  *
  * \section introduction Introduction
  *
- * hep-ga is a C++ library for numeric calculations with Geometric Algebra. It
- * provides a template class for multi-vectors in \f$ \mathcal{G}_{p,q} \f$ and
- * template-expression based functions for the corresponding operations, such as
- * the geometric product, dot product and wedge product.
+ * <tt>hep-ga</tt> is a C++ library for numeric calculations with Geometric
+ * Algebra. It provides a template class for multi-vectors in
+ * \f$ \mathcal{G}_{p,q} \f$ and a template-expression mechanism for many
+ * operations, such as addition, geometric product, inner and outer product.
  *
  * \section technical_details Technical Details
  *
- * This library is largely based on Jaap Suter's implementation and his ideas
- * \cite JaapSuterVital. Opposed to existing implementations, hep-ga makes use
- * of C++11 features and thus requires the user to have a compiler supporting
- * certain features of this new C++ standard. In particular, the following
- * features are required:
- *   - Variadic Templates,
- *   - Constant Expression Eunctions and
- *   - Static Assertions.
+ * The main concepts are based on Jaap Suter's implementation and his ideas
+ * described in \cite JaapSuterVital. <tt>hep-ga</tt> uses some of the new C++11
+ * features and thus requires your compiler to support these. In particular,
+ * the following features must be supported:
+ *   - Variadic templates
+ *   - Right angle brackets
+ *   - Generalized constant expressions
+ *   - Static assertions
+ *   - <tt>auto</tt>-typed variables
  *
  * \section installation Installation
  *
- * hep-ga is a header-only library, so you do not need to install
- * any binaries or shared libraries. To install it, use the usual series of
- * commands for autotools-based projects, for example:
+ * <tt>hep-ga</tt> is a header-only library which makes installation very easy.
+ * To install it, use the usual series of commands for autotools-based projects,
+ * for example:
  * \code
  * ./configure --prefix=/usr/local --disable-doxygen
  * make
  * make install
+ * \endcode
+ * This will install the headers into <tt>/usr/local/include</tt> and will not
+ * generate doxygen documentation. The following command lists additional
+ * options available for the configure step:
+ * \code
+ * ./configure --help
  * \endcode
  *
  * \section how_to_use_hep_ga How to use hep-ga
@@ -62,36 +69,33 @@
  * \code
  * // - float -> type used for numerical comutations
  * // - 2,0 -> Euclidean plane (3,0 -> Euclidean space; 1,3 -> Minkowski space)
- * // - 1+4 means scalar + bivector (log 1 = 0, log 4 = 2)
- * typedef hep::multi_vector<hep::algebra<float, 2, 0>, 1+4> complex;
+ * typedef hep::algebra<float, 2, 0> plane;
+ * // - 0,3 means scalar + bivector (log 1 = 0, log 4 = 2)
+ * typedef hep::multi_vector<plane, hep::list<0,3>> complex;
  *
  * complex a = { 2.0f, 3.0f };
  * complex b = { 5.0f, 7.0f };
  * \endcode
  * To simplify matters, you should use type definitions for your different
- * multi-vectors (shown above) or use those defined in TODO which are useful for
- * physics-related computations.
+ * multi-vectors (shown above).
  *
- * In order to speed up calculations, it was decided that the type of
- * basis-blades which can be handled with a \c multi_vector must be explitly
- * stated in its definition. In the example above, you can see that a complex
- * number consists of a scalar and a bivector. Since the grade of of a scalar is
- * zero and two of the bivector, the zeroeth and second bit in the grade list
- * must be set. This results in the number \c 1+4. Note that every operation
- * automatically computes the resulting grades, e.g. the geometric product of
- * \c a and \c b is also a \c complex
+ * In order to speed up calculations, the type of basis-blades which can be
+ * handled with a \c multi_vector must be explitly stated in its definition.
+ * In the example above, you can see that a complex number consists of a
+ * scalar (index \c 0) and a bivector (index \c 3).
+ *
+ * Note that every operation automatically computes the resulting grades, e.g.
+ * the geometric product of \c a and \c b is also a \c complex
  * \code
- * complex c = a * b;
+ * auto c = a * b;
  * \endcode
- * This automatic type-deduction does not take into account algebraic relations,
+ * This automatic type-deduction does not take algebraic relations into account,
  * i.e. if certain grades vanish, those will nevertheless be present. In that
- * case you may use the TODO function to select the desired grades:
+ * case you may use the grade function to select the desired grades:
  * \code
- * // select scalar part of c
- * complex d = hep::grade<1>(c);
+ * // select scalar part (=0) of c
+ * complex d = hep::grade<0>(c);
  * \endcode
- *
- * For further examples have a look at the examples section.
  *
  * \section recommended_reading Recommended Reading
  *
@@ -106,20 +110,9 @@
 
 namespace hep {}
 
-#include <hep/addition.hpp>
 #include <hep/algebra.hpp>
-#include <hep/grade.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/product.hpp>
-
-/**
- * \example test_geometric_product_in_g2.cpp
- * \example test_geometric_product_in_g3.cpp
- * \example test_geometric_product_in_g4.cpp
- * \example test_grade_projection.cpp
- * \example test_multi_vector_in_g2.cpp
- * \example test_multi_vector_in_g3.cpp
- * \example test_multi_vector_in_g4.cpp
- */
+#include <hep/sum.hpp>
 
 #endif

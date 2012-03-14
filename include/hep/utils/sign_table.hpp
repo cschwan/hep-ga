@@ -21,19 +21,13 @@
 
 #include <hep/utils/pop_count.hpp>
 
-#include <cstddef>
-
 namespace hep
 {
 
 /// \cond DOXYGEN_IGNORE
 template <typename A>
-constexpr int recursive_sign_table(
-	std::size_t i,
-	std::size_t j,
-	std::size_t k,
-	std::size_t grade
-) {
+constexpr int recursive_sign_table(int i, int j, int k, int grade)
+{
 	// constexpr functions do not support variables, so we have to use the
 	// preprocessor instead to write readable code
 #define is_bit_set(x)   (((x) & (1 << k)) != 0)
@@ -58,12 +52,12 @@ constexpr int recursive_sign_table(
 
 /**
  * Returns the sign for multiplication of components \c i and \c j of two
- * multi-vectors.
+ * multi-vectors from algebra \c A.
  */
 template <typename A>
-constexpr typename A::value_type sign_table(std::size_t i, std::size_t j)
+constexpr typename A::scalar_type sign_table(int i, int j)
 {
-	return typename A::value_type(
+	return typename A::scalar_type(
 		recursive_sign_table<A>(i, j, 0, pop_count(i))
 	);
 }

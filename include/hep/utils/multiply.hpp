@@ -32,7 +32,8 @@ namespace hep
 
 /**
  * Performs bitwise multiplication of the elements of two list \c T and \c S.
- * The result is sorted in ascending order. Example:
+ * The result is sorted in ascending order and does not contain duplicates.
+ * Example:
  * \code
  * typedef hep::list<1, 2, 4, 8> vectors;
  *

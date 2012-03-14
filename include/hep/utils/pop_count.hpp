@@ -19,16 +19,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstddef>
-
 namespace hep
 {
 
 /**
- * Computes the number of bits set to '1' in \c bits.
+ * Computes the number of bits set in \c bits.
  */
-constexpr std::size_t pop_count(std::size_t bits)
+constexpr std::size_t pop_count(unsigned bits)
 {
+	// This is Brian Kernighan's bit count - one recursion for every bit
 	return (bits == 0) ? 0 : 1 + pop_count(bits & (bits - 1));
 }
 

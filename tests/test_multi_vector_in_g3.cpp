@@ -1,129 +1,128 @@
-#include <cstddef>
 #include <tuple>
 #include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
 
 // multi vector with metric (3,0) and general grade list
-template <std::size_t L>
-using mv3 = hep::multi_vector<hep::algebra<float, 3, 0>, L>;
+template <int... C>
+using mv3 = hep::multi_vector<hep::algebra<double, 3, 0>, hep::list<C...>>;
 
-BOOST_AUTO_TEST_CASE(component_access)
+BOOST_AUTO_TEST_CASE(index_access)
 {
 	auto mvs = std::make_tuple(
-		mv3< 1>{ 2.0f },
-		mv3< 2>{ 3.0f, 5.0f, 7.0f },
-		mv3< 4>{ 11.0f, 13.0f, 17.0f },
-		mv3< 8>{ 19.0f },
-		mv3< 3>{ 23.0f, 29.0f, 31.0f, 37.0f },
-		mv3< 5>{ 41.0f, 43.0f, 47.0f, 53.0f },
-		mv3< 9>{ 59.0f, 61.0f },
-		mv3< 6>{ 67.0f, 71.0f, 79.0f, 73.0f,
-		         83.0f, 89.0f },
-		mv3<10>{ 97.0f, 101.0f, 103.0f, 107.0f },
-		mv3<12>{ 109.0f, 113.0f, 127.0f, 131.0f },
-		mv3< 7>{ 137.0f, 139.0f, 149.0f, 157.0f,
-		         151.0f, 163.0f, 167.0f },
-		mv3<11>{ 173.0f, 179.0f, 181.0f, 191.0f,
-		         193.0f },
-		mv3<13>{ 197.0f, 199.0f, 211.0f, 223.0f,
-		         227.0f },
-		mv3<14>{ 229.0f, 233.0f, 241.0f, 239.0f,
-		         251.0f, 257.0f, 263.0f },
-		mv3<15>{ 269.0f, 271.0f, 277.0f, 283.0f,
-		         281.0f, 293.0f, 307.0f, 311.0f }
+		mv3<0>              { 2.0 },
+		mv3<1,2,4>          { 3.0, 5.0, 7.0 },
+		mv3<3,5,6>          { 11.0, 13.0, 17.0 },
+		mv3<7>              { 19.0 },
+		mv3<0,1,2,4>        { 23.0, 29.0, 31.0, 37.0 },
+		mv3<0,3,5,6>        { 41.0, 43.0, 47.0, 53.0 },
+		mv3<0,7>            { 59.0, 61.0 },
+		mv3<1,2,3,4,5,6>    { 67.0, 71.0, 73.0, 79.0,
+		                      83.0, 89.0 },
+		mv3<1,2,4,7>        { 97.0, 101.0, 103.0, 107.0 },
+		mv3<3,5,6,7>        { 109.0, 113.0, 127.0, 131.0 },
+		mv3<0,1,2,3,4,5,6>  { 137.0, 139.0, 149.0, 151.0,
+		                      157.0, 163.0, 167.0 },
+		mv3<0,1,2,4,7>      { 173.0, 179.0, 181.0, 191.0,
+		                      193.0 },
+		mv3<0,3,5,6,7>      { 197.0, 199.0, 211.0, 223.0,
+		                      227.0 },
+		mv3<1,2,3,4,5,6,7>  { 229.0, 233.0, 239.0, 241.0,
+		                      251.0, 257.0, 263.0 },
+		mv3<0,1,2,3,4,5,6,7>{ 269.0, 271.0, 277.0, 281.0,
+		                      283.0, 293.0, 307.0, 311.0 }
 	);
 
 	// scalar
-	BOOST_CHECK_EQUAL(std::get<0>(mvs)[0], 2.0f);
+	BOOST_CHECK_EQUAL(std::get<0>(mvs).at<0>(), 2.0);
 
 	// vector
-	BOOST_CHECK_EQUAL(std::get<1>(mvs)[0], 3.0f);
-	BOOST_CHECK_EQUAL(std::get<1>(mvs)[1], 5.0f);
-	BOOST_CHECK_EQUAL(std::get<1>(mvs)[2], 7.0f);
+	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<1>(), 3.0);
+	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<2>(), 5.0);
+	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<4>(), 7.0);
 
 	// bivector
-	BOOST_CHECK_EQUAL(std::get<2>(mvs)[0], 11.0f);
-	BOOST_CHECK_EQUAL(std::get<2>(mvs)[1], 13.0f);
-	BOOST_CHECK_EQUAL(std::get<2>(mvs)[2], 17.0f);
+	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<3>(), 11.0);
+	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<5>(), 13.0);
+	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<6>(), 17.0);
 
 	// trivector
-	BOOST_CHECK_EQUAL(std::get<3>(mvs)[0], 19.0f);
+	BOOST_CHECK_EQUAL(std::get<3>(mvs).at<7>(), 19.0);
 
 	// scalar + vector
-	BOOST_CHECK_EQUAL(std::get<4>(mvs)[0], 23.0f);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs)[1], 29.0f);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs)[2], 31.0f);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs)[3], 37.0f);
+	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<0>(), 23.0);
+	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<1>(), 29.0);
+	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<2>(), 31.0);
+	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<4>(), 37.0);
 
 	// scalar + bivector
-	BOOST_CHECK_EQUAL(std::get<5>(mvs)[0], 41.0f);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs)[1], 43.0f);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs)[2], 47.0f);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs)[3], 53.0f);
+	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<0>(), 41.0);
+	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<3>(), 43.0);
+	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<5>(), 47.0);
+	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<6>(), 53.0);
 
 	// scalar + trivector
-	BOOST_CHECK_EQUAL(std::get<6>(mvs)[0], 59.0f);
-	BOOST_CHECK_EQUAL(std::get<6>(mvs)[1], 61.0f);
+	BOOST_CHECK_EQUAL(std::get<6>(mvs).at<0>(), 59.0);
+	BOOST_CHECK_EQUAL(std::get<6>(mvs).at<7>(), 61.0);
 
 	// vector + bivector
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[0], 67.0f);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[1], 71.0f);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[2], 79.0f);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[3], 73.0f);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[4], 83.0f);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs)[5], 89.0f);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<1>(), 67.0);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<2>(), 71.0);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<3>(), 73.0);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<4>(), 79.0);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<5>(), 83.0);
+	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<6>(), 89.0);
 
 	// vector + trivector
-	BOOST_CHECK_EQUAL(std::get<8>(mvs)[0], 97.0f);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs)[1], 101.0f);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs)[2], 103.0f);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs)[3], 107.0f);
+	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<1>(), 97.0);
+	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<2>(), 101.0);
+	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<4>(), 103.0);
+	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<7>(), 107.0);
 
 	// bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<9>(mvs)[0], 109.0f);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs)[1], 113.0f);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs)[2], 127.0f);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs)[3], 131.0f);
+	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<3>(), 109.0);
+	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<5>(), 113.0);
+	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<6>(), 127.0);
+	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<7>(), 131.0);
 
 	// scalar + vector + bivector
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[0], 137.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[1], 139.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[2], 149.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[3], 157.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[4], 151.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[5], 163.0f);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs)[6], 167.0f);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<0>(), 137.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<1>(), 139.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<2>(), 149.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<3>(), 151.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<4>(), 157.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<5>(), 163.0);
+	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<6>(), 167.0);
 
 	// scalar + vector + trivector
-	BOOST_CHECK_EQUAL(std::get<11>(mvs)[0], 173.0f);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs)[1], 179.0f);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs)[2], 181.0f);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs)[3], 191.0f);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs)[4], 193.0f);
+	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<0>(), 173.0);
+	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<1>(), 179.0);
+	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<2>(), 181.0);
+	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<4>(), 191.0);
+	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<7>(), 193.0);
 
 	// scalar + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<12>(mvs)[0], 197.0f);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs)[1], 199.0f);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs)[2], 211.0f);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs)[3], 223.0f);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs)[4], 227.0f);
+	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<0>(), 197.0);
+	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<3>(), 199.0);
+	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<5>(), 211.0);
+	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<6>(), 223.0);
+	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<7>(), 227.0);
 
 	// vector + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[0], 229.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[1], 233.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[2], 241.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[3], 239.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[4], 251.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[5], 257.0f);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs)[6], 263.0f);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<1>(), 229.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<2>(), 233.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<3>(), 239.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<4>(), 241.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<5>(), 251.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<6>(), 257.0);
+	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<7>(), 263.0);
 
 	// scalar + vector + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[0], 269.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[1], 271.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[2], 277.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[3], 283.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[4], 281.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[5], 293.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[6], 307.0f);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs)[7], 311.0f);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<0>(), 269.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<1>(), 271.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<2>(), 277.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<3>(), 281.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<4>(), 283.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<5>(), 293.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<6>(), 307.0);
+	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<7>(), 311.0);
 }

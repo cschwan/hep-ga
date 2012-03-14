@@ -19,8 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstddef>
-
 namespace hep
 {
 
@@ -36,33 +34,31 @@ namespace hep
  * \f]
  * \c T is the type which is used for numerical operations. \c T does not
  * neccessarily need to be an intrinsic type like \c float or \c double, but it
- * has to support the multiplication and addition operator. Furthmore, it must
- * be possible to convert a \c double to \c T. In particlar,
- * \code T(0.0) \endcode
- * must be a valid expression.
+ * has to support the multiplication and addition operator. Furthermore,
+ * \code T(0.0) \endcode must be a valid expression.
  */
-template <typename T, std::size_t P, std::size_t Q>
+template <typename T, int P, int Q>
 struct algebra
 {
 	/**
 	 * Type definition for using \c T.
 	 */
-	typedef T value_type;
+	typedef T scalar_type;
 
 	/**
 	 * The number of basis-vectors squaring to \f$ +1 \f$.
 	 */
-	static constexpr std::size_t p();
+	static constexpr int p();
 
 	/**
 	 * The number of basis-vectors squaring to \f$ -1 \f$.
 	 */
-	static constexpr std::size_t q();
+	static constexpr int q();
 
 	/**
 	 * The number of all basis-vectors.
 	 */
-	static constexpr std::size_t dim();
+	static constexpr int dim();
 };
 
 }

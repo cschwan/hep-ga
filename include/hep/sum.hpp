@@ -1,9 +1,9 @@
-#ifndef HEP_PRODUCT_HPP
-#define HEP_PRODUCT_HPP
+#ifndef HEP_SUM_HPP
+#define HEP_SUM_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  */
 
 #include <hep/expression.hpp>
-#include <hep/utils/multiply.hpp>
+#include <hep/utils/merge.hpp>
 
 #include <type_traits>
 
@@ -31,18 +31,18 @@ namespace hep
  * 
  */
 template <typename L, typename R>
-class product : public expression<typename L::algebra,
-	typename multiply<typename L::list, typename R::list>::type>
+class sum : public expression<typename L::algebra,
+	typename merge<typename L::list, typename R::list>::type>
 {
 	static_assert (std::is_same<typename L::algebra, typename
 		R::algebra>::value,
-		"product of multi-vectors from different algebras requested");
+		"sum of multi-vectors from different algebras requested");
 
 public:
 	/**
 	 * 
 	 */
-	product(L const& lhs, R const& rhs);
+	sum(L const& lhs, R const& rhs);
 
 	/**
 	 * 
@@ -51,6 +51,30 @@ public:
 	typename L::algebra::scalar_type at() const;
 
 private:
+	/**
+	 * 
+	 */
+	template <int index>
+	typename L::algebra::scalar_type lhs_at(std::true_type) const;
+
+	/**
+	 * 
+	 */
+	template <int index>
+	typename L::algebra::scalar_type lhs_at(std::false_type) const;
+
+	/**
+	 * 
+	 */
+	template <int index>
+	typename L::algebra::scalar_type rhs_at(std::true_type) const;
+
+	/**
+	 * 
+	 */
+	template <int index>
+	typename L::algebra::scalar_type rhs_at(std::false_type) const;
+
 	/**
 	 * Left-hand side expression.
 	 */
@@ -63,14 +87,14 @@ private:
 };
 
 /**
- * Product operator returning an expression object for the geometric product of
- * expressions \c lhs and \c rhs.
+ * Addition operator returning an expression object for the sum of expressions
+ * \c lhs and \c rhs.
  */
 template <typename L, typename R>
-product<L, R> operator*(L const& lhs, R const& rhs);
+sum<L, R> operator+(L const& lhs, R const& rhs);
 
 }
 
-#include <hep/impl/product.hpp>
+#include <hep/impl/sum.hpp>
 
 #endif

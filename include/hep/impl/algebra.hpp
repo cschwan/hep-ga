@@ -24,20 +24,20 @@
 namespace hep
 {
 
-template <typename T, std::size_t P, std::size_t Q>
-constexpr std::size_t algebra<T, P, Q>::p()
+template <typename T, int P, int Q>
+constexpr int algebra<T, P, Q>::p()
 {
 	return P;
 }
 
-template <typename T, std::size_t P, std::size_t Q>
-constexpr std::size_t algebra<T, P, Q>::q()
+template <typename T, int P, int Q>
+constexpr int algebra<T, P, Q>::q()
 {
 	return Q;
 }
 
-template <typename T, std::size_t P, std::size_t Q>
-constexpr std::size_t algebra<T, P, Q>::dim()
+template <typename T, int P, int Q>
+constexpr int algebra<T, P, Q>::dim()
 {
 	return P + Q;
 }
