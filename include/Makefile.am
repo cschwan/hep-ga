@@ -5,8 +5,12 @@ nobase_include_HEADERS = \
 	hep/impl/multi_vector.hpp \
 	hep/impl/product.hpp \
 	hep/utils/binomial_coefficient.hpp \
+	hep/utils/find.hpp \
 	hep/utils/grade_list_product.hpp \
 	hep/utils/index_representation.hpp \
+	hep/utils/list.hpp \
+	hep/utils/merge.hpp \
+	hep/utils/multiply.hpp \
 	hep/utils/next_bit_permutation.hpp \
 	hep/utils/nth_bit_permutation_inverse.hpp \
 	hep/utils/num_of_components.hpp \
