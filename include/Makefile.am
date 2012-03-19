@@ -8,6 +8,7 @@ nobase_include_HEADERS = \
 	hep/utils/find.hpp \
 	hep/utils/grade_to_list.hpp \
 	hep/utils/grades_to_list.hpp \
+	hep/utils/intersection.hpp \
 	hep/utils/list.hpp \
 	hep/utils/merge.hpp \
 	hep/utils/multiply.hpp \
