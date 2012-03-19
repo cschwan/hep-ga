@@ -19,73 +19,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/list/find.hpp>
+#include <hep/expr/prod_elem_sum.hpp>
 #include <hep/product.hpp>
-#include <hep/utils/sign_table.hpp>
 
 namespace hep
 {
 
 /// \cond DOXYGEN_IGNORE
-template <int i, int j, typename L, typename R>
-typename L::algebra::scalar_type product_at(
-	L const& lhs,
-	R const& rhs,
-	std::true_type
-) {
-	return sign_table<typename L::algebra>(i, j) * lhs.template at<i>() *
-		rhs.template at<j>();
-}
-
-template <int i, int j, typename L, typename R>
-typename L::algebra::scalar_type product_at(L const&, R const&, std::false_type)
+struct product_cond
 {
-	return 0.0;
-}
-
-template <typename List>
-struct summation
-{
-	template <int index, typename L, typename R>
-	static typename L::algebra::scalar_type perform(L const& lhs, R const& rhs);
+	static constexpr bool check(int, int);
 };
 
-template <>
-struct summation<list<>>
+constexpr bool product_cond::check(int, int)
 {
-	template <int index, typename L, typename R>
-	static typename L::algebra::scalar_type perform(L const&, R const&);
-};
-
-template <int index, typename L, typename R>
-typename L::algebra::scalar_type summation<list<>>::perform(L const&, R const&)
-{
-	return 0.0;
-}
-
-template <typename List>
-template <int index, typename L, typename R>
-typename L::algebra::scalar_type summation<List>::perform(
-	L const& lhs,
-	R const& rhs
-) {
-	// find all components in L::list that multiply with those in R::list to
-	// index; multiply the actual components, sum up and return result
-
-	// Idea: i ^ j = index  <=>  j = i ^ index
-	//
-	// 1. Take first element from L::list and assign to i
-	// 2. XOR with index
-	// 3. find result in R::list
-	//    a) if found, multiply corresonding components together with the entry
-	//       of sign_table and add it to function result
-	// 4. goto 1. and repeat with remaining elements in L::list
-
-	constexpr int i = List::value();
-	constexpr int j = List::value() ^ index;
-
-	return product_at<i, j>(lhs, rhs, found<typename R::list, j>()) +
-		summation<typename List::next>::template perform<index>(lhs, rhs);
+	return true;
 }
 /// \endcond
 
@@ -100,7 +48,8 @@ template <int index>
 typename L::algebra::scalar_type product<L, R>::at() const
 {
 	// delegate computation in order to use partial template specialization
-	return summation<typename L::list>::template perform<index>(lhs, rhs);
+	return prod_elem_sum<typename L::list, product_cond>::template
+		at<index>(lhs, rhs);
 }
 
 template <typename L, typename R>
