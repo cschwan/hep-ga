@@ -6,9 +6,12 @@ nobase_include_HEADERS = \
 	hep/impl/product.hpp \
 	hep/impl/sum.hpp \
 	hep/utils/find.hpp \
+	hep/utils/grade_to_list.hpp \
+	hep/utils/grades_to_list.hpp \
 	hep/utils/list.hpp \
 	hep/utils/merge.hpp \
 	hep/utils/multiply.hpp \
+	hep/utils/next_bit_permutation.hpp \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \
 	hep/algebra.hpp \
