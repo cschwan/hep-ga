@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/find.hpp>
 #include <hep/grade.hpp>
+#include <hep/list/find.hpp>
 
 namespace hep
 {

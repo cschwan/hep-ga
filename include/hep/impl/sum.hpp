@@ -20,7 +20,7 @@
  */
 
 #include <hep/sum.hpp>
-#include <hep/utils/find.hpp>
+#include <hep/list/find.hpp>
 
 namespace hep
 {

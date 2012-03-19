@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/list/find.hpp>
 #include <hep/product.hpp>
-#include <hep/utils/find.hpp>
 #include <hep/utils/sign_table.hpp>
 
 namespace hep

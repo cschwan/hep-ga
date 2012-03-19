@@ -1,5 +1,5 @@
-#ifndef HEP_UTILS_LIST_HPP
-#define HEP_UTILS_LIST_HPP
+#ifndef HEP_LIST_LIST_HPP
+#define HEP_LIST_LIST_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra

@@ -6,13 +6,13 @@ nobase_include_HEADERS = \
 	hep/impl/negation.hpp \
 	hep/impl/product.hpp \
 	hep/impl/sum.hpp \
-	hep/utils/find.hpp \
-	hep/utils/grade_to_list.hpp \
-	hep/utils/grades_to_list.hpp \
-	hep/utils/intersection.hpp \
-	hep/utils/list.hpp \
-	hep/utils/merge.hpp \
-	hep/utils/multiply.hpp \
+	hep/list/find.hpp \
+	hep/list/grade_to_list.hpp \
+	hep/list/grades_to_list.hpp \
+	hep/list/intersection.hpp \
+	hep/list/list.hpp \
+	hep/list/merge.hpp \
+	hep/list/multiply.hpp \
 	hep/utils/next_bit_permutation.hpp \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \

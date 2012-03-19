@@ -20,8 +20,8 @@
  */
 
 #include <hep/expression.hpp>
-#include <hep/utils/grades_to_list.hpp>
-#include <hep/utils/intersection.hpp>
+#include <hep/list/grades_to_list.hpp>
+#include <hep/list/intersection.hpp>
 
 namespace hep
 {

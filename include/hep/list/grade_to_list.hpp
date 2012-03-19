@@ -1,5 +1,5 @@
-#ifndef HEP_UTILS_GRADE_TO_LIST_HPP
-#define HEP_UTILS_GRADE_TO_LIST_HPP
+#ifndef HEP_LIST_GRADE_TO_LIST_HPP
+#define HEP_LIST_GRADE_TO_LIST_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/list.hpp>
+#include <hep/list/list.hpp>
 #include <hep/utils/next_bit_permutation.hpp>
 
 namespace hep

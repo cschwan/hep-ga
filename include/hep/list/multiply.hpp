@@ -1,5 +1,5 @@
-#ifndef HEP_UTILS_MULTIPLY_HPP
-#define HEP_UTILS_MULTIPLY_HPP
+#ifndef HEP_LIST_MULTIPLY_HPP
+#define HEP_LIST_MULTIPLY_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/list.hpp>
-#include <hep/utils/merge.hpp>
+#include <hep/list/list.hpp>
+#include <hep/list/merge.hpp>
 
 namespace hep
 {

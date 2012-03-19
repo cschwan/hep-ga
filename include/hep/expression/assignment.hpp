@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/list.hpp>
+#include <hep/list/list.hpp>
 
 namespace hep
 {

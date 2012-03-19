@@ -20,7 +20,7 @@
  */
 
 #include <hep/expression.hpp>
-#include <hep/utils/multiply.hpp>
+#include <hep/list/multiply.hpp>
 
 #include <type_traits>
 

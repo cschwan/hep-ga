@@ -20,7 +20,7 @@
  */
 
 #include <hep/expression.hpp>
-#include <hep/utils/merge.hpp>
+#include <hep/list/merge.hpp>
 
 #include <type_traits>
 

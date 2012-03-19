@@ -20,8 +20,8 @@
  */
 
 #include <hep/expression/assignment.hpp>
+#include <hep/list/find.hpp>
 #include <hep/multi_vector.hpp>
-#include <hep/utils/find.hpp>
 
 #include <type_traits>
 
