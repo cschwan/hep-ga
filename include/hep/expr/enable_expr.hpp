@@ -1,5 +1,5 @@
-#ifndef HEP_SUM_HPP
-#define HEP_SUM_HPP
+#ifndef HEP_EXPR_ENABLE_EXPR_HPP
+#define HEP_EXPR_ENABLE_EXPR_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -20,9 +20,6 @@
  */
 
 #include <hep/expression.hpp>
-#include <hep/list/merge.hpp>
-
-#include <type_traits>
 
 namespace hep
 {
@@ -30,47 +27,39 @@ namespace hep
 /**
  * 
  */
-template <typename L, typename R>
-class sum : public expression<typename L::algebra,
-	typename merge<typename L::list, typename R::list>::type>
+template <bool condition>
+struct enable_expr
 {
-	static_assert (std::is_same<typename L::algebra, typename
-		R::algebra>::value,
-		"sum of multi-vectors from different algebras requested");
-
-public:
 	/**
 	 * 
 	 */
-	sum(L const& lhs, R const& rhs);
-
-	/**
-	 * 
-	 */
-	template <int index>
-	typename L::algebra::scalar_type at() const;
-
-private:
-	/**
-	 * Left-hand side expression.
-	 */
-	L const& lhs;
-
-	/**
-	 * Right-hand side expression.
-	 */
-	R const& rhs;
+	template <int index, typename T>
+	static typename T::algebra::scalar_type at(T const& expr);
 };
 
-/**
- * Addition operator returning an expression object for the sum of expressions
- * \c lhs and \c rhs.
- */
-template <typename L, typename R>
-sum<L, R> operator+(L const& lhs, R const& rhs);
-
+template <bool condition>
+template <int index, typename T>
+inline typename T::algebra::scalar_type enable_expr<condition>::at(T const&
+	expr)
+{
+	return expr.template at<index>();
 }
 
-#include <hep/impl/sum.hpp>
+/// \cond DOXYGEN_IGNORE
+template <>
+struct enable_expr<false>
+{
+	template <int index, typename T>
+	static typename T::algebra::scalar_type at(T const&);
+};
+
+template <int index, typename T>
+inline typename T::algebra::scalar_type enable_expr<false>::at(T const&)
+{
+	return 0.0;
+}
+/// \endcond
+
+}
 
 #endif

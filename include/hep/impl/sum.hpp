@@ -19,8 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/sum.hpp>
+#include <hep/expr/enable_expr.hpp>
 #include <hep/list/find.hpp>
+#include <hep/sum.hpp>
 
 namespace hep
 {
@@ -35,38 +36,14 @@ template <typename L, typename R>
 template <int index>
 inline typename L::algebra::scalar_type sum<L, R>::at() const
 {
-	// add components together. if a certain expression does not contain a
-	// component represented by `index', leave it out
-	return lhs_at<index>(found<typename L::list, index>()) + 
-		rhs_at<index>(found<typename R::list, index>());
-}
+	// check if lhs has component with 'index'
+	constexpr bool enable_lhs = (find<typename L::list>(index) != -1);
+	// check if rhs has component with 'index'
+	constexpr bool enable_rhs = (find<typename R::list>(index) != -1);
 
-template <typename L, typename R>
-template <int index>
-inline typename L::algebra::scalar_type sum<L, R>::lhs_at(std::true_type) const
-{
-	return lhs.at<index>();
-}
-
-template <typename L, typename R>
-template <int index>
-inline typename L::algebra::scalar_type sum<L, R>::lhs_at(std::false_type) const
-{
-	return 0.0;
-}
-
-template <typename L, typename R>
-template <int index>
-inline typename L::algebra::scalar_type sum<L, R>::rhs_at(std::true_type) const
-{
-	return rhs.at<index>();
-}
-
-template <typename L, typename R>
-template <int index>
-inline typename L::algebra::scalar_type sum<L, R>::rhs_at(std::false_type) const
-{
-	return 0.0;
+	// add lhs to rhs. if one side does not exist, use 0.0 instead
+	return enable_expr<enable_lhs>::template at<index>(lhs) +
+		enable_expr<enable_rhs>::template at<index>(rhs);
 }
 
 template <typename L, typename R>
