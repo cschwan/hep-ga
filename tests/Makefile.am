@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 AM_DEFAULT_SOURCE_EXT = .cpp
 
 check_PROGRAMS = \
-	test_addition_in_g2 \
 	test_geometric_product_in_g2 \
 	test_geometric_product_in_g3 \
 	test_geometric_product_in_g4 \
@@ -20,7 +19,8 @@ check_PROGRAMS = \
 	test_next_bit_permutation \
 	test_negation_in_g2 \
 	test_pop_count \
-	test_sign_table
+	test_sign_table \
+	test_sum_in_g2
 
 LDADD = -lboost_unit_test_framework
 
