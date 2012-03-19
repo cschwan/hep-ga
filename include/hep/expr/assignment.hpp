@@ -1,5 +1,5 @@
-#ifndef HEP_EXPRESSION_ASSIGNMENT_HPP
-#define HEP_EXPRESSION_ASSIGNMENT_HPP
+#ifndef HEP_EXPR_ASSIGNMENT_HPP
+#define HEP_EXPR_ASSIGNMENT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra

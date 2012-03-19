@@ -1,5 +1,5 @@
 nobase_include_HEADERS = \
-	hep/expression/assignment.hpp \
+	hep/expr/assignment.hpp \
 	hep/impl/algebra.hpp \
 	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \

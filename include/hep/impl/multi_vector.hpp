@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expression/assignment.hpp>
+#include <hep/expr/assignment.hpp>
 #include <hep/list/find.hpp>
 #include <hep/multi_vector.hpp>
 
