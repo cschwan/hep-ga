@@ -1,6 +1,7 @@
 nobase_include_HEADERS = \
 	hep/expression/assignment.hpp \
 	hep/impl/algebra.hpp \
+	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/negation.hpp \
 	hep/impl/product.hpp \
@@ -18,6 +19,7 @@ nobase_include_HEADERS = \
 	hep/algebra.hpp \
 	hep/expression.hpp \
 	hep/ga.hpp \
+	hep/grade.hpp \
 	hep/multi_vector.hpp \
 	hep/negation.hpp \
 	hep/product.hpp \
