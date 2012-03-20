@@ -4,6 +4,7 @@ nobase_include_HEADERS = \
 	hep/expr/prod_elem.hpp \
 	hep/expr/prod_elem_sum.hpp \
 	hep/impl/algebra.hpp \
+	hep/impl/difference.hpp \
 	hep/impl/grade.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/negation.hpp \
@@ -21,6 +22,7 @@ nobase_include_HEADERS = \
 	hep/utils/sign_table.hpp \
 	hep/algebra.hpp \
 	hep/expression.hpp \
+	hep/difference.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \
 	hep/multi_vector.hpp \
