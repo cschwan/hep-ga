@@ -22,6 +22,8 @@
 #include <hep/list/list.hpp>
 #include <hep/list/merge.hpp>
 
+#include <type_traits>
+
 namespace hep
 {
 
@@ -44,28 +46,29 @@ namespace hep
  * typedef hep::list<0, 3, 5, 6, 9, 10, 12> result;
  * \endcode
  */
-template <typename T, typename S>
+template <typename Predicate, typename L, typename R>
 struct multiply
 {
 	/**
 	 * The result of this operation.
 	 */
 	typedef typename merge<
-		typename merge<list<T::value() ^ S::value()>,
-			typename multiply<typename T::next, S>::type>::type,
-		typename multiply<T, typename S::next>::type
+		typename merge<typename std::conditional<Predicate::check(L::value(),
+			R::value()), list<L::value() ^ R::value()>, list<>>::type,
+			typename multiply<Predicate, typename L::next, R>::type>::type,
+		typename multiply<Predicate, L, typename R::next>::type
 	>::type type;
 };
 
 /// \cond DOXYGEN_IGNORE
-template <typename S>
-struct multiply<list<>, S>
+template <typename Predicate, typename S>
+struct multiply<Predicate, list<>, S>
 {
 	typedef list<> type;
 };
 
-template <typename T>
-struct multiply<T, list<>>
+template <typename Predicate, typename T>
+struct multiply<Predicate, T, list<>>
 {
 	typedef list<> type;
 };

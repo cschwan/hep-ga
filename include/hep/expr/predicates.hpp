@@ -1,9 +1,9 @@
-#ifndef HEP_IMPL_PRODUCT_HPP
-#define HEP_IMPL_PRODUCT_HPP
+#ifndef HEP_EXPR_PREDICATES_HPP
+#define HEP_EXPR_PREDICATES_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,31 +19,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/prod_elem_sum.hpp>
-#include <hep/product.hpp>
+#include <hep/utils/pop_count.hpp>
 
 namespace hep
 {
 
-template <typename L, typename R>
-product<L, R>::product(L const& lhs, R const& rhs)
-	: lhs(lhs), rhs(rhs)
+/**
+ * 
+ */
+struct product_pred
 {
-}
+	/**
+	 * 
+	 */
+	static constexpr bool check(int, int);
+};
 
-template <typename L, typename R>
-template <int index>
-typename L::algebra::scalar_type product<L, R>::at() const
+constexpr bool product_pred::check(int, int)
 {
-	// delegate computation in order to use partial template specialization
-	return prod_elem_sum<typename L::list, product_pred>::template
-		at<index>(lhs, rhs);
-}
-
-template <typename L, typename R>
-inline product<L, R> operator*(L const& lhs, R const& rhs)
-{
-	return product<L, R>(lhs, rhs);
+	return true;
 }
 
 }

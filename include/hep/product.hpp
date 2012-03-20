@@ -19,8 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expression.hpp>
+#include <hep/expr/predicates.hpp>
 #include <hep/list/multiply.hpp>
+#include <hep/expression.hpp>
 
 #include <type_traits>
 
@@ -32,7 +33,7 @@ namespace hep
  */
 template <typename L, typename R>
 class product : public expression<typename L::algebra,
-	typename multiply<typename L::list, typename R::list>::type>
+	typename multiply<product_pred, typename L::list, typename R::list>::type>
 {
 	static_assert (std::is_same<typename L::algebra, typename
 		R::algebra>::value,
