@@ -1,5 +1,5 @@
-#ifndef HEP_EXPR_PREDICATES_HPP
-#define HEP_EXPR_PREDICATES_HPP
+#ifndef HEP_IMPL_INNER_PRODUCT_HPP
+#define HEP_IMPL_INNER_PRODUCT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,51 +19,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/utils/pop_count.hpp>
+#include <hep/expr/prod_elem_sum.hpp>
+#include <hep/inner_product.hpp>
 
 namespace hep
 {
 
-/**
- * 
- */
-struct product_pred
+template <typename L, typename R>
+inner_product<L, R>::inner_product(L const& lhs, R const& rhs)
+	: lhs(lhs), rhs(rhs)
 {
-	/**
-	 * 
-	 */
-	static constexpr bool check(int, int);
-};
-
-constexpr bool product_pred::check(int, int)
-{
-	return true;
 }
 
-/**
- * 
- */
-struct inner_product_pred
+template <typename L, typename R>
+template <int index>
+typename L::algebra::scalar_type inner_product<L, R>::at() const
 {
-	/**
-	 * 
-	 */
-	static constexpr bool check(int lhs, int rhs);
-};
+	return prod_elem_sum<typename L::list, inner_product_pred>::template
+		at<index>(lhs, rhs);
+}
 
-constexpr bool inner_product_pred::check(int lhs, int rhs)
+template <typename L, typename R>
+inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
 {
-#define hep_grade_lhs pop_count(lhs)
-#define hep_grade_rhs pop_count(rhs)
-#define hep_grade_result pop_count(lhs ^ rhs)
-
-	// check if resultant grade is the smallest possible one
-	return hep_grade_result == ((hep_grade_lhs > hep_grade_rhs) ?
-		(hep_grade_lhs - hep_grade_rhs) : (hep_grade_rhs - hep_grade_lhs));
-
-#undef hep_grade_result
-#undef hep_grade_rhs
-#undef hep_grade_lhs
+	return inner_product<L, R>(lhs, rhs);
 }
 
 }

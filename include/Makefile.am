@@ -7,6 +7,7 @@ nobase_include_HEADERS = \
 	hep/impl/algebra.hpp \
 	hep/impl/difference.hpp \
 	hep/impl/grade.hpp \
+	hep/impl/inner_product.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/negation.hpp \
 	hep/impl/product.hpp \
@@ -26,6 +27,7 @@ nobase_include_HEADERS = \
 	hep/difference.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \
+	hep/inner_product.hpp \
 	hep/multi_vector.hpp \
 	hep/negation.hpp \
 	hep/product.hpp \

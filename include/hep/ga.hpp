@@ -113,6 +113,7 @@ namespace hep {}
 #include <hep/algebra.hpp>
 #include <hep/difference.hpp>
 #include <hep/grade.hpp>
+#include <hep/inner_product.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/negation.hpp>
 #include <hep/product.hpp>
