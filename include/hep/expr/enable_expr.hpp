@@ -39,7 +39,7 @@ struct enable_expr
 
 template <bool condition>
 template <int index, typename T>
-inline typename T::algebra::scalar_type enable_expr<condition>::at(T const&
+HEP_INLINE typename T::algebra::scalar_type enable_expr<condition>::at(T const&
 	expr)
 {
 	return expr.template at<index>();
@@ -54,7 +54,7 @@ struct enable_expr<false>
 };
 
 template <int index, typename T>
-inline typename T::algebra::scalar_type enable_expr<false>::at(T const&)
+HEP_INLINE typename T::algebra::scalar_type enable_expr<false>::at(T const&)
 {
 	return 0.0;
 }

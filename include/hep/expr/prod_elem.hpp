@@ -33,7 +33,7 @@ struct prod_elem
 
 template <bool condition>
 template <int i, int j, typename L, typename R>
-typename L::algebra::scalar_type prod_elem<condition>::at(
+HEP_INLINE typename L::algebra::scalar_type prod_elem<condition>::at(
 	L const& lhs,
 	R const& rhs
 ) {
@@ -50,8 +50,10 @@ struct prod_elem<false>
 };
 
 template <int i, int j, typename L, typename R>
-inline typename L::algebra::scalar_type prod_elem<false>::at(L const&, R const&)
-{
+HEP_INLINE typename L::algebra::scalar_type prod_elem<false>::at(
+	L const&,
+	R const&
+) {
 	return 0.0;
 }
 /// \endcond

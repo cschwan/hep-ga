@@ -25,20 +25,20 @@ namespace hep
 {
 
 template <typename R>
-inline negation<R>::negation(R const& rhs)
+HEP_INLINE negation<R>::negation(R const& rhs)
 	: rhs(rhs)
 {
 }
 
 template <typename R>
 template <int index>
-inline typename R::algebra::scalar_type negation<R>::at() const
+HEP_INLINE typename R::algebra::scalar_type negation<R>::at() const
 {
 	return -rhs.template at<index>();
 }
 
 template <typename R>
-inline negation<R> operator-(R const& rhs)
+HEP_INLINE negation<R> operator-(R const& rhs)
 {
 	return negation<R>(rhs);
 }

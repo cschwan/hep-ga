@@ -27,14 +27,14 @@ namespace hep
 {
 
 template <typename L, typename R>
-inline difference<L, R>::difference(L const& lhs, R const& rhs)
+HEP_INLINE difference<L, R>::difference(L const& lhs, R const& rhs)
 	: lhs(lhs), rhs(rhs)
 {
 }
 
 template <typename L, typename R>
 template <int index>
-inline typename L::algebra::scalar_type difference<L, R>::at() const
+HEP_INLINE typename L::algebra::scalar_type difference<L, R>::at() const
 {
 	// check if lhs has component with 'index'
 	constexpr bool enable_lhs = (find<typename L::list>(index) != -1);
@@ -47,7 +47,7 @@ inline typename L::algebra::scalar_type difference<L, R>::at() const
 }
 
 template <typename L, typename R>
-inline difference<L, R> operator-(L const& lhs, R const& rhs)
+HEP_INLINE difference<L, R> operator-(L const& lhs, R const& rhs)
 {
 	return difference<L, R>(lhs, rhs);
 }

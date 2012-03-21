@@ -26,14 +26,14 @@ namespace hep
 {
 
 template <typename L, typename R>
-product<L, R>::product(L const& lhs, R const& rhs)
+HEP_INLINE product<L, R>::product(L const& lhs, R const& rhs)
 	: lhs(lhs), rhs(rhs)
 {
 }
 
 template <typename L, typename R>
 template <int index>
-typename L::algebra::scalar_type product<L, R>::at() const
+HEP_INLINE typename L::algebra::scalar_type product<L, R>::at() const
 {
 	// delegate computation in order to use partial template specialization
 	return prod_elem_sum<typename L::list, product_pred>::template
@@ -41,7 +41,7 @@ typename L::algebra::scalar_type product<L, R>::at() const
 }
 
 template <typename L, typename R>
-inline product<L, R> operator*(L const& lhs, R const& rhs)
+HEP_INLINE product<L, R> operator*(L const& lhs, R const& rhs)
 {
 	return product<L, R>(lhs, rhs);
 }

@@ -92,20 +92,20 @@ struct list<>
 	};
 };
 
-inline constexpr int list<>::size()
+constexpr int list<>::size()
 {
 	return 0;
 }
 /// \endcond
 
 template <int component, int... C>
-inline constexpr int list<component, C...>::size()
+constexpr int list<component, C...>::size()
 {
 	return sizeof... (C) + 1;
 }
 
 template <int component, int... C>
-inline constexpr int list<component, C...>::value()
+constexpr int list<component, C...>::value()
 {
 	return component;
 }

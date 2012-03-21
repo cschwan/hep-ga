@@ -35,7 +35,7 @@ struct prod_elem_sum
 
 template <typename List, typename Condition>
 template <int index, typename L, typename R>
-inline typename L::algebra::scalar_type prod_elem_sum<List, Condition>::at(
+HEP_INLINE  typename L::algebra::scalar_type prod_elem_sum<List, Condition>::at(
 	L const& lhs,
 	R const& rhs
 ) {
@@ -71,10 +71,9 @@ struct prod_elem_sum<list<>, Condition>
 
 template <typename Condition>
 template <int index, typename L, typename R>
-inline typename L::algebra::scalar_type prod_elem_sum<list<>, Condition>::at(
-	L const&,
-	R const&
-) {
+HEP_INLINE typename L::algebra::scalar_type prod_elem_sum<list<>,
+	Condition>::at(L const&, R const&)
+{
 	return 0.0;
 }
 /// \endcond

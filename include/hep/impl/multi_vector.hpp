@@ -29,9 +29,9 @@ namespace hep
 {
 
 template <typename A, typename L>
-template <typename ... Args>
-multi_vector<A, L>::multi_vector(Args ... components)
-	: components{components ...}
+template <typename... Args>
+multi_vector<A, L>::multi_vector(Args... components)
+	: components{components...}
 {
 }
 
@@ -53,7 +53,7 @@ multi_vector<A, L>::multi_vector(E const& expression)
 
 template <typename A, typename L>
 template <int index>
-inline typename A::scalar_type const& multi_vector<A, L>::at() const
+HEP_INLINE typename A::scalar_type const& multi_vector<A, L>::at() const
 {
 	static_assert (find<L>(index) != -1, "required component does not exist");
 
@@ -62,7 +62,7 @@ inline typename A::scalar_type const& multi_vector<A, L>::at() const
 
 template <typename A, typename L>
 template <int index>
-inline typename A::scalar_type& multi_vector<A, L>::at()
+HEP_INLINE typename A::scalar_type& multi_vector<A, L>::at()
 {
 	static_assert (find<L>(index) != -1, "required component does not exist");
 

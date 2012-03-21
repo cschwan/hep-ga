@@ -26,21 +26,21 @@ namespace hep
 {
 
 template <typename L, typename R>
-inner_product<L, R>::inner_product(L const& lhs, R const& rhs)
+HEP_INLINE inner_product<L, R>::inner_product(L const& lhs, R const& rhs)
 	: lhs(lhs), rhs(rhs)
 {
 }
 
 template <typename L, typename R>
 template <int index>
-typename L::algebra::scalar_type inner_product<L, R>::at() const
+HEP_INLINE typename L::algebra::scalar_type inner_product<L, R>::at() const
 {
 	return prod_elem_sum<typename L::list, inner_product_pred>::template
 		at<index>(lhs, rhs);
 }
 
 template <typename L, typename R>
-inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
+HEP_INLINE inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
 {
 	return inner_product<L, R>(lhs, rhs);
 }

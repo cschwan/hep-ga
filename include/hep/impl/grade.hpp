@@ -26,14 +26,14 @@ namespace hep
 {
 
 template <typename E, int... grades>
-inline grade_projection<E, grades...>::grade_projection(E const& expr)
+HEP_INLINE grade_projection<E, grades...>::grade_projection(E const& expr)
 	: expr(expr)
 {
 }
 
 template <typename E, int... grades>
 template <int index>
-inline typename E::algebra::scalar_type grade_projection<E, grades...>::at()
+HEP_INLINE typename E::algebra::scalar_type grade_projection<E, grades...>::at()
 	const
 {
 	static_assert (find<list>(index) != -1, "component does not exist");
@@ -42,7 +42,7 @@ inline typename E::algebra::scalar_type grade_projection<E, grades...>::at()
 }
 
 template <int... grades, typename E>
-inline grade_projection<E, grades...> grade(E const& expr)
+HEP_INLINE grade_projection<E, grades...> grade(E const& expr)
 {
 	return grade_projection<E, grades...>(expr);
 }

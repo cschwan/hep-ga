@@ -27,14 +27,14 @@ namespace hep
 {
 
 template <typename L, typename R>
-inline sum<L, R>::sum(L const& lhs, R const& rhs)
+HEP_INLINE sum<L, R>::sum(L const& lhs, R const& rhs)
 	: lhs(lhs), rhs(rhs)
 {
 }
 
 template <typename L, typename R>
 template <int index>
-inline typename L::algebra::scalar_type sum<L, R>::at() const
+HEP_INLINE typename L::algebra::scalar_type sum<L, R>::at() const
 {
 	// check if lhs has component with 'index'
 	constexpr bool enable_lhs = (find<typename L::list>(index) != -1);
@@ -47,7 +47,7 @@ inline typename L::algebra::scalar_type sum<L, R>::at() const
 }
 
 template <typename L, typename R>
-inline sum<L, R> operator+(L const& lhs, R const& rhs)
+HEP_INLINE sum<L, R> operator+(L const& lhs, R const& rhs)
 {
 	return sum<L, R>(lhs, rhs);
 }
