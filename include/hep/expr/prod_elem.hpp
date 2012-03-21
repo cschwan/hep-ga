@@ -37,7 +37,7 @@ HEP_INLINE typename L::algebra::scalar_type prod_elem<condition>::at(
 	L const& lhs,
 	R const& rhs
 ) {
-	return sign_table<typename L::algebra>(i, j) * lhs.template at<i>() *
+	return sign_table<typename L::algebra, i, j>() * lhs.template at<i>() *
 		rhs.template at<j>();
 }
 
