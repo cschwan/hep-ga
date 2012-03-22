@@ -21,8 +21,6 @@
 
 #include <hep/list/list.hpp>
 
-#include <type_traits>
-
 namespace hep
 {
 
@@ -55,16 +53,6 @@ constexpr int find(int index)
 {
 	return recursive_find<L>(index, 0);
 }
-
-/**
- * Defines a new type which derives from \c std::true_type if \c index is in
- * the list \c L. If the list does not contain \c index, the type derives from
- * \c std::false_type.
- */
-template <typename L, int index>
-struct found : public std::integral_constant<bool, find<L>(index) != -1>
-{
-};
 
 /**
  * @}
