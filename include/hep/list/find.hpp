@@ -21,15 +21,9 @@
 
 #include <hep/list/list.hpp>
 
-namespace hep
+namespace
 {
 
-/**
- * \addtogroup list
- * @{
- */
-
-/// \cond DOXYGEN_IGNORE
 template <typename L>
 constexpr int recursive_find(int index, int at)
 {
@@ -38,11 +32,20 @@ constexpr int recursive_find(int index, int at)
 }
 
 template <>
-constexpr int recursive_find<list<>>(int, int)
+constexpr int recursive_find<hep::list<>>(int, int)
 {
 	return -1;
 }
-/// \endcond
+
+}
+
+namespace hep
+{
+
+/**
+ * \addtogroup list
+ * @{
+ */
 
 /**
  * Finds the index in the hep::list specified with \c L and returns the

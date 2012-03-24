@@ -23,10 +23,9 @@
 
 #include <type_traits>
 
-namespace hep
+namespace
 {
 
-/// \cond DOXYGEN_IGNORE
 template <typename A, int i, int j, int loop_k, int grade>
 struct recursive_sign_table
 {
@@ -56,7 +55,11 @@ struct recursive_sign_table<A, i, j, 0, grade>
 {
 	typedef std::integral_constant<int, 1> type;
 };
-/// \endcond
+
+}
+
+namespace hep
+{
 
 /**
  * Returns the sign for multiplication of components \c i and \c j of two
