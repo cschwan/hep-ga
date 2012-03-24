@@ -2,8 +2,9 @@ nobase_include_HEADERS = \
 	hep/expr/assignment.hpp \
 	hep/expr/enable_expr.hpp \
 	hep/expr/predicates.hpp \
-	hep/expr/prod_elem.hpp \
+	hep/expr/prod_elem_cond_sum.hpp \
 	hep/expr/prod_elem_sum.hpp \
+	hep/expr/prod_elem_sum_list.hpp \
 	hep/impl/algebra.hpp \
 	hep/impl/difference.hpp \
 	hep/impl/grade.hpp \

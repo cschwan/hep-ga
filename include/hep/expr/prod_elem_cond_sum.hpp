@@ -1,5 +1,5 @@
-#ifndef HEP_EXPR_PROD_ELEM_HPP
-#define HEP_EXPR_PROD_ELEM_HPP
+#ifndef HEP_EXPR_PROD_ELEM_COND_SUM_HPP
+#define HEP_EXPR_PROD_ELEM_COND_SUM_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -24,37 +24,44 @@
 namespace hep
 {
 
-template <bool condition>
-struct prod_elem
+/**
+ * 
+ */
+template <bool enable_rhs>
+struct prod_elem_cond_sum
 {
-	template <int i, int j, typename L, typename R>
+	/**
+	 * 
+	 */
+	template <int i, int j, typename Rhs, typename L, typename R>
 	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
 };
 
-template <bool condition>
-template <int i, int j, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type prod_elem<condition>::at(
+template <bool enable_rhs>
+template <int i, int j, typename Rhs, typename L, typename R>
+HEP_INLINE typename L::algebra::scalar_type prod_elem_cond_sum<enable_rhs>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return sign_table<typename L::algebra, i, j>() * lhs.template at<i>() *
+		rhs.template at<j>() + Rhs::template at<i ^ j>(lhs, rhs);
+}
+
+/// \cond DOXYGEN_IGNORE
+template <>
+struct prod_elem_cond_sum<false>
+{
+	template <int i, int j, typename Rhs, typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <int i, int j, typename Rhs, typename L, typename R>
+HEP_INLINE typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
 	L const& lhs,
 	R const& rhs
 ) {
 	return sign_table<typename L::algebra, i, j>() * lhs.template at<i>() *
 		rhs.template at<j>();
-}
-
-/// \cond DOXYGEN_IGNORE
-template <>
-struct prod_elem<false>
-{
-	template <int i, int j, typename L, typename R>
-	static typename L::algebra::scalar_type at(L const&, R const&);
-};
-
-template <int i, int j, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type prod_elem<false>::at(
-	L const&,
-	R const&
-) {
-	return 0.0;
 }
 /// \endcond
 

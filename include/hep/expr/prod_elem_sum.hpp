@@ -19,23 +19,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/prod_elem.hpp>
-#include <hep/list/find.hpp>
-#include <hep/list/list.hpp>
+#include <hep/expr/prod_elem_cond_sum.hpp>
+#include <hep/expr/prod_elem_sum_list.hpp>
+
+#include <type_traits>
 
 namespace hep
 {
 
-template <typename List, typename Condition>
+template <typename List, typename C>
 struct prod_elem_sum
 {
 	template <int index, typename L, typename R>
 	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
 };
 
-template <typename List, typename Condition>
+template <typename List, typename C>
 template <int index, typename L, typename R>
-HEP_INLINE  typename L::algebra::scalar_type prod_elem_sum<List, Condition>::at(
+HEP_INLINE  typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
 	L const& lhs,
 	R const& rhs
 ) {
@@ -53,30 +54,19 @@ HEP_INLINE  typename L::algebra::scalar_type prod_elem_sum<List, Condition>::at(
 
 	constexpr int i = List::value();
 	constexpr int j = List::value() ^ index;
-	constexpr bool condition = (find<typename R::list>(j) != -1) &&
-		Condition::check(i, j);
 
-	return prod_elem<condition>::template at<i, j>(lhs, rhs) +
-		prod_elem_sum<typename List::next, Condition>::template
-		at<index>(lhs, rhs);
+	// next list containing a new tuple (i, j) contributing to the sum
+	typedef typename prod_elem_sum_list<typename List::next, typename R::list,
+		C, index>::type NextList;
+
+	// type of the right-hand side of the sum
+	typedef prod_elem_sum<NextList, C> Rhs;
+
+	// if NextList is not empty, there are remaining terms to sum
+	constexpr bool enable_rhs = !std::is_same<NextList, list<>>::value;
+
+	return prod_elem_cond_sum<enable_rhs>::template at<i, j, Rhs>(lhs, rhs);
 }
-
-/// \cond DOXYGEN_IGNORE
-template <typename Condition>
-struct prod_elem_sum<list<>, Condition>
-{
-	template <int index, typename L, typename R>
-	static typename L::algebra::scalar_type at(L const&, R const&);
-};
-
-template <typename Condition>
-template <int index, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type prod_elem_sum<list<>,
-	Condition>::at(L const&, R const&)
-{
-	return 0.0;
-}
-/// \endcond
 
 }
 

@@ -20,6 +20,7 @@
  */
 
 #include <hep/expr/prod_elem_sum.hpp>
+#include <hep/expr/prod_elem_sum_list.hpp>
 #include <hep/inner_product.hpp>
 
 namespace hep
@@ -35,7 +36,10 @@ template <typename L, typename R>
 template <int index>
 HEP_INLINE typename L::algebra::scalar_type inner_product<L, R>::at() const
 {
-	return prod_elem_sum<typename L::list, inner_product_pred>::template
+	typedef typename prod_elem_sum_list<typename L::list, typename R::list,
+		inner_product_pred, index>::type List;
+
+	return prod_elem_sum<List, inner_product_pred>::template
 		at<index>(lhs, rhs);
 }
 
