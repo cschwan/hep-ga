@@ -21,6 +21,7 @@
 
 #include <hep/expr/prod_elem_cond_sum.hpp>
 #include <hep/expr/prod_elem_sum_list.hpp>
+#include <hep/inline.hpp>
 
 #include <type_traits>
 
@@ -36,7 +37,7 @@ struct prod_elem_sum
 
 template <typename List, typename C>
 template <int index, typename L, typename R>
-HEP_INLINE  typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
+hep_inline  typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
 	L const& lhs,
 	R const& rhs
 ) {

@@ -1,5 +1,5 @@
-#ifndef HEP_IMPL_NEGATION_HPP
-#define HEP_IMPL_NEGATION_HPP
+#ifndef HEP_INLINE_HPP
+#define HEP_INLINE_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,31 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/inline.hpp>
-#include <hep/negation.hpp>
+#ifdef __GNUG__
 
-namespace hep
-{
+// this is the GNU C++ compiler. Force inlining if optimization is enabled
+#ifndef __NO_INLINE__
+#define hep_inline inline __attribute__((always_inline))
+#else
+#define hep_inline inline
+#endif
 
-template <typename R>
-hep_inline negation<R>::negation(R const& rhs)
-	: rhs(rhs)
-{
-}
+#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
 
-template <typename R>
-template <int index>
-hep_inline typename R::algebra::scalar_type negation<R>::at() const
-{
-	return -rhs.template at<index>();
-}
+// this is the Microsoft or Intel C++ compiler -- NOT TESTED!
+#define hep_inline __forceinline
 
-template <typename R>
-hep_inline negation<R> operator-(R const& rhs)
-{
-	return negation<R>(rhs);
-}
-
-}
+#else
+#define hep_inline inline
+#endif
 
 #endif

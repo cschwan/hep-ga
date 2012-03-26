@@ -21,6 +21,7 @@
 
 #include <hep/expr/assignment.hpp>
 #include <hep/list/find.hpp>
+#include <hep/inline.hpp>
 #include <hep/multi_vector.hpp>
 
 #include <type_traits>
@@ -53,7 +54,7 @@ multi_vector<A, L>::multi_vector(E const& expression)
 
 template <typename A, typename L>
 template <int index>
-HEP_INLINE typename A::scalar_type const& multi_vector<A, L>::at() const
+hep_inline typename A::scalar_type const& multi_vector<A, L>::at() const
 {
 	static_assert (find<L>(index) != -1, "required component does not exist");
 
@@ -62,7 +63,7 @@ HEP_INLINE typename A::scalar_type const& multi_vector<A, L>::at() const
 
 template <typename A, typename L>
 template <int index>
-HEP_INLINE typename A::scalar_type& multi_vector<A, L>::at()
+hep_inline typename A::scalar_type& multi_vector<A, L>::at()
 {
 	static_assert (find<L>(index) != -1, "required component does not exist");
 

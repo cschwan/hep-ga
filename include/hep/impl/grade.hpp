@@ -19,21 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/grade.hpp>
 #include <hep/list/find.hpp>
+#include <hep/grade.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
 
 template <typename E, int... grades>
-HEP_INLINE grade_projection<E, grades...>::grade_projection(E const& expr)
+hep_inline grade_projection<E, grades...>::grade_projection(E const& expr)
 	: expr(expr)
 {
 }
 
 template <typename E, int... grades>
 template <int index>
-HEP_INLINE typename E::algebra::scalar_type grade_projection<E, grades...>::at()
+hep_inline typename E::algebra::scalar_type grade_projection<E, grades...>::at()
 	const
 {
 	static_assert (find<list>(index) != -1, "component does not exist");
@@ -42,7 +43,7 @@ HEP_INLINE typename E::algebra::scalar_type grade_projection<E, grades...>::at()
 }
 
 template <int... grades, typename E>
-HEP_INLINE grade_projection<E, grades...> grade(E const& expr)
+hep_inline grade_projection<E, grades...> grade(E const& expr)
 {
 	return grade_projection<E, grades...>(expr);
 }

@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/inline.hpp>
+
 namespace hep
 {
 
@@ -34,7 +36,7 @@ struct cond_difference<true, true>
 };
 
 template <int index, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type cond_difference<true, true>::at(
+hep_inline typename L::algebra::scalar_type cond_difference<true, true>::at(
 	L const& lhs,
 	R const& rhs
 ) {
@@ -49,7 +51,7 @@ struct cond_difference<true, false>
 };
 
 template <int index, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type cond_difference<true, false>::at(
+hep_inline typename L::algebra::scalar_type cond_difference<true, false>::at(
 	L const& lhs,
 	R const&
 ) {
@@ -64,7 +66,7 @@ struct cond_difference<false, true>
 };
 
 template <int index, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type cond_difference<false, true>::at(
+hep_inline typename L::algebra::scalar_type cond_difference<false, true>::at(
 	L const&,
 	R const& rhs
 ) {

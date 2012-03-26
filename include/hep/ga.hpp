@@ -108,18 +108,6 @@
  *
  */
 
-// To make expression templates efficient, it is of _uttermost importance_ to
-// inline functions REGARDLESS OF WHAT THE COMPILER THINKS. For these functions
-// HEP_INLINE is defined.
-#if defined(__GNUG__) && !defined(__NO_INLINE__)
-#define HEP_INLINE inline __attribute__((always_inline))
-#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
-// TODO: not tested
-#define HEP_INLINE __forceinline
-#else
-#define HEP_INLINE inline
-#endif
-
 namespace hep {}
 
 #include <hep/algebra.hpp>

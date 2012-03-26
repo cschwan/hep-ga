@@ -21,20 +21,21 @@
 
 #include <hep/expr/prod_elem_sum.hpp>
 #include <hep/expr/prod_elem_sum_list.hpp>
+#include <hep/inline.hpp>
 #include <hep/inner_product.hpp>
 
 namespace hep
 {
 
 template <typename L, typename R>
-HEP_INLINE inner_product<L, R>::inner_product(L const& lhs, R const& rhs)
+hep_inline inner_product<L, R>::inner_product(L const& lhs, R const& rhs)
 	: lhs(lhs), rhs(rhs)
 {
 }
 
 template <typename L, typename R>
 template <int index>
-HEP_INLINE typename L::algebra::scalar_type inner_product<L, R>::at() const
+hep_inline typename L::algebra::scalar_type inner_product<L, R>::at() const
 {
 	typedef typename prod_elem_sum_list<typename L::list, typename R::list,
 		inner_product_pred, index>::type List;
@@ -44,7 +45,7 @@ HEP_INLINE typename L::algebra::scalar_type inner_product<L, R>::at() const
 }
 
 template <typename L, typename R>
-HEP_INLINE inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
+hep_inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
 {
 	return inner_product<L, R>(lhs, rhs);
 }

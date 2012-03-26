@@ -20,6 +20,7 @@
  */
 
 #include <hep/utils/sign_table.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -39,7 +40,7 @@ struct prod_elem_cond_sum
 
 template <bool enable_rhs>
 template <int i, int j, typename Rhs, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type prod_elem_cond_sum<enable_rhs>::at(
+hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<enable_rhs>::at(
 	L const& lhs,
 	R const& rhs
 ) {
@@ -56,7 +57,7 @@ struct prod_elem_cond_sum<false>
 };
 
 template <int i, int j, typename Rhs, typename L, typename R>
-HEP_INLINE typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
+hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
 	L const& lhs,
 	R const& rhs
 ) {

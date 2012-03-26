@@ -20,6 +20,7 @@
  */
 
 #include <hep/list/list.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -39,7 +40,7 @@ struct assignment
 
 template <typename List>
 template <typename L, typename R>
-HEP_INLINE void assignment<List>::perform(L& lhs, R const& rhs)
+hep_inline void assignment<List>::perform(L& lhs, R const& rhs)
 {
 	// assign component with index specified in the first element of the
 	// component list L ...
@@ -58,7 +59,7 @@ struct assignment<list<>>
 };
 
 template <typename L, typename R>
-HEP_INLINE void assignment<list<>>::perform(L const&, R const&)
+hep_inline void assignment<list<>>::perform(L const&, R const&)
 {
 }
 /// \endcond

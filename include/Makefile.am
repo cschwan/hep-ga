@@ -29,6 +29,7 @@ nobase_include_HEADERS = \
 	hep/difference.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \
+	hep/inline.hpp \
 	hep/inner_product.hpp \
 	hep/multi_vector.hpp \
 	hep/negation.hpp \
