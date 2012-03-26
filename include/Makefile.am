@@ -1,6 +1,7 @@
 nobase_include_HEADERS = \
 	hep/expr/assignment.hpp \
-	hep/expr/enable_expr.hpp \
+	hep/expr/cond_difference.hpp \
+	hep/expr/cond_sum.hpp \
 	hep/expr/predicates.hpp \
 	hep/expr/prod_elem_cond_sum.hpp \
 	hep/expr/prod_elem_sum.hpp \

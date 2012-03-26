@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/enable_expr.hpp>
+#include <hep/expr/cond_difference.hpp>
 #include <hep/list/find.hpp>
 #include <hep/difference.hpp>
 
@@ -41,9 +41,8 @@ HEP_INLINE typename L::algebra::scalar_type difference<L, R>::at() const
 	// check if rhs has component with 'index'
 	constexpr bool enable_rhs = (find<typename R::list>(index) != -1);
 
-	// subtract rhs from lhs. if one side does not exist, use 0.0 instead
-	return enable_expr<enable_lhs>::template at<index>(lhs) -
-		enable_expr<enable_rhs>::template at<index>(rhs);
+	return cond_difference<enable_lhs, enable_rhs>::
+		template at<index>(lhs, rhs);
 }
 
 template <typename L, typename R>
