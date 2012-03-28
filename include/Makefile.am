@@ -8,6 +8,7 @@ nobase_include_HEADERS = \
 	hep/expr/prod_elem_sum_list.hpp \
 	hep/impl/algebra.hpp \
 	hep/impl/difference.hpp \
+	hep/impl/eval.hpp \
 	hep/impl/grade.hpp \
 	hep/impl/inner_product.hpp \
 	hep/impl/multi_vector.hpp \
@@ -25,6 +26,7 @@ nobase_include_HEADERS = \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \
 	hep/algebra.hpp \
+	hep/eval.hpp \
 	hep/expression.hpp \
 	hep/difference.hpp \
 	hep/ga.hpp \
