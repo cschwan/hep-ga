@@ -1,12 +1,15 @@
 #include <tuple>
-#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
+#include <hep/list/list.hpp>
+#include <hep/algebra.hpp>
+#include <hep/negation.hpp>
+#include <hep/multi_vector.hpp>
 
 // multi vector with metric (2,0) and general grade list
 template <int... C>
 using mv2 = hep::multi_vector<hep::algebra<double, 2, 0>, hep::list<C...>>;
 
-BOOST_AUTO_TEST_CASE(addition)
+BOOST_AUTO_TEST_CASE(negation)
 {
 	auto rhs = std::make_tuple(
 		mv2<0>      { 3.0 },

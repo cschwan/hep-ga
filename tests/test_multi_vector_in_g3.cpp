@@ -1,6 +1,8 @@
 #include <tuple>
-#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
+#include <hep/list/list.hpp>
+#include <hep/algebra.hpp>
+#include <hep/multi_vector.hpp>
 
 // multi vector with metric (3,0) and general grade list
 template <int... C>

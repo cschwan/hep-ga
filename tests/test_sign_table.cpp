@@ -1,5 +1,6 @@
-#include <hep/ga.hpp>
 #include <boost/test/unit_test.hpp>
+#include <hep/utils/sign_table.hpp>
+#include <hep/algebra.hpp>
 
 BOOST_AUTO_TEST_CASE(sign_table_for_g2)
 {
