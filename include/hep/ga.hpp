@@ -111,6 +111,7 @@
 namespace hep {}
 
 #include <hep/algebra.hpp>
+#include <hep/blade.hpp>
 #include <hep/difference.hpp>
 #include <hep/eval.hpp>
 #include <hep/grade.hpp>
