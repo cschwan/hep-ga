@@ -21,13 +21,20 @@
 
 #include <hep/list/find.hpp>
 
+#include <type_traits>
+
 namespace hep
 {
 
 /**
+ * \addtogroup internals
+ * @{
+ */
+
+/**
  * Finds the sub-list in \c L whose value multiplies with an element in the list
- * \c R to index and respects condition \c C. If no list is found, the result is
- * an empty list.
+ * \c R to \c index and respects condition \c C. If no list is found, the result
+ * is an empty list.
  */
 template <typename L, typename R, typename C, int index>
 struct prod_elem_sum_list
@@ -54,6 +61,10 @@ struct prod_elem_sum_list<list<>, R, C, index>
 	typedef list<> type;
 };
 /// \endcond
+
+/**
+ * @}
+ */
 
 }
 

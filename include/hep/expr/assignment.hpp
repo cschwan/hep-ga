@@ -26,13 +26,19 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup internals
+ * @{
+ */
+
+/**
+ * Helper class for the expression-contructor
+ * multi_vector::multi_vector(E const&).
  */
 template <typename List>
 struct assignment
 {
 	/**
-	 * 
+	 * Performs recursive assignment of components of \c rhs to \c lhs.
 	 */
 	template <typename L, typename R>
 	static void perform(L& lhs, R const& rhs);
@@ -63,6 +69,10 @@ hep_inline void assignment<list<>>::perform(L const&, R const&)
 {
 }
 /// \endcond
+
+/**
+ * @}
+ */
 
 }
 

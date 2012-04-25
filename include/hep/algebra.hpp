@@ -34,14 +34,15 @@ namespace hep
  * \f]
  * \c T is the type which is used for numerical operations. \c T does not
  * neccessarily need to be an intrinsic type like \c float or \c double, but it
- * has to support the multiplication and addition operator. Furthermore,
- * \code T(0.0) \endcode must be a valid expression.
+ * has to support the multiplication, division, addition and subtraction
+ * operator. It must also be possible to convert a \c double literal to
+ * \c T, i.e. expressions like <tt>T(0.0)</tt>, <tt>T(1.0)</tt> must be valid.
  */
 template <typename T, int P, int Q>
 struct algebra
 {
 	/**
-	 * Type definition for using \c T.
+	 * Type definition for \c T, so one can access it from outside the class.
 	 */
 	typedef T scalar_type;
 

@@ -28,7 +28,12 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for sums.
  */
 template <typename L, typename R>
 class sum : public expression<typename L::algebra,
@@ -40,12 +45,13 @@ class sum : public expression<typename L::algebra,
 
 public:
 	/**
-	 * 
+	 * Constructor for a sum expression summing two expressions \c lhs and
+	 * \c rhs.
 	 */
 	sum(L const& lhs, R const& rhs);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;
@@ -68,6 +74,10 @@ private:
  */
 template <typename L, typename R>
 sum<L, R> operator+(L const& lhs, R const& rhs);
+
+/**
+ * @}
+ */
 
 }
 

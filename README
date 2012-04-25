@@ -1,7 +1,7 @@
 hep-ga is a C++ library for numeric calculations with Geometric Algebra. It
-provides a template class for multi-vectors in G_{p,q} and template-expression
-based functions for the corresponding operations, such as the geometric product,
-dot product and wedge product.
+provides a template class for multi-vectors in G_{p,q} and template-expressions
+for many operations such as addition, geometric product, inner and outer
+product.
 
 For more information on how to use Hep-ga see the Doxygen documentation (pass
 configure `--doxygen`).

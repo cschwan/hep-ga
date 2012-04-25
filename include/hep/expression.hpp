@@ -23,16 +23,21 @@ namespace hep
 {
 
 /**
- * Base-class for all objects which may be expressions.
+ * \defgroup expressions Expressions
+ * @{
+ */
+
+/**
+ * Base-class for all expressions.
  */
 template <typename A, typename L>
 class expression
 {
-	static_assert (L::size() != 0, "list does not contain any components");
+	static_assert (L::size() != 0, "L does not contain any components");
 
 public:
 	/**
-	 * Algebra of the expression. See hep::algebra.
+	 * Algebra of the expression.
 	 */
 	typedef A algebra;
 
@@ -41,6 +46,10 @@ public:
 	 */
 	typedef L list;
 };
+
+/**
+ * @}
+ */
 
 }
 

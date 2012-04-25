@@ -27,7 +27,12 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for grade projection expressions.
  */
 template <typename E, int... grades>
 class grade_projection : public expression<typename E::algebra,
@@ -36,34 +41,38 @@ class grade_projection : public expression<typename E::algebra,
 {
 public:
 	/**
-	 * 
+	 * Type definition for the components contained in this expression.
 	 */
 	typedef typename intersection<typename grades_to_list<typename
 		E::algebra, grades...>::type, typename E::list>::type list;
 
 	/**
-	 * 
+	 * Contructs a new grade projection expression for expression \c expr.
 	 */
 	grade_projection(E const& expr);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename E::algebra::scalar_type at() const;
 
 private:
 	/**
-	 * 
+	 * The expression which should be projected.
 	 */
 	E const& expr;
 };
 
 /**
- * 
+ * Selects components from \c expr based on the grades specified with \c grades.
  */
 template <int... grades, typename E>
 grade_projection<E, grades...> grade(E const& expr);
+
+/**
+ * @}
+ */
 
 }
 

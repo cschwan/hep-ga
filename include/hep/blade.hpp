@@ -26,17 +26,27 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for basis-blades.
  */
 template <typename A, int blade_index>
-struct blade : public expression<A, list<blade_index>>
+class blade : public expression<A, list<blade_index>>
 {
+public:
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename A::scalar_type at() const;
 };
+
+/**
+ * @}
+ */
 
 }
 

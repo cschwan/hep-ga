@@ -25,6 +25,11 @@ namespace hep
 {
 
 /**
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
  * An implementation for multi-vectors of a geometric algebra represented by
  * \c A which must be of type hep::algebra. The template parameter \c L must be
  * a hep::list and is used to specify the components which should be included
@@ -94,6 +99,10 @@ private:
 	 */
 	typename A::scalar_type components[L::size()];
 };
+
+/**
+ * @}
+ */
 
 }
 

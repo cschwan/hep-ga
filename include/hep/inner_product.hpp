@@ -29,7 +29,17 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for inner products. For blades \f$ A_n \f$ and \f$ B_m \f$
+ * of grade \f$ n, m \f$ the inner product is defined as
+ * \f[
+ *     A_n \cdot B_m = \left< A_n B_m \right>_{|n - m|}
+ * \f]
+ * i.e. it is the lowest grade element of the geometric product.
  */
 template <typename L, typename R>
 class inner_product : public expression<typename L::algebra,
@@ -42,12 +52,13 @@ class inner_product : public expression<typename L::algebra,
 
 public:
 	/**
-	 * 
+	 * Constructor for a inner product expression computing the inner product
+	 * of expressions \c lhs and \c rhs.
 	 */
 	inner_product(L const& lhs, R const& rhs);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;
@@ -70,6 +81,10 @@ private:
  */
 template <typename L, typename R>
 inner_product<L, R> inner_prod(L const& lhs, R const& rhs);
+
+/**
+ * @}
+ */
 
 }
 

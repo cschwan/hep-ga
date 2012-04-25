@@ -25,19 +25,25 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for negation.
  */
 template <typename R>
 class negation : public expression<typename R::algebra, typename R::list>
 {
 public:
 	/**
-	 * 
+	 * Constructs an expression changes the sign of every component of the
+	 * expression \c rhs.
 	 */
 	negation(R const& rhs);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename R::algebra::scalar_type at() const;
@@ -55,6 +61,10 @@ private:
  */
 template <typename R>
 negation<R> operator-(R const& rhs);
+
+/**
+ * @}
+ */
 
 }
 

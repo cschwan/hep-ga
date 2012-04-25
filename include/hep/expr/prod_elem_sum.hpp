@@ -28,9 +28,20 @@
 namespace hep
 {
 
+/**
+ * \addtogroup internals
+ * @{
+ */
+
+/**
+ * Helper class for performing the sum appearing in product-like expressions.
+ */
 template <typename List, typename C>
 struct prod_elem_sum
 {
+	/**
+	 * 
+	 */
 	template <int index, typename L, typename R>
 	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
 };
@@ -53,10 +64,7 @@ hep_inline  typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
 	//       of sign_table and add it to function result
 	// 4. goto 1. and repeat with remaining elements in L::list
 
-	constexpr int i = List::value();
-	constexpr int j = List::value() ^ index;
-
-	// next list containing a new tuple (i, j) contributing to the sum
+	// next list containing a new tuple of indices contributing to the sum
 	typedef typename prod_elem_sum_list<typename List::next, typename R::list,
 		C, index>::type NextList;
 
@@ -66,8 +74,15 @@ hep_inline  typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
 	// if NextList is not empty, there are remaining terms to sum
 	constexpr bool enable_rhs = !std::is_same<NextList, list<>>::value;
 
+	constexpr int i = List::value();
+	constexpr int j = List::value() ^ index;
+
 	return prod_elem_cond_sum<enable_rhs>::template at<i, j, Rhs>(lhs, rhs);
 }
+
+/**
+ * @}
+ */
 
 }
 

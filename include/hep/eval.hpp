@@ -25,10 +25,37 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Explicitly evaluates the given expression \c expr to the corresponding
+ * multi_vector. This is typically used in conjunction with the \c auto keyword,
+ * e.g.:
+ * \code
+ * typedef hep::algebra<double,3,0> space_algebra;
+ * typedef hep::list<1,2,4> vectors;
+ * typedef hep::multi_vector<space_algebra, vectors> vector;
+ *
+ * vector v1 = { 1.0, 2.0, 3.0 };
+ * vector v2 = { 2.0, 3.0, 4.0 };
+ * vector v3 = { 3.0, 4.0, 5.0 };
+ *
+ * // expr is of type hep:sum<vector, hep:sum<vector, vector>>, components are
+ * // not computed at this point
+ * auto expr = v1 + v2 + v3;
+ *
+ * // sum is of type 'vector', the computations are done right here
+ * auto sum = hep::eval(expr);
+ * \endcode
  */
 template <typename E>
 multi_vector<typename E::algebra, typename E::list> eval(E const& expr);
+
+/**
+ * @}
+ */
 
 }
 

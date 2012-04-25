@@ -29,7 +29,15 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ */
+
+/**
+ * Expression class for geometric products. The geometric product for two blades
+ * \f$ A_n \f$ and \f$ B_m \f$ is written as \f$ A_n B_m \f$ and is computed
+ * component-wise by making use of of the contraction rule for basis vectors.
+ * For example, the geometric products of two vectors \f$ \gamma_1, \gamma_2
+ * \in \mathcal{G}_{3,0} \f$ is: \f$ \gamma_1 \gamma_1 = 1 \f$.
  */
 template <typename L, typename R>
 class product : public expression<typename L::algebra,
@@ -41,12 +49,13 @@ class product : public expression<typename L::algebra,
 
 public:
 	/**
-	 * 
+	 * Constructor for a product expression computing the geometric product of
+	 * the expression \c lhs with \c rhs.
 	 */
 	product(L const& lhs, R const& rhs);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;
@@ -69,6 +78,10 @@ private:
  */
 template <typename L, typename R>
 product<L, R> operator*(L const& lhs, R const& rhs);
+
+/**
+ * @}
+ */
 
 }
 

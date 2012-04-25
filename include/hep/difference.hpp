@@ -28,7 +28,12 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for differences.
  */
 template <typename L, typename R>
 class difference : public expression<typename L::algebra,
@@ -40,12 +45,13 @@ class difference : public expression<typename L::algebra,
 
 public:
 	/**
-	 * 
+	 * Constructor for a difference expression subtracting expression \c lhs
+	 * from \c rhs.
 	 */
 	difference(L const& lhs, R const& rhs);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;
@@ -68,6 +74,10 @@ private:
  */
 template <typename L, typename R>
 difference<L, R> operator-(L const& lhs, R const& rhs);
+
+/**
+ * @}
+ */
 
 }
 

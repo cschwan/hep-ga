@@ -26,32 +26,45 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for selection of specific components.
  */
 template <typename E, int... indices>
 class selection : public expression<typename E::algebra, list<indices...>>
 {
 public:
 	/**
-	 * 
+	 * Creates a new selection object based on expression \c expr.
 	 */
 	selection(E const& expr);
 
 	/**
-	 * 
+	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
 	typename E::algebra::scalar_type at() const;
 
 private:
+	/**
+	 * The expression from which selection happens.
+	 */
 	E const& expr;
 };
 
 /**
- * 
+ * Selects the components represented by \c indices from expression \c expr and
+ * returns a new expression object.
  */
 template <int... indices, typename E>
 selection<E, indices...> select(E const& expr);
+
+/**
+ * @}
+ */
 
 }
 

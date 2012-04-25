@@ -25,12 +25,18 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup internals
+ * @{
+ */
+
+/**
+ * Predicate for geometric products, see operator*().
  */
 struct product_pred
 {
 	/**
-	 * 
+	 * Checks if for two expressions \c l and \c r the combination of
+	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the geometric product.
 	 */
 	static constexpr bool check(int, int);
 };
@@ -41,12 +47,13 @@ constexpr bool product_pred::check(int, int)
 }
 
 /**
- * 
+ * Predicate for inner products, see inner_prod().
  */
 struct inner_product_pred
 {
 	/**
-	 * 
+	 * Checks if for two expressions \c l and \c r the combination of
+	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the inner product.
 	 */
 	static constexpr bool check(int lhs, int rhs);
 };
@@ -65,6 +72,10 @@ constexpr bool inner_product_pred::check(int lhs, int rhs)
 #undef hep_grade_rhs
 #undef hep_grade_lhs
 }
+
+/**
+ * @}
+ */
 
 }
 

@@ -26,13 +26,18 @@ namespace hep
 {
 
 /**
- * 
+ * \addtogroup internals
+ * @{
+ */
+
+/**
+ *
  */
 template <bool enable_rhs>
 struct prod_elem_cond_sum
 {
 	/**
-	 * 
+	 *
 	 */
 	template <int i, int j, typename Rhs, typename L, typename R>
 	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
@@ -65,6 +70,10 @@ hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
 		rhs.template at<j>();
 }
 /// \endcond
+
+/**
+ * @}
+ */
 
 }
 
