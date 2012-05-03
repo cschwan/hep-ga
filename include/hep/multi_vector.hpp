@@ -79,6 +79,16 @@ public:
 	multi_vector(E const& expression);
 
 	/**
+	 * Read-/Write-access operator.
+	 */
+	typename A::scalar_type& operator[](unsigned at);
+
+	/**
+	 * Read-access operator.
+	 */
+	typename A::scalar_type const& operator[](unsigned at) const;
+
+	/**
 	 * Literal-index read-access operator. This member function is primarily
 	 * intended for use with expression templates in this library.
 	 */

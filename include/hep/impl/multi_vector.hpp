@@ -53,6 +53,18 @@ multi_vector<A, L>::multi_vector(E const& expression)
 }
 
 template <typename A, typename L>
+typename A::scalar_type& multi_vector<A, L>::operator[](unsigned at)
+{
+	return components[at];
+}
+
+template <typename A, typename L>
+typename A::scalar_type const& multi_vector<A, L>::operator[](unsigned at) const
+{
+	return components[at];
+}
+
+template <typename A, typename L>
 template <int index>
 hep_inline typename A::scalar_type const& multi_vector<A, L>::at() const
 {

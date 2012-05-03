@@ -16,6 +16,7 @@ nobase_include_HEADERS = \
 	hep/impl/negation.hpp \
 	hep/impl/product.hpp \
 	hep/impl/selection.hpp \
+	hep/impl/stream.hpp \
 	hep/impl/sum.hpp \
 	hep/list/find.hpp \
 	hep/list/grade_to_list.hpp \
@@ -40,6 +41,7 @@ nobase_include_HEADERS = \
 	hep/negation.hpp \
 	hep/product.hpp \
 	hep/selection.hpp \
+	hep/stream.hpp \
 	hep/sum.hpp
 
 # create a timestamp file so we can depend on it instead of depending on every

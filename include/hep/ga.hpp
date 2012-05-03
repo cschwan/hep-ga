@@ -121,6 +121,7 @@ namespace hep {}
 #include <hep/negation.hpp>
 #include <hep/product.hpp>
 #include <hep/selection.hpp>
+#include <hep/stream.hpp>
 #include <hep/sum.hpp>
 
 #endif
