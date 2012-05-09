@@ -15,6 +15,7 @@ nobase_include_HEADERS = \
 	hep/impl/multi_vector.hpp \
 	hep/impl/negation.hpp \
 	hep/impl/product.hpp \
+	hep/impl/reversion.hpp \
 	hep/impl/selection.hpp \
 	hep/impl/stream.hpp \
 	hep/impl/sum.hpp \
@@ -40,6 +41,7 @@ nobase_include_HEADERS = \
 	hep/multi_vector.hpp \
 	hep/negation.hpp \
 	hep/product.hpp \
+	hep/reversion.hpp \
 	hep/selection.hpp \
 	hep/stream.hpp \
 	hep/sum.hpp

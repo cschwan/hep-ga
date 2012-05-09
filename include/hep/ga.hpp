@@ -120,6 +120,7 @@ namespace hep {}
 #include <hep/multi_vector.hpp>
 #include <hep/negation.hpp>
 #include <hep/product.hpp>
+#include <hep/reversion.hpp>
 #include <hep/selection.hpp>
 #include <hep/stream.hpp>
 #include <hep/sum.hpp>

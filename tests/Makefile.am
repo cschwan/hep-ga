@@ -21,6 +21,7 @@ check_PROGRAMS = \
 	test_next_bit_permutation \
 	test_negation_in_g2 \
 	test_pop_count \
+	test_reversion_in_g3 \
 	test_selection_in_g2 \
 	test_sign_table \
 	test_sum_in_g2
