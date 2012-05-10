@@ -125,4 +125,8 @@ namespace hep {}
 #include <hep/stream.hpp>
 #include <hep/sum.hpp>
 
+/**
+ * \example spinors.cpp
+ */
+
 #endif

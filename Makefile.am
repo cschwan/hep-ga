@@ -7,4 +7,9 @@ if HAVE_DOXYGEN
     DOCDIR = doc
 endif
 
-SUBDIRS = include tests $(DOCDIR)
+# if examples are enabled include examples subdir
+if HAVE_EXAMPLES
+    EXAMPLESDIR = examples
+endif
+
+SUBDIRS = include $(DOCDIR) tests $(EXAMPLESDIR)

@@ -48,6 +48,13 @@ AC_CONFIG_SRCDIR([include/hep/ga.hpp])
 # into the specified header
 AC_CONFIG_HEADERS([config.hpp])
 
+AC_ARG_ENABLE(
+	[examples],
+	AS_HELP_STRING([--enable-examples], [Enable building of example programs])
+)
+
+AM_CONDITIONAL([HAVE_EXAMPLES], [test "x$enable_examples" = "xyes"])
+
 # add possibility to generate API documentation with Doxygen
 AC_ARG_ENABLE(
 	[doxygen],
@@ -98,6 +105,7 @@ AC_CONFIG_FILES([
 	Makefile
 	doc/Doxyfile
 	doc/Makefile
+	examples/Makefile
 	include/Makefile
 	tests/Makefile
 ])
