@@ -19,12 +19,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/assignment.hpp>
 #include <hep/list/find.hpp>
+#include <hep/list/list.hpp>
 #include <hep/inline.hpp>
 #include <hep/multi_vector.hpp>
 
 #include <type_traits>
+
+namespace
+{
+
+template <typename List>
+struct assignment
+{
+	template <typename L, typename R>
+	static void perform(L& lhs, R const& rhs);
+};
+
+template <>
+struct assignment<hep::list<>>
+{
+	template <typename L, typename R>
+	static void perform(L const&, R const&);
+};
+
+// performs recursive assignment of components from rhs to lhs.
+template <typename List>
+template <typename L, typename R>
+hep_inline void assignment<List>::perform(L& lhs, R const& rhs)
+{
+	// assign component with index specified in the first element of the
+	// component list L ...
+	lhs.template at<List::value()>() = rhs.template at<List::value()>();
+
+	// and make recursion with L::next
+	assignment<typename List::next>::perform(lhs, rhs);
+}
+
+// end of recursion
+template <typename L, typename R>
+hep_inline void assignment<hep::list<>>::perform(L const&, R const&)
+{
+}
+
+}
 
 namespace hep
 {
