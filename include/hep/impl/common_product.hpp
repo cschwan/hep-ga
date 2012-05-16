@@ -1,9 +1,9 @@
-#ifndef HEP_IMPL_INNER_PRODUCT_HPP
-#define HEP_IMPL_INNER_PRODUCT_HPP
+#ifndef HEP_IMPL_COMMON_PRODUCT_HPP
+#define HEP_IMPL_COMMON_PRODUCT_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2011-2012  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/expr/prod_elem_sum.hpp>
+#include <hep/expr/prod_elem_sum_list.hpp>
+#include <hep/common_product.hpp>
 #include <hep/inline.hpp>
-#include <hep/inner_product.hpp>
 
 namespace hep
 {
 
-template <typename L, typename R>
-hep_inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
+template <typename P, typename L, typename R>
+hep_inline common_product<P, L, R>::common_product(L const& lhs, R const& rhs)
+	: lhs(lhs), rhs(rhs)
 {
-	return inner_product<L, R>(lhs, rhs);
+}
+
+template <typename P, typename L, typename R>
+template <int index>
+hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
+{
+	typedef typename prod_elem_sum_list<typename L::list, typename R::list, P,
+		index>::type List;
+
+	// delegate computation in order to use partial template specialization
+	return prod_elem_sum<List, P>::template at<index>(lhs, rhs);
 }
 
 }

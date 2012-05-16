@@ -19,9 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/predicates.hpp>
-#include <hep/list/multiply.hpp>
-#include <hep/expression.hpp>
+#include <hep/common_product.hpp>
 
 #include <type_traits>
 
@@ -34,6 +32,33 @@ namespace hep
  */
 
 /**
+ * Predicate for inner products, see inner_prod().
+ */
+struct inner_product_predicate
+{
+	/**
+	 * Checks if for two expressions \c l and \c r the combination of
+	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the inner product.
+	 */
+	static constexpr bool check(int lhs, int rhs);
+};
+
+constexpr bool inner_product_predicate::check(int lhs, int rhs)
+{
+#define hep_grade_lhs pop_count(lhs)
+#define hep_grade_rhs pop_count(rhs)
+#define hep_grade_result pop_count(lhs ^ rhs)
+
+	// check if resultant grade is the smallest possible one
+	return hep_grade_result == ((hep_grade_lhs > hep_grade_rhs) ?
+		(hep_grade_lhs - hep_grade_rhs) : (hep_grade_rhs - hep_grade_lhs));
+
+#undef hep_grade_result
+#undef hep_grade_rhs
+#undef hep_grade_lhs
+}
+
+/**
  * Expression class for inner products. For blades \f$ A_n \f$ and \f$ B_m \f$
  * of grade \f$ n, m \f$ the inner product is defined as
  * \f[
@@ -42,38 +67,7 @@ namespace hep
  * i.e. it is the lowest grade element of the geometric product.
  */
 template <typename L, typename R>
-class inner_product : public expression<typename L::algebra,
-	typename multiply<inner_product_pred, typename L::list, typename
-	R::list>::type>
-{
-	static_assert (std::is_same<typename L::algebra, typename
-		R::algebra>::value,
-		"product of multi-vectors from different algebras requested");
-
-public:
-	/**
-	 * Constructor for a inner product expression computing the inner product
-	 * of expressions \c lhs and \c rhs.
-	 */
-	inner_product(L const& lhs, R const& rhs);
-
-	/**
-	 * Performs the computation of the component represented by \c index.
-	 */
-	template <int index>
-	typename L::algebra::scalar_type at() const;
-
-private:
-	/**
-	 * Left-hand side expression.
-	 */
-	L const& lhs;
-
-	/**
-	 * Right-hand side expression.
-	 */
-	R const& rhs;
-};
+using inner_product = common_product<inner_product_predicate, L, R>;
 
 /**
  * Product operator returning an expression object for the inner product of

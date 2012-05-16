@@ -1,12 +1,12 @@
 nobase_include_HEADERS = \
 	hep/expr/cond_difference.hpp \
 	hep/expr/cond_sum.hpp \
-	hep/expr/predicates.hpp \
 	hep/expr/prod_elem_cond_sum.hpp \
 	hep/expr/prod_elem_sum.hpp \
 	hep/expr/prod_elem_sum_list.hpp \
 	hep/impl/algebra.hpp \
 	hep/impl/blade.hpp \
+	hep/impl/common_product.hpp \
 	hep/impl/difference.hpp \
 	hep/impl/eval.hpp \
 	hep/impl/grade.hpp \
@@ -32,6 +32,7 @@ nobase_include_HEADERS = \
 	hep/blade.hpp \
 	hep/eval.hpp \
 	hep/expression.hpp \
+	hep/common_product.hpp \
 	hep/difference.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \

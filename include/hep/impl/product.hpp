@@ -19,30 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/prod_elem_sum.hpp>
-#include <hep/expr/prod_elem_sum_list.hpp>
+#include <hep/common_product.hpp>
 #include <hep/inline.hpp>
-#include <hep/product.hpp>
 
 namespace hep
 {
-
-template <typename L, typename R>
-hep_inline product<L, R>::product(L const& lhs, R const& rhs)
-	: lhs(lhs), rhs(rhs)
-{
-}
-
-template <typename L, typename R>
-template <int index>
-hep_inline typename L::algebra::scalar_type product<L, R>::at() const
-{
-	typedef typename prod_elem_sum_list<typename L::list, typename R::list,
-		product_pred, index>::type List;
-
-	// delegate computation in order to use partial template specialization
-	return prod_elem_sum<List, product_pred>::template at<index>(lhs, rhs);
-}
 
 template <typename L, typename R>
 hep_inline product<L, R> operator*(L const& lhs, R const& rhs)
