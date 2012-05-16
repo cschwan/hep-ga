@@ -1,9 +1,6 @@
 nobase_include_HEADERS = \
 	hep/expr/cond_difference.hpp \
 	hep/expr/cond_sum.hpp \
-	hep/expr/prod_elem_cond_sum.hpp \
-	hep/expr/prod_elem_sum.hpp \
-	hep/expr/prod_elem_sum_list.hpp \
 	hep/impl/algebra.hpp \
 	hep/impl/blade.hpp \
 	hep/impl/common_product.hpp \

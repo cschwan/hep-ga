@@ -19,10 +19,115 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/prod_elem_sum.hpp>
-#include <hep/expr/prod_elem_sum_list.hpp>
+#include <hep/list/find.hpp>
+#include <hep/list/list.hpp>
+#include <hep/utils/sign_table.hpp>
 #include <hep/common_product.hpp>
 #include <hep/inline.hpp>
+
+namespace
+{
+
+template <typename L, typename R, typename C, int index>
+struct prod_elem_sum_list
+{
+#define hep_i         ( L::value() )
+#define hep_j         ( L::value() ^ index )
+#define hep_condition ( (hep::find<R>(hep_j) != -1) && C::check(hep_i, hep_j) )
+
+	// sub-list of L satisfying i ^ j = index, with i being the first element of
+	// L and j somewhere in R
+	typedef typename std::conditional<hep_condition, L, typename
+		prod_elem_sum_list<typename L::next, R, C, index>::type>::type type;
+
+#undef hep_condition
+#undef hep_j
+#undef hep_i
+};
+
+template <typename R, typename C, int index>
+struct prod_elem_sum_list<hep::list<>, R, C, index>
+{
+	// L is empty so there is no i satisfying the condition C
+	typedef hep::list<> type;
+};
+
+template <bool enable_rhs>
+struct prod_elem_cond_sum
+{
+	template <int i, int j, typename Rhs, typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <bool enable_rhs>
+template <int i, int j, typename Rhs, typename L, typename R>
+hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<enable_rhs>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return hep::sign_table<typename L::algebra, i, j>() *
+		lhs.template at<i>() *
+		rhs.template at<j>() + Rhs::template at<i ^ j>(lhs, rhs);
+}
+
+template <>
+struct prod_elem_cond_sum<false>
+{
+	template <int i, int j, typename Rhs, typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <int i, int j, typename Rhs, typename L, typename R>
+hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return hep::sign_table<typename L::algebra, i, j>() *
+		lhs.template at<i>() * rhs.template at<j>();
+}
+
+template <typename List, typename C>
+struct prod_elem_sum
+{
+	template <int index, typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <typename List, typename C>
+template <int index, typename L, typename R>
+hep_inline typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	// find all components in L::list that multiply with those in R::list to
+	// index; multiply the actual components, sum up and return result
+
+	// Idea: i ^ j = index  <=>  j = i ^ index
+	//
+	// 1. Take first element from L::list and assign to i
+	// 2. XOR with index
+	// 3. find result in R::list
+	//    a) if found, multiply corresonding components together with the entry
+	//       of sign_table and add it to function result
+	// 4. goto 1. and repeat with remaining elements in L::list
+
+	// next list containing a new tuple of indices contributing to the sum
+	typedef typename prod_elem_sum_list<typename List::next, typename R::list,
+		C, index>::type NextList;
+
+	// type of the right-hand side of the sum
+	typedef prod_elem_sum<NextList, C> Rhs;
+
+	// if NextList is not empty, there are remaining terms to sum
+	constexpr bool enable_rhs = !std::is_same<NextList, hep::list<>>::value;
+
+	constexpr int i = List::value();
+	constexpr int j = List::value() ^ index;
+
+	return prod_elem_cond_sum<enable_rhs>::template at<i, j, Rhs>(lhs, rhs);
+}
+
+}
 
 namespace hep
 {
