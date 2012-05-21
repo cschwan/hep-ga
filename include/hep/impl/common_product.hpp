@@ -28,104 +28,121 @@
 namespace
 {
 
-template <typename L, typename R, typename C, int index>
-struct prod_elem_sum_list
+template <typename List, int index>
+struct sum
 {
-#define hep_i         ( L::value() )
-#define hep_j         ( L::value() ^ index )
-#define hep_condition ( (hep::find<R>(hep_j) != -1) && C::check(hep_i, hep_j) )
-
-	// sub-list of L satisfying i ^ j = index, with i being the first element of
-	// L and j somewhere in R
-	typedef typename std::conditional<hep_condition, L, typename
-		prod_elem_sum_list<typename L::next, R, C, index>::type>::type type;
-
-#undef hep_condition
-#undef hep_j
-#undef hep_i
+	template <typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
 };
 
-template <typename R, typename C, int index>
-struct prod_elem_sum_list<hep::list<>, R, C, index>
+template <int element, int index>
+struct sum<hep::list<element>, index>
 {
-	// L is empty so there is no i satisfying the condition C
+	template <typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <typename P, typename N, int index>
+struct subtract
+{
+	template <typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <typename P, int index>
+struct subtract<P, hep::list<>, index>
+{
+	template <typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <typename N, int index>
+struct subtract<hep::list<>, N, index>
+{
+	template <typename L, typename R>
+	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+};
+
+template <typename List, int index>
+template <typename L, typename R>
+hep_inline typename L::algebra::scalar_type sum<List, index>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return lhs.template at<List::value()>() *
+		rhs.template at<List::value() ^ index>() +
+		sum<typename List::next, index>::at(lhs, rhs);
+}
+
+template <int element, int index>
+template <typename L, typename R>
+hep_inline typename L::algebra::scalar_type sum<hep::list<element>, index>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return lhs.template at<element>() * rhs.template at<element ^ index>();
+}
+
+template <typename P, typename N, int index>
+template <typename L, typename R>
+hep_inline typename L::algebra::scalar_type subtract<P, N, index>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return sum<P, index>::at(lhs, rhs) - sum<N, index>::at(lhs, rhs);
+}
+
+template <typename P, int index>
+template <typename L, typename R>
+hep_inline typename L::algebra::scalar_type subtract<P, hep::list<>, index>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return sum<P, index>::at(lhs, rhs);
+}
+
+template <typename N, int index>
+template <typename L, typename R>
+hep_inline typename L::algebra::scalar_type subtract<hep::list<>, N, index>::at(
+	L const& lhs,
+	R const& rhs
+) {
+	return -sum<N, index>::at(lhs, rhs);
+}
+
+template <typename A, typename L, typename R, typename P, int index, int sign>
+struct components
+{
+#define i ( L::value() )
+#define j ( L::value() ^ index )
+
+	typedef typename std::conditional<
+		// check if there is a component with index j in R so that i ^ j = index
+		(hep::find<R>(j) != -1) &&
+		// check if this tuple contributes to this type of product
+		(P::check(i, j)) &&
+		// check if this tuple has the requested sign
+		(hep::sign_table<A, i, j>() == sign),
+
+		// condition is fulfilled : add i to list and continue with the
+		// remaining indices
+		typename components<A, typename L::next, R, P, index, sign>::type::
+			template push_front<i>::type,
+
+		// condition is not fulfilled: skip i and continue with the remaining
+		// elements
+		typename components<A, typename L::next, R, P, index, sign>::type
+	>::type type;
+
+#undef j
+#undef i
+};
+
+template <typename A, typename R, typename P, int index, int sign>
+struct components<A, hep::list<>, R, P, index, sign>
+{
 	typedef hep::list<> type;
 };
-
-template <bool enable_rhs>
-struct prod_elem_cond_sum
-{
-	template <int i, int j, typename Rhs, typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
-};
-
-template <bool enable_rhs>
-template <int i, int j, typename Rhs, typename L, typename R>
-hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<enable_rhs>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return hep::sign_table<typename L::algebra, i, j>() *
-		lhs.template at<i>() *
-		rhs.template at<j>() + Rhs::template at<i ^ j>(lhs, rhs);
-}
-
-template <>
-struct prod_elem_cond_sum<false>
-{
-	template <int i, int j, typename Rhs, typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
-};
-
-template <int i, int j, typename Rhs, typename L, typename R>
-hep_inline typename L::algebra::scalar_type prod_elem_cond_sum<false>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return hep::sign_table<typename L::algebra, i, j>() *
-		lhs.template at<i>() * rhs.template at<j>();
-}
-
-template <typename List, typename C>
-struct prod_elem_sum
-{
-	template <int index, typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
-};
-
-template <typename List, typename C>
-template <int index, typename L, typename R>
-hep_inline typename L::algebra::scalar_type prod_elem_sum<List, C>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	// find all components in L::list that multiply with those in R::list to
-	// index; multiply the actual components, sum up and return result
-
-	// Idea: i ^ j = index  <=>  j = i ^ index
-	//
-	// 1. Take first element from L::list and assign to i
-	// 2. XOR with index
-	// 3. find result in R::list
-	//    a) if found, multiply corresonding components together with the entry
-	//       of sign_table and add it to function result
-	// 4. goto 1. and repeat with remaining elements in L::list
-
-	// next list containing a new tuple of indices contributing to the sum
-	typedef typename prod_elem_sum_list<typename List::next, typename R::list,
-		C, index>::type NextList;
-
-	// type of the right-hand side of the sum
-	typedef prod_elem_sum<NextList, C> Rhs;
-
-	// if NextList is not empty, there are remaining terms to sum
-	constexpr bool enable_rhs = !std::is_same<NextList, hep::list<>>::value;
-
-	constexpr int i = List::value();
-	constexpr int j = List::value() ^ index;
-
-	return prod_elem_cond_sum<enable_rhs>::template at<i, j, Rhs>(lhs, rhs);
-}
 
 }
 
@@ -142,11 +159,16 @@ template <typename P, typename L, typename R>
 template <int index>
 hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 {
-	typedef typename prod_elem_sum_list<typename L::list, typename R::list, P,
-		index>::type List;
+	// list with components in L contributing to the product with POSITIVE sign
+	typedef typename components<typename L::algebra, typename L::list,
+		typename R::list, P, index, +1>::type positive;
 
-	// delegate computation in order to use partial template specialization
-	return prod_elem_sum<List, P>::template at<index>(lhs, rhs);
+	// list with components in L contributing to the product with NEGATIVE sign
+	typedef typename components<typename L::algebra, typename L::list,
+		typename R::list, P, index, -1>::type negative;
+
+	// subtract the sum of positive components from sum of negative components
+	return subtract<positive, negative, index>::at(lhs, rhs);
 }
 
 }
