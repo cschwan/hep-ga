@@ -49,21 +49,28 @@ struct algebra
 	/**
 	 * The number of basis-vectors squaring to \f$ +1 \f$.
 	 */
-	static constexpr int p();
+	static constexpr int p()
+	{
+		return P;
+	}
 
 	/**
 	 * The number of basis-vectors squaring to \f$ -1 \f$.
 	 */
-	static constexpr int q();
+	static constexpr int q()
+	{
+		return Q;
+	}
 
 	/**
 	 * The number of all basis-vectors.
 	 */
-	static constexpr int dim();
+	static constexpr int dim()
+	{
+		return P + Q;
+	}
 };
 
 }
-
-#include <hep/impl/algebra.hpp>
 
 #endif

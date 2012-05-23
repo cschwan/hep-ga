@@ -40,23 +40,21 @@ struct inner_product_predicate
 	 * Checks if for two expressions \c l and \c r the combination of
 	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the inner product.
 	 */
-	static constexpr bool check(int lhs, int rhs);
-};
-
-constexpr bool inner_product_predicate::check(int lhs, int rhs)
-{
+	static constexpr bool check(int lhs, int rhs)
+	{
 #define hep_grade_lhs pop_count(lhs)
 #define hep_grade_rhs pop_count(rhs)
 #define hep_grade_result pop_count(lhs ^ rhs)
 
-	// check if resultant grade is the smallest possible one
-	return hep_grade_result == ((hep_grade_lhs > hep_grade_rhs) ?
-		(hep_grade_lhs - hep_grade_rhs) : (hep_grade_rhs - hep_grade_lhs));
+		// check if resultant grade is the smallest possible one
+		return hep_grade_result == ((hep_grade_lhs > hep_grade_rhs) ?
+			(hep_grade_lhs - hep_grade_rhs) : (hep_grade_rhs - hep_grade_lhs));
 
 #undef hep_grade_result
 #undef hep_grade_rhs
 #undef hep_grade_lhs
-}
+	}
+};
 
 /**
  * Expression class for inner products. For blades \f$ A_n \f$ and \f$ B_m \f$

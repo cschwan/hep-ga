@@ -40,13 +40,11 @@ struct product_predicate
 	 * Checks if for two expressions \c l and \c r the combination of
 	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the geometric product.
 	 */
-	static constexpr bool check(int, int);
+	static constexpr bool check(int, int)
+	{
+		return true;
+	}
 };
-
-constexpr bool product_predicate::check(int, int)
-{
-	return true;
-}
 
 /**
  * Expression class for geometric products. The geometric product for two blades
