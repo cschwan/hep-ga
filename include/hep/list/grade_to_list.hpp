@@ -22,6 +22,34 @@
 #include <hep/list/list.hpp>
 #include <hep/utils/next_bit_permutation.hpp>
 
+namespace
+{
+
+template <typename A, int grade, int component, int last_component>
+struct grade_to_list_helper
+{
+	static_assert (grade <= A::dim(), "grade bigger than algebra dimension");
+
+#define first_component ((1 << grade) - 1)
+#define next_component (hep::next_bit_permutation(component))
+#define last_component (first_component << (A::dim() - grade))
+
+	typedef typename grade_to_list_helper<A, grade, next_component,
+		last_component>::type::template push_front<component>::type type;
+
+#undef last_component
+#undef next_component
+#undef first_component
+};
+
+template <typename A, int grade, int component>
+struct grade_to_list_helper<A, grade, component, component>
+{
+	typedef hep::list<component> type;
+};
+
+}
+
 namespace hep
 {
 
@@ -29,10 +57,6 @@ namespace hep
  * \addtogroup list
  * @{
  */
-
-#define hep_first_component ((1 << grade) - 1)
-#define hep_last_component (hep_first_component << (A::dim() - grade))
-#define hep_next_component (next_bit_permutation(component))
 
 /**
  * Returns the component list for \c grade in algebra \c A. Example:
@@ -45,30 +69,23 @@ namespace hep
  * typedef hep::list<1,2,4> result;
  * \endcode
  */
-template <typename A, int grade, int component = hep_first_component,
-	int last_component = hep_last_component>
+template <typename A, int grade>
 struct grade_to_list
 {
 	static_assert (grade <= A::dim(), "grade bigger than algebra dimension");
 
+#define first_component ((1 << grade) - 1)
+#define last_component (first_component << (A::dim() - grade))
+
 	/**
 	 * The result of this operation.
 	 */
-	typedef typename grade_to_list<A, grade, hep_next_component>::type::
-		template push_front<component>::type type;
-};
+	typedef typename grade_to_list_helper<A, grade, first_component,
+		last_component>::type type;
 
-#undef hep_next_component
-#undef hep_last_component
-#undef hep_first_component
-
-/// \cond DOXYGEN_IGNORE
-template <typename A, int grade, int component>
-struct grade_to_list<A, grade, component, component>
-{
-	typedef list<component> type;
+#undef last_component
+#undef first_component
 };
-/// \endcond
 
 /**
  * @}
