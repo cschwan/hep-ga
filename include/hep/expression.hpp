@@ -33,7 +33,7 @@ namespace hep
 template <typename A, typename L>
 class expression
 {
-	static_assert (L::size() != 0, "L does not contain any components");
+	static_assert (L::size != 0, "L does not contain any components");
 
 public:
 	/**

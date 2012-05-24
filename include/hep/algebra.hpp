@@ -49,26 +49,17 @@ struct algebra
 	/**
 	 * The number of basis-vectors squaring to \f$ +1 \f$.
 	 */
-	static constexpr int p()
-	{
-		return P;
-	}
+	static constexpr int p = P;
 
 	/**
 	 * The number of basis-vectors squaring to \f$ -1 \f$.
 	 */
-	static constexpr int q()
-	{
-		return Q;
-	}
+	static constexpr int q = Q;
 
 	/**
 	 * The number of all basis-vectors.
 	 */
-	static constexpr int dim()
-	{
-		return P + Q;
-	}
+	static constexpr int dim = P + Q;
 };
 
 }

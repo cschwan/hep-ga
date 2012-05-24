@@ -50,7 +50,7 @@ hep_inline void assignment<List>::perform(L& lhs, R const& rhs)
 {
 	// assign component with index specified in the first element of the
 	// component list L ...
-	lhs.template at<List::value()>() = rhs.template at<List::value()>();
+	lhs.template at<List::value>() = rhs.template at<List::value>();
 
 	// and make recursion with L::next
 	assignment<typename List::next>::perform(lhs, rhs);

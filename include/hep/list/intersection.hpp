@@ -50,10 +50,10 @@ struct intersection
 	/**
 	 * The result of the operation.
 	 */
-	typedef typename std::conditional<L1::value() == L2::value(),
+	typedef typename std::conditional<L1::value == L2::value,
 		typename intersection<typename L1::next, typename L2::next>::type::
-			template push_front<L1::value()>::type,
-		typename std::conditional<L1::value() < L2::value(),
+			template push_front<L1::value>::type,
+		typename std::conditional<L1::value < L2::value,
 			typename intersection<typename L1::next, L2>::type,
 			typename intersection<L1, typename L2::next>::type>::type>::type
 		type;

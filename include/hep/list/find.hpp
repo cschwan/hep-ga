@@ -27,7 +27,7 @@ namespace
 template <typename L>
 constexpr int recursive_find(int index, int at)
 {
-	return (L::value() == index) ? at : ((L::value() < index ?
+	return (L::value == index) ? at : ((L::value < index ?
 		recursive_find<typename L::next>(index, at + 1) : -1));
 }
 

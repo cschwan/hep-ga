@@ -53,12 +53,12 @@ struct merge
 	 * Result of this operation.
 	 */
 	typedef typename merge<
-		typename std::conditional<(T::value() <= S::value()),
+		typename std::conditional<(T::value <= S::value),
 			typename T::next, T>::type,
-		typename std::conditional<(T::value() < S::value()),
+		typename std::conditional<(T::value < S::value),
 			S, typename S::next>::type
-		>::type::template push_front<(T::value() < S::value()) ? T::value() :
-			S::value()>::type type;
+		>::type::template push_front<(T::value < S::value) ? T::value :
+			S::value>::type type;
 };
 
 /// \cond DOXYGEN_IGNORE
@@ -66,14 +66,14 @@ template <typename T>
 struct merge<T, list<>>
 {
 	typedef typename merge<typename T::next, list<>>::type::
-		template push_front<T::value()>::type type;
+		template push_front<T::value>::type type;
 };
 
 template <typename S>
 struct merge<list<>, S>
 {
 	typedef typename merge<list<>, typename S::next>::type::
-		template push_front<S::value()>::type type;
+		template push_front<S::value>::type type;
 };
 
 template <>

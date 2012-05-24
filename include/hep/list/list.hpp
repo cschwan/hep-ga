@@ -52,18 +52,12 @@ struct list<component, C...>
 	/**
 	 * The total number of components in this list.
 	 */
-	static constexpr int size()
-	{
-		return sizeof... (C) + 1;
-	}
+	static constexpr int size = sizeof... (C) + 1;
 
 	/**
 	 * The value of the first component in this list.
 	 */
-	static constexpr int value()
-	{
-		return component;
-	}
+	static constexpr int value = component;
 
 	/**
 	 * Adds \c new_element to the front of this list. Example:
@@ -89,10 +83,7 @@ struct list<component, C...>
 template <>
 struct list<>
 {
-	static constexpr int size()
-	{
-		return 0;
-	}
+	static constexpr int size = 0;
 
 	template <int new_component>
 	struct push_front

@@ -69,8 +69,8 @@ hep_inline typename L::algebra::scalar_type sum<List, index>::at(
 	L const& lhs,
 	R const& rhs
 ) {
-	return lhs.template at<List::value()>() *
-		rhs.template at<List::value() ^ index>() +
+	return lhs.template at<List::value>() *
+		rhs.template at<List::value ^ index>() +
 		sum<typename List::next, index>::at(lhs, rhs);
 }
 
@@ -113,8 +113,8 @@ hep_inline typename L::algebra::scalar_type subtract<hep::list<>, N, index>::at(
 template <typename A, typename L, typename R, typename P, int index, int sign>
 struct components
 {
-#define i ( L::value() )
-#define j ( L::value() ^ index )
+#define i ( L::value )
+#define j ( L::value ^ index )
 
 	typedef typename std::conditional<
 		// check if there is a component with index j in R so that i ^ j = index

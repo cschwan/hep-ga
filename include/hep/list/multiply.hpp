@@ -53,8 +53,8 @@ struct multiply
 	 * The result of this operation.
 	 */
 	typedef typename merge<
-		typename merge<typename std::conditional<Predicate::check(L::value(),
-			R::value()), list<L::value() ^ R::value()>, list<>>::type,
+		typename merge<typename std::conditional<Predicate::check(L::value,
+			R::value), list<L::value ^ R::value>, list<>>::type,
 			typename multiply<Predicate, typename L::next, R>::type>::type,
 		typename multiply<Predicate, L, typename R::next>::type
 	>::type type;

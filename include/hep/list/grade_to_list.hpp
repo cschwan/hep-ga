@@ -28,11 +28,11 @@ namespace
 template <typename A, int grade, int component, int last_component>
 struct grade_to_list_helper
 {
-	static_assert (grade <= A::dim(), "grade bigger than algebra dimension");
+	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
 #define first_component ((1 << grade) - 1)
 #define next_component (hep::next_bit_permutation(component))
-#define last_component (first_component << (A::dim() - grade))
+#define last_component (first_component << (A::dim - grade))
 
 	typedef typename grade_to_list_helper<A, grade, next_component,
 		last_component>::type::template push_front<component>::type type;
@@ -72,10 +72,10 @@ namespace hep
 template <typename A, int grade>
 struct grade_to_list
 {
-	static_assert (grade <= A::dim(), "grade bigger than algebra dimension");
+	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
 #define first_component ((1 << grade) - 1)
-#define last_component (first_component << (A::dim() - grade))
+#define last_component (first_component << (A::dim - grade))
 
 	/**
 	 * The result of this operation.

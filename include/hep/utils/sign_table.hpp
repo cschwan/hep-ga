@@ -29,11 +29,11 @@ namespace
 template <typename A, int i, int j, int loop_k, int grade>
 struct recursive_sign_table
 {
-#define k               (A::dim() - loop_k)
+#define k               (A::dim - loop_k)
 #define is_bit_set(x)   (((x) & (1 << k)) != 0)
 #define i_pop_count     (grade + (is_bit_set(i) ? -1 : 0))
 #define condition_1     (is_bit_set(j))
-#define condition_2     (is_bit_set(i) && (k >= A::p()))
+#define condition_2     (is_bit_set(i) && (k >= A::p))
 #define condition_3     (i_pop_count & 1)
 #define this_sign       ((condition_1 && (condition_2 != condition_3)) ? -1 : 1)
 
@@ -68,7 +68,7 @@ namespace hep
 template <typename A, int i, int j>
 constexpr typename A::scalar_type sign_table()
 {
-	return recursive_sign_table<A, i, j, A::dim(), pop_count(i)>::type::value;
+	return recursive_sign_table<A, i, j, A::dim, pop_count(i)>::type::value;
 }
 
 }

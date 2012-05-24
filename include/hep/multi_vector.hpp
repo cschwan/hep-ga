@@ -107,7 +107,7 @@ private:
 	 * Array storing the components of this multi-vector. The size of this array
 	 * is equal to the number of elements in \c L.
 	 */
-	typename A::scalar_type components[L::size()];
+	typename A::scalar_type components[L::size];
 };
 
 /**
