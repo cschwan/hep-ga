@@ -20,9 +20,7 @@
  */
 
 #include <hep/list/multiply.hpp>
-#include <hep/expression.hpp>
-
-#include <type_traits>
+#include <hep/binary_expression.hpp>
 
 namespace hep
 {
@@ -35,13 +33,15 @@ namespace hep
  * 
  */
 template <typename P, typename L, typename R>
-class common_product : public expression<typename L::algebra,
-	typename multiply<P, typename L::list, typename R::list>::type>
-{
-	static_assert (std::is_same<typename L::algebra, typename
-		R::algebra>::value,
-		"product of multi-vectors from different algebras requested");
+using product_list =
+	typename multiply<typename L::list, typename R::list, P>::type;
 
+/**
+ * 
+ */
+template <typename P, typename L, typename R>
+class common_product : public binary_expression<L, R, product_list<P, L, R>>
+{
 public:
 	/**
 	 * 
@@ -53,17 +53,6 @@ public:
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;
-
-private:
-	/**
-	 * Left-hand side expression.
-	 */
-	L const& lhs;
-
-	/**
-	 * Right-hand side expression.
-	 */
-	R const& rhs;
 };
 
 /**

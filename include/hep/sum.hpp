@@ -19,10 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expression.hpp>
-#include <hep/list/merge.hpp>
-
-#include <type_traits>
+#include <hep/common_sum.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -33,54 +31,25 @@ namespace hep
  */
 
 /**
- * Expression class for sums.
+ * 
  */
 template <typename L, typename R>
-class sum : public expression<typename L::algebra,
-	typename merge<typename L::list, typename R::list>::type>
-{
-	static_assert (std::is_same<typename L::algebra, typename
-		R::algebra>::value,
-		"sum of multi-vectors from different algebras requested");
-
-public:
-	/**
-	 * Constructor for a sum expression summing two expressions \c lhs and
-	 * \c rhs.
-	 */
-	sum(L const& lhs, R const& rhs);
-
-	/**
-	 * Performs the computation of the component represented by \c index.
-	 */
-	template <int index>
-	typename L::algebra::scalar_type at() const;
-
-private:
-	/**
-	 * Left-hand side expression.
-	 */
-	L const& lhs;
-
-	/**
-	 * Right-hand side expression.
-	 */
-	R const& rhs;
-};
+using sum = common_sum<false, L, R>;
 
 /**
  * Addition operator returning an expression object for the sum of expressions
  * \c lhs and \c rhs.
  */
 template <typename L, typename R>
-sum<L, R> operator+(L const& lhs, R const& rhs);
+hep_inline sum<L, R> operator+(L const& lhs, R const& rhs)
+{
+	return sum<L, R>(lhs, rhs);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/sum.hpp>
 
 #endif

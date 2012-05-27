@@ -1,11 +1,8 @@
 nobase_include_HEADERS = \
-	hep/expr/cond_difference.hpp \
-	hep/expr/cond_sum.hpp \
 	hep/impl/common_product.hpp \
-	hep/impl/difference.hpp \
+	hep/impl/common_sum.hpp \
 	hep/impl/multi_vector.hpp \
 	hep/impl/stream.hpp \
-	hep/impl/sum.hpp \
 	hep/list/find.hpp \
 	hep/list/grade_to_list.hpp \
 	hep/list/grades_to_list.hpp \
@@ -17,10 +14,12 @@ nobase_include_HEADERS = \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \
 	hep/algebra.hpp \
+	hep/binary_expression.hpp \
 	hep/blade.hpp \
 	hep/eval.hpp \
 	hep/expression.hpp \
 	hep/common_product.hpp \
+	hep/common_sum.hpp \
 	hep/difference.hpp \
 	hep/ga.hpp \
 	hep/grade.hpp \

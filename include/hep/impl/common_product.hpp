@@ -151,7 +151,7 @@ namespace hep
 
 template <typename P, typename L, typename R>
 hep_inline common_product<P, L, R>::common_product(L const& lhs, R const& rhs)
-	: lhs(lhs), rhs(rhs)
+	: binary_expression<L, R, product_list<P, L, R>>(lhs, rhs)
 {
 }
 
@@ -168,7 +168,7 @@ hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 		typename R::list, P, index, -1>::type negative;
 
 	// subtract the sum of positive components from sum of negative components
-	return subtract<positive, negative, index>::at(lhs, rhs);
+	return subtract<positive, negative, index>::at(this->lhs, this->rhs);
 }
 
 }

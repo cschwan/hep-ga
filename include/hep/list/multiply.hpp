@@ -33,7 +33,7 @@ namespace hep
  */
 
 /**
- * Performs bitwise multiplication of the elements of two list \c T and \c S.
+ * Performs bitwise multiplication of the elements of two list \c L and \c R.
  * The result is sorted in ascending order and does not contain duplicates.
  * Example:
  * \code
@@ -46,29 +46,34 @@ namespace hep
  * typedef hep::list<0, 3, 5, 6, 9, 10, 12> result;
  * \endcode
  */
-template <typename Predicate, typename L, typename R>
+template <typename L, typename R, typename P>
 struct multiply
 {
 	/**
 	 * The result of this operation.
 	 */
 	typedef typename merge<
-		typename merge<typename std::conditional<Predicate::check(L::value,
-			R::value), list<L::value ^ R::value>, list<>>::type,
-			typename multiply<Predicate, typename L::next, R>::type>::type,
-		typename multiply<Predicate, L, typename R::next>::type
+		typename merge<
+			typename std::conditional<
+				P::check(L::value, R::value),
+				list<L::value ^ R::value>,
+				list<>
+			>::type,
+			typename multiply<typename L::next, R, P>::type
+		>::type,
+		typename multiply<L, typename R::next, P>::type
 	>::type type;
 };
 
 /// \cond DOXYGEN_IGNORE
-template <typename Predicate, typename S>
-struct multiply<Predicate, list<>, S>
+template <typename R, typename P>
+struct multiply<list<>, R, P>
 {
 	typedef list<> type;
 };
 
-template <typename Predicate, typename T>
-struct multiply<Predicate, T, list<>>
+template <typename L, typename P>
+struct multiply<L, list<>, P>
 {
 	typedef list<> type;
 };

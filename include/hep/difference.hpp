@@ -19,10 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expression.hpp>
-#include <hep/list/merge.hpp>
-
-#include <type_traits>
+#include <hep/common_sum.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -33,54 +31,25 @@ namespace hep
  */
 
 /**
- * Expression class for differences.
+ * 
  */
 template <typename L, typename R>
-class difference : public expression<typename L::algebra,
-	typename merge<typename L::list, typename R::list>::type>
-{
-	static_assert (std::is_same<typename L::algebra, typename
-		R::algebra>::value,
-		"sum of multi-vectors from different algebras requested");
-
-public:
-	/**
-	 * Constructor for a difference expression subtracting expression \c lhs
-	 * from \c rhs.
-	 */
-	difference(L const& lhs, R const& rhs);
-
-	/**
-	 * Performs the computation of the component represented by \c index.
-	 */
-	template <int index>
-	typename L::algebra::scalar_type at() const;
-
-private:
-	/**
-	 * Left-hand side expression.
-	 */
-	L const& lhs;
-
-	/**
-	 * Right-hand side expression.
-	 */
-	R const& rhs;
-};
+using difference = common_sum<true, L, R>;
 
 /**
  * Addition operator returning an expression object for the sum of expressions
  * \c lhs and \c rhs.
  */
 template <typename L, typename R>
-difference<L, R> operator-(L const& lhs, R const& rhs);
+hep_inline difference<L, R> operator-(L const& lhs, R const& rhs)
+{
+	return difference<L, R>(lhs, rhs);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/difference.hpp>
 
 #endif

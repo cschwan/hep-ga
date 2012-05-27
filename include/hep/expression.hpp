@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <type_traits>
+
 namespace hep
 {
 
@@ -33,7 +35,7 @@ namespace hep
 template <typename A, typename L>
 class expression
 {
-	static_assert (L::size != 0, "L does not contain any components");
+	static_assert (L::size != 0, "expression without any components");
 
 public:
 	/**

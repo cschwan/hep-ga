@@ -1,5 +1,5 @@
-#ifndef HEP_IMPL_SUM_HPP
-#define HEP_IMPL_SUM_HPP
+#ifndef HEP_COMMON_SUM_HPP
+#define HEP_COMMON_SUM_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,38 +19,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expr/cond_sum.hpp>
-#include <hep/list/find.hpp>
-#include <hep/inline.hpp>
-#include <hep/sum.hpp>
+#include <hep/list/merge.hpp>
+#include <hep/binary_expression.hpp>
 
 namespace hep
 {
 
+/**
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * 
+ */
 template <typename L, typename R>
-hep_inline sum<L, R>::sum(L const& lhs, R const& rhs)
-	: lhs(lhs), rhs(rhs)
+using sum_list = typename merge<typename L::list, typename R::list>::type;
+
+/**
+ * 
+ */
+template <bool sign, typename L, typename R>
+class common_sum : public binary_expression<L, R, sum_list<L, R>>
 {
-}
+public:
+	/**
+	 * Constructor for a sum expression summing two expressions \c lhs and
+	 * \c rhs.
+	 */
+	common_sum(L const& lhs, R const& rhs);
 
-template <typename L, typename R>
-template <int index>
-hep_inline typename L::algebra::scalar_type sum<L, R>::at() const
-{
-	// check if lhs has component with 'index'
-	constexpr bool enable_lhs = (find<typename L::list>(index) != -1);
-	// check if rhs has component with 'index'
-	constexpr bool enable_rhs = (find<typename R::list>(index) != -1);
+	/**
+	 * Performs the computation of the component represented by \c index.
+	 */
+	template <int index>
+	typename L::algebra::scalar_type at() const;
+};
 
-	return cond_sum<enable_lhs, enable_rhs>::template at<index>(lhs, rhs);
-}
-
-template <typename L, typename R>
-hep_inline sum<L, R> operator+(L const& lhs, R const& rhs)
-{
-	return sum<L, R>(lhs, rhs);
-}
+/**
+ * @}
+ */
 
 }
+
+#include <hep/impl/common_sum.hpp>
 
 #endif
