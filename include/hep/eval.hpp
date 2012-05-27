@@ -20,6 +20,7 @@
  */
 
 #include <hep/multi_vector.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -51,14 +52,16 @@ namespace hep
  * \endcode
  */
 template <typename E>
-multi_vector<typename E::algebra, typename E::list> eval(E const& expr);
+hep_inline multi_vector<typename E::algebra, typename E::list> eval(
+	E const& expr
+) {
+	return expr;
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/eval.hpp>
 
 #endif

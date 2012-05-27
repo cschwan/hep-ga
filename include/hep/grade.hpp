@@ -19,9 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/expression.hpp>
+#include <hep/list/find.hpp>
 #include <hep/list/grades_to_list.hpp>
 #include <hep/list/intersection.hpp>
+#include <hep/expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -32,30 +34,43 @@ namespace hep
  */
 
 /**
+ * 
+ */
+template <typename E, int... grades>
+using grade_list = typename intersection<typename grades_to_list<typename
+	E::algebra, grades...>::type, typename E::list>::type;
+
+/**
  * Expression class for grade projection expressions.
  */
 template <typename E, int... grades>
 class grade_projection : public expression<typename E::algebra,
-	typename intersection<typename grades_to_list<typename E::algebra,
-	grades...>::type, typename E::list>::type>
+	grade_list<E, grades...>>
 {
 public:
 	/**
 	 * Type definition for the components contained in this expression.
 	 */
-	typedef typename intersection<typename grades_to_list<typename
-		E::algebra, grades...>::type, typename E::list>::type list;
+	typedef grade_list<E, grades...> list;
 
 	/**
 	 * Contructs a new grade projection expression for expression \c expr.
 	 */
-	grade_projection(E const& expr);
+	hep_inline grade_projection(E const& expr)
+		: expr(expr)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
-	typename E::algebra::scalar_type at() const;
+	hep_inline typename E::algebra::scalar_type at() const
+	{
+		static_assert (find<list>(index) != -1, "component does not exist");
+
+		return expr.template at<index>();
+	}
 
 private:
 	/**
@@ -68,14 +83,15 @@ private:
  * Selects components from \c expr based on the grades specified with \c grades.
  */
 template <int... grades, typename E>
-grade_projection<E, grades...> grade(E const& expr);
+hep_inline grade_projection<E, grades...> grade(E const& expr)
+{
+	return grade_projection<E, grades...>(expr);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/grade.hpp>
 
 #endif

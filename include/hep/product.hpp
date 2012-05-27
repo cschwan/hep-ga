@@ -20,8 +20,7 @@
  */
 
 #include <hep/common_product.hpp>
-
-#include <type_traits>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -62,14 +61,15 @@ using product = common_product<product_predicate, L, R>;
  * expressions \c lhs and \c rhs.
  */
 template <typename L, typename R>
-product<L, R> operator*(L const& lhs, R const& rhs);
+hep_inline product<L, R> operator*(L const& lhs, R const& rhs)
+{
+	return product<L, R>(lhs, rhs);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/product.hpp>
 
 #endif

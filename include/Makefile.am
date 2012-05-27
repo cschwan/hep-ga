@@ -1,17 +1,9 @@
 nobase_include_HEADERS = \
 	hep/expr/cond_difference.hpp \
 	hep/expr/cond_sum.hpp \
-	hep/impl/blade.hpp \
 	hep/impl/common_product.hpp \
 	hep/impl/difference.hpp \
-	hep/impl/eval.hpp \
-	hep/impl/grade.hpp \
-	hep/impl/inner_product.hpp \
 	hep/impl/multi_vector.hpp \
-	hep/impl/negation.hpp \
-	hep/impl/product.hpp \
-	hep/impl/reversion.hpp \
-	hep/impl/selection.hpp \
 	hep/impl/stream.hpp \
 	hep/impl/sum.hpp \
 	hep/list/find.hpp \

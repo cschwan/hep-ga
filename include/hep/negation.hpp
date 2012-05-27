@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/inline.hpp>
 #include <hep/expression.hpp>
 
 namespace hep
@@ -32,42 +33,49 @@ namespace hep
 /**
  * Expression class for negation.
  */
-template <typename R>
-class negation : public expression<typename R::algebra, typename R::list>
+template <typename E>
+class negation : public expression<typename E::algebra, typename E::list>
 {
 public:
 	/**
 	 * Constructs an expression changes the sign of every component of the
-	 * expression \c rhs.
+	 * expression \c expr.
 	 */
-	negation(R const& rhs);
+	hep_inline negation(E const& expr)
+		: expr(expr)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
-	typename R::algebra::scalar_type at() const;
+	hep_inline typename E::algebra::scalar_type at() const
+	{
+		return -expr.template at<index>();
+	}
 
 private:
 	/**
-	 * Right-hand side expression.
+	 * 
 	 */
-	R const& rhs;
+	E const& expr;
 };
 
 /**
  * Negation operator returning an expression object for the negative of
- * the expression \c rhs.
+ * the expression \c expr.
  */
-template <typename R>
-negation<R> operator-(R const& rhs);
+template <typename E>
+hep_inline negation<E> operator-(E const& expr)
+{
+	return negation<E>(expr);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/negation.hpp>
 
 #endif

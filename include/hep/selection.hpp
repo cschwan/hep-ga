@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/list/find.hpp>
 #include <hep/list/list.hpp>
 #include <hep/expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -40,13 +42,22 @@ public:
 	/**
 	 * Creates a new selection object based on expression \c expr.
 	 */
-	selection(E const& expr);
+	hep_inline selection(E const& expr)
+		: expr(expr)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
-	typename E::algebra::scalar_type at() const;
+	hep_inline typename E::algebra::scalar_type at() const
+	{
+		static_assert (find<list<indices...>>(index) != -1,
+			"component does not exist");
+
+		return expr.template at<index>();
+	}
 
 private:
 	/**
@@ -60,14 +71,15 @@ private:
  * returns a new expression object.
  */
 template <int... indices, typename E>
-selection<E, indices...> select(E const& expr);
+hep_inline selection<E, indices...> select(E const& expr)
+{
+	return selection<E, indices...>(expr);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/selection.hpp>
 
 #endif

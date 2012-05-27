@@ -21,6 +21,7 @@
 
 #include <hep/list/list.hpp>
 #include <hep/expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -41,7 +42,12 @@ public:
 	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
-	typename A::scalar_type at() const;
+	hep_inline typename A::scalar_type at() const
+	{
+		static_assert (index == blade_index, "component does not exist");
+
+		return 1.0;
+	}
 };
 
 /**
@@ -49,7 +55,5 @@ public:
  */
 
 }
-
-#include <hep/impl/blade.hpp>
 
 #endif

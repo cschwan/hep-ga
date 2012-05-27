@@ -19,7 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/utils/pop_count.hpp>
 #include <hep/expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -39,13 +41,25 @@ public:
 	/**
 	 * Constructor for a reversion expression reversing expression \c expr.
 	 */
-	reversion(E const& expr);
+	hep_inline reversion(E const& expr)
+		: expr(expr)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index.
 	 */
 	template <int index>
-	typename E::algebra::scalar_type at() const;
+	hep_inline typename E::algebra::scalar_type at() const
+	{
+#define grade (pop_count(index))
+#define sign ((((grade * (grade - 1)) / 2) % 2) == 1)
+
+		return sign ? -expr.template at<index>() : expr.template at<index>();
+
+#undef sign
+#undef grade
+	}
 
 private:
 	/**
@@ -59,14 +73,15 @@ private:
  * expression \c expr.
  */
 template <typename E>
-reversion<E> reverse(E const& expr);
+hep_inline reversion<E> reverse(E const& expr)
+{
+	return reversion<E>(expr);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/reversion.hpp>
 
 #endif

@@ -20,8 +20,7 @@
  */
 
 #include <hep/common_product.hpp>
-
-#include <type_traits>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -68,18 +67,19 @@ template <typename L, typename R>
 using inner_product = common_product<inner_product_predicate, L, R>;
 
 /**
- * Product operator returning an expression object for the inner product of
+ * Product function returning an expression object for the inner product of
  * expressions \c lhs and \c rhs.
  */
 template <typename L, typename R>
-inner_product<L, R> inner_prod(L const& lhs, R const& rhs);
+hep_inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
+{
+	return inner_product<L, R>(lhs, rhs);
+}
 
 /**
  * @}
  */
 
 }
-
-#include <hep/impl/inner_product.hpp>
 
 #endif
