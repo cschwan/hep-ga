@@ -22,6 +22,7 @@ nobase_include_HEADERS = \
 	hep/common_sum.hpp \
 	hep/difference.hpp \
 	hep/ga.hpp \
+	hep/ga_types.hpp \
 	hep/grade.hpp \
 	hep/inline.hpp \
 	hep/inner_product.hpp \

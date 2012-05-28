@@ -1,13 +1,8 @@
 #include <tuple>
 #include <boost/test/unit_test.hpp>
-#include <hep/list/list.hpp>
-#include <hep/algebra.hpp>
-#include <hep/multi_vector.hpp>
-#include <hep/product.hpp>
 
-// multi vector with metric (1,3) and general grade list
-template <int... C>
-using mv4 = hep::multi_vector<hep::algebra<double, 1, 3>, hep::list<C...>>;
+#include <hep/ga_types.hpp>
+#include <hep/product.hpp>
 
 BOOST_AUTO_TEST_CASE(product)
 {
