@@ -20,6 +20,7 @@ check_PROGRAMS = \
 	test_multi_vector_in_g4 \
 	test_next_bit_permutation \
 	test_negation_in_g2 \
+	test_outer_product_in_g2 \
 	test_pop_count \
 	test_reversion_in_g3 \
 	test_selection_in_g2 \

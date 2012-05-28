@@ -28,6 +28,7 @@ nobase_include_HEADERS = \
 	hep/inner_product.hpp \
 	hep/multi_vector.hpp \
 	hep/negation.hpp \
+	hep/outer_product.hpp \
 	hep/product.hpp \
 	hep/reversion.hpp \
 	hep/selection.hpp \

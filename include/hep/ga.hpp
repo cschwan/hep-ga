@@ -119,6 +119,7 @@ namespace hep {}
 #include <hep/inner_product.hpp>
 #include <hep/multi_vector.hpp>
 #include <hep/negation.hpp>
+#include <hep/outer_product.hpp>
 #include <hep/product.hpp>
 #include <hep/reversion.hpp>
 #include <hep/selection.hpp>
