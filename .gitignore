@@ -50,4 +50,4 @@ ChangeLog
 VERSION
 
 # build related files
-build/
+build*/

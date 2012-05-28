@@ -89,6 +89,9 @@ AC_SEARCH_LIBS(
     --------------------------------------------------])
 )
 
+# do not populate LIBS variable
+LIBS=
+
 # check for the corresponding header
 AC_CHECK_HEADERS(
 	[boost/test/unit_test.hpp],
