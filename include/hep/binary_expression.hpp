@@ -3,6 +3,7 @@
 
 #include <hep/expression.hpp>
 #include <hep/inline.hpp>
+#include <hep/multi_vector.hpp>
 
 #include <type_traits>
 
@@ -37,14 +38,24 @@ public:
 
 protected:
 	/**
-	 * 
+	 * Left-hand expression.
 	 */
-	L const& lhs;
+	typename std::conditional<
+		std::is_same<L, multi_vector<typename L::algebra,
+			typename L::list>>::value,
+		L const&,
+		L
+	>::type lhs;
 
 	/**
-	 * 
+	 * Right-hand expression.
 	 */
-	R const& rhs;
+	typename std::conditional<
+		std::is_same<R, multi_vector<typename R::algebra,
+			typename R::list>>::value,
+		R const&,
+		R
+	>::type rhs;
 };
 
 /**
