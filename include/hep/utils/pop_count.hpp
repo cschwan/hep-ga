@@ -23,13 +23,22 @@ namespace hep
 {
 
 /**
+ * \defgroup utils Utilities
+ * @{
+ */
+
+/**
  * Computes the number of bits set in \c bits.
  */
 constexpr unsigned pop_count(unsigned bits)
 {
-	// This is Brian Kernighan's bit count - one recursion for every bit
+	// Brian Kernighan's bit count - one recursion for every bit set to '1'
 	return (bits == 0) ? 0 : 1 + pop_count(bits & (bits - 1));
 }
+
+/**
+ * @}
+ */
 
 }
 

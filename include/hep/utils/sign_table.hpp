@@ -62,6 +62,11 @@ namespace hep
 {
 
 /**
+ * \addtogroup utils
+ * @{
+ */
+
+/**
  * Returns the sign for multiplication of components \c i and \c j of two
  * multi-vectors from algebra \c A.
  */
@@ -70,6 +75,10 @@ constexpr typename A::scalar_type sign_table()
 {
 	return recursive_sign_table<A, i, j, A::dim, pop_count(i)>::type::value;
 }
+
+/**
+ * @}
+ */
 
 }
 

@@ -23,6 +23,11 @@ namespace hep
 {
 
 /**
+ * \addtogroup utils
+ * @{
+ */
+
+/**
  * Computes the next lexicographical bit permutation with the same number of
  * bits set in \c permutation. For example, this function realizes the following
  * mapping (numbers are in binary representation):
@@ -41,6 +46,10 @@ constexpr unsigned next_bit_permutation(unsigned permutation)
 #undef t
 #undef v
 }
+
+/**
+ * @}
+ */
 
 }
 
