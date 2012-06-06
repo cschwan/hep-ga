@@ -108,8 +108,8 @@ int main()
 
 	// select vector part of a vector bilinear
 	fourvector vector = hep::grade<1>(
-		rh_spinor * gamma_0() * hep::reverse(rh_spinor) +
-		lh_spinor * gamma_0() * hep::reverse(lh_spinor)
+		rh_spinor * gamma_0() * ~rh_spinor +
+		lh_spinor * gamma_0() * ~lh_spinor
 	);
 
 	// equal to the momentum p

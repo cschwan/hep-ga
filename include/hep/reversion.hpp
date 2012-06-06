@@ -90,7 +90,7 @@ public:
  * expression \c expr.
  */
 template <typename E>
-hep_inline reversion<E> reverse(E const& expr)
+hep_inline reversion<E> operator~(E const& expr)
 {
 	return reversion<E>(expr);
 }
