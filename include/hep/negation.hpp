@@ -20,7 +20,7 @@
  */
 
 #include <hep/inline.hpp>
-#include <hep/expression.hpp>
+#include <hep/unary_expression.hpp>
 
 namespace hep
 {
@@ -31,10 +31,11 @@ namespace hep
  */
 
 /**
- * Expression class for negation.
+ * Expression class for negations.
  */
 template <typename E>
-class negation : public expression<typename E::algebra, typename E::list>
+class negation : public unary_expression<E, typename E::algebra,
+	typename E::list>
 {
 public:
 	/**
@@ -42,7 +43,7 @@ public:
 	 * expression \c expr.
 	 */
 	hep_inline negation(E const& expr)
-		: expr(expr)
+		: unary_expression<E, typename E::algebra, typename E::list>(expr)
 	{
 	}
 
@@ -52,14 +53,8 @@ public:
 	template <int index>
 	hep_inline typename E::algebra::scalar_type at() const
 	{
-		return -expr.template at<index>();
+		return -this->expr.template at<index>();
 	}
-
-private:
-	/**
-	 * 
-	 */
-	E const& expr;
 };
 
 /**

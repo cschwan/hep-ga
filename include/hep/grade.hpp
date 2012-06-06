@@ -22,8 +22,8 @@
 #include <hep/list/find.hpp>
 #include <hep/list/grades_to_list.hpp>
 #include <hep/list/intersection.hpp>
-#include <hep/expression.hpp>
 #include <hep/inline.hpp>
+#include <hep/unary_expression.hpp>
 
 namespace hep
 {
@@ -41,10 +41,10 @@ using grade_list = typename intersection<typename grades_to_list<typename
 	E::algebra, grades...>::type, typename E::list>::type;
 
 /**
- * Expression class for grade projection expressions.
+ * Expression class for grade projections.
  */
 template <typename E, int... grades>
-class grade_projection : public expression<typename E::algebra,
+class grade_projection : public unary_expression<E, typename E::algebra,
 	grade_list<E, grades...>>
 {
 public:
@@ -54,10 +54,10 @@ public:
 	typedef grade_list<E, grades...> list;
 
 	/**
-	 * Contructs a new grade projection expression for expression \c expr.
+	 * 
 	 */
 	hep_inline grade_projection(E const& expr)
-		: expr(expr)
+		: unary_expression<E, typename E::algebra, list>(expr)
 	{
 	}
 
@@ -69,14 +69,8 @@ public:
 	{
 		static_assert (find<list>(index) != -1, "component does not exist");
 
-		return expr.template at<index>();
+		return this->expr.template at<index>();
 	}
-
-private:
-	/**
-	 * The expression which should be projected.
-	 */
-	E const& expr;
 };
 
 /**

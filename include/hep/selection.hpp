@@ -21,8 +21,8 @@
 
 #include <hep/list/find.hpp>
 #include <hep/list/list.hpp>
-#include <hep/expression.hpp>
 #include <hep/inline.hpp>
+#include <hep/unary_expression.hpp>
 
 namespace hep
 {
@@ -36,14 +36,15 @@ namespace hep
  * Expression class for selection of specific components.
  */
 template <typename E, int... indices>
-class selection : public expression<typename E::algebra, list<indices...>>
+class selection : public unary_expression<E, typename E::algebra,
+	list<indices...>>
 {
 public:
 	/**
 	 * Creates a new selection object based on expression \c expr.
 	 */
 	hep_inline selection(E const& expr)
-		: expr(expr)
+		: unary_expression<E, typename E::algebra, list<indices...>>(expr)
 	{
 	}
 
@@ -56,14 +57,8 @@ public:
 		static_assert (find<list<indices...>>(index) != -1,
 			"component does not exist");
 
-		return expr.template at<index>();
+		return this->expr.template at<index>();
 	}
-
-private:
-	/**
-	 * The expression from which selection happens.
-	 */
-	E const& expr;
 };
 
 /**

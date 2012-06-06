@@ -20,8 +20,33 @@
  */
 
 #include <hep/utils/pop_count.hpp>
-#include <hep/expression.hpp>
 #include <hep/inline.hpp>
+#include <hep/unary_expression.hpp>
+
+namespace
+{
+
+template <bool>
+struct sign
+{
+	template <typename T>
+	static hep_inline T get(T const& value)
+	{
+		return value;
+	}
+};
+
+template <>
+struct sign<true>
+{
+	template <typename T>
+	static hep_inline T get(T const& value)
+	{
+		return -value;
+	}
+};
+
+}
 
 namespace hep
 {
@@ -32,17 +57,18 @@ namespace hep
  */
 
 /**
- * Expression class for reversion.
+ * Expression class for reversions.
  */
 template <typename E>
-class reversion : public expression<typename E::algebra, typename E::list>
+class reversion : public unary_expression<E, typename E::algebra,
+	typename E::list>
 {
 public:
 	/**
 	 * Constructor for a reversion expression reversing expression \c expr.
 	 */
 	hep_inline reversion(E const& expr)
-		: expr(expr)
+		: unary_expression<E, typename E::algebra, typename E::list>(expr)
 	{
 	}
 
@@ -52,20 +78,11 @@ public:
 	template <int index>
 	hep_inline typename E::algebra::scalar_type at() const
 	{
-#define grade (pop_count(index))
-#define sign ((((grade * (grade - 1)) / 2) % 2) == 1)
+		constexpr int grade = pop_count(index);
+		constexpr bool value = (((grade * (grade - 1)) / 2) % 2) == 1;
 
-		return sign ? -expr.template at<index>() : expr.template at<index>();
-
-#undef sign
-#undef grade
+		return sign<value>::get(this->expr.template at<index>());
 	}
-
-private:
-	/**
-	 * The expression which is reversed.
-	 */
-	E const& expr;
 };
 
 /**
