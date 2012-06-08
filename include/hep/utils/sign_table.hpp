@@ -26,34 +26,25 @@
 namespace
 {
 
-template <typename A, int i, int j, int loop_k, int grade>
-struct recursive_sign_table
+template <typename A>
+constexpr int sign_table(int i, int j, int k, int grade)
 {
-#define k               (A::dim - loop_k)
-#define is_bit_set(x)   (((x) & (1 << k)) != 0)
-#define i_pop_count     (grade + (is_bit_set(i) ? -1 : 0))
-#define condition_1     (is_bit_set(j))
-#define condition_2     (is_bit_set(i) && (k >= A::p))
-#define condition_3     (i_pop_count & 1)
+#define kth_bit_set(x)  (((x) & (1 << k)) != 0)
+#define pop_count_i     (grade + (kth_bit_set(i) ? -1 : 0))
+#define condition_1     (kth_bit_set(j))
+#define condition_2     (kth_bit_set(i) && (k >= A::p))
+#define condition_3     (pop_count_i & 1)
 #define this_sign       ((condition_1 && (condition_2 != condition_3)) ? -1 : 1)
 
-	typedef std::integral_constant<int, this_sign *
-		recursive_sign_table<A, i, j, loop_k - 1, i_pop_count>::type::value>
-		type;
+	return (k == A::dim) ? 1 : this_sign *
+		sign_table<A>(i, j, k + 1, pop_count_i);
 
 #undef this_sign
 #undef condition_3
 #undef condition_2
 #undef condition_1
-#undef i_pop_count
-#undef is_bit_set
-#undef k
-};
-
-template <typename A, int i, int j, int grade>
-struct recursive_sign_table<A, i, j, 0, grade>
-{
-	typedef std::integral_constant<int, 1> type;
+#undef pop_count_i
+#undef kth_bit_set
 };
 
 }
@@ -71,9 +62,11 @@ namespace hep
  * multi-vectors from algebra \c A.
  */
 template <typename A, int i, int j>
-constexpr typename A::scalar_type sign_table()
+constexpr int sign_table()
 {
-	return recursive_sign_table<A, i, j, A::dim, pop_count(i)>::type::value;
+	// wrapping with std::integral_constant forces compile-time evaluation
+	return std::integral_constant<int,
+		::sign_table<A>(i, j, 0, pop_count(i))>::value;
 }
 
 /**
