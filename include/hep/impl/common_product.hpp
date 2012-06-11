@@ -32,83 +32,63 @@ template <typename List, int index>
 struct sum
 {
 	template <typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+	hep_inline static typename L::algebra::scalar_type at(
+		L const& lhs,
+		R const& rhs
+	) {
+		return lhs.template at<List::value>() *
+			rhs.template at<List::value ^ index>() +
+			sum<typename List::next, index>::at(lhs, rhs);
+	}
 };
 
 template <int element, int index>
 struct sum<hep::list<element>, index>
 {
 	template <typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+	hep_inline static typename L::algebra::scalar_type at(
+		L const& lhs,
+		R const& rhs
+	) {
+		return lhs.template at<element>() * rhs.template at<element ^ index>();
+	}
 };
 
 template <typename P, typename N, int index>
-struct subtract
+struct difference
 {
 	template <typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+	hep_inline static typename L::algebra::scalar_type at(
+		L const& lhs,
+		R const& rhs
+	) {
+		return sum<P, index>::at(lhs, rhs) - sum<N, index>::at(lhs, rhs);
+	}
 };
 
 template <typename P, int index>
-struct subtract<P, hep::list<>, index>
+struct difference<P, hep::list<>, index>
 {
 	template <typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+	hep_inline static typename L::algebra::scalar_type at(
+		L const& lhs,
+		R const& rhs
+	) {
+		return sum<P, index>::at(lhs, rhs);
+	}
 };
 
 template <typename N, int index>
-struct subtract<hep::list<>, N, index>
+struct difference<hep::list<>, N, index>
 {
 	template <typename L, typename R>
-	static typename L::algebra::scalar_type at(L const& lhs, R const& rhs);
+	hep_inline static typename L::algebra::scalar_type at(
+		L const& lhs,
+		R const& rhs
+	) {
+		return -sum<N, index>::at(lhs, rhs);
+	}
 };
-
-template <typename List, int index>
-template <typename L, typename R>
-hep_inline typename L::algebra::scalar_type sum<List, index>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return lhs.template at<List::value>() *
-		rhs.template at<List::value ^ index>() +
-		sum<typename List::next, index>::at(lhs, rhs);
-}
-
-template <int element, int index>
-template <typename L, typename R>
-hep_inline typename L::algebra::scalar_type sum<hep::list<element>, index>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return lhs.template at<element>() * rhs.template at<element ^ index>();
-}
-
-template <typename P, typename N, int index>
-template <typename L, typename R>
-hep_inline typename L::algebra::scalar_type subtract<P, N, index>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return sum<P, index>::at(lhs, rhs) - sum<N, index>::at(lhs, rhs);
-}
-
-template <typename P, int index>
-template <typename L, typename R>
-hep_inline typename L::algebra::scalar_type subtract<P, hep::list<>, index>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return sum<P, index>::at(lhs, rhs);
-}
-
-template <typename N, int index>
-template <typename L, typename R>
-hep_inline typename L::algebra::scalar_type subtract<hep::list<>, N, index>::at(
-	L const& lhs,
-	R const& rhs
-) {
-	return -sum<N, index>::at(lhs, rhs);
-}
 
 template <typename A, typename L, typename R, typename P, int index, int sign>
 struct components
@@ -168,7 +148,7 @@ hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 		typename R::list, P, index, -1>::type negative;
 
 	// subtract the sum of positive components from sum of negative components
-	return subtract<positive, negative, index>::at(this->lhs, this->rhs);
+	return ::difference<positive, negative, index>::at(this->lhs, this->rhs);
 }
 
 }

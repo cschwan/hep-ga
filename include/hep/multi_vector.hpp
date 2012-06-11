@@ -19,7 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/list/find.hpp>
 #include <hep/expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -62,7 +64,10 @@ public:
 	 * \param components Components of the multi-vector
 	 */
 	template <typename ... Args>
-	multi_vector(Args ... components);
+	multi_vector(Args ... components)
+		: components{components...}
+	{
+	}
 
 	/**
 	 * Component-constructor. This initializes the first component with \c value
@@ -70,7 +75,10 @@ public:
 	 * constructor is to prevent the expression-contructor which would yield in
 	 * a compiler error.
 	 */
-	multi_vector(typename A::scalar_type const& value);
+	multi_vector(typename A::scalar_type const& value)
+		: components{value}
+	{
+	}
 
 	/**
 	 * Expression-constructor.
@@ -81,26 +89,40 @@ public:
 	/**
 	 * Read-/Write-access operator.
 	 */
-	typename A::scalar_type& operator[](unsigned at);
+	typename A::scalar_type& operator[](unsigned at)
+	{
+		return components[at];
+	}
 
 	/**
 	 * Read-access operator.
 	 */
-	typename A::scalar_type const& operator[](unsigned at) const;
+	typename A::scalar_type const& operator[](unsigned at) const
+	{
+		return components[at];
+	}
 
 	/**
 	 * Literal-index read-access operator. This member function is primarily
 	 * intended for use with expression templates in this library.
 	 */
 	template <int index>
-	typename A::scalar_type const& at() const;
+	hep_inline typename A::scalar_type const& at() const
+	{
+		static_assert (find<L>(index) != -1, "component does not exist");
+		return components[find<L>(index)];
+	}
 
 	/**
 	 * Literal-index read-/write-access operator. This member function is
 	 * primarily intended for use with expression templates in this library.
 	 */
 	template <int index>
-	typename A::scalar_type& at();
+	hep_inline typename A::scalar_type& at()
+	{
+		static_assert (find<L>(index) != -1, "component does not exist");
+		return components[find<L>(index)];
+	}
 
 private:
 	/**
