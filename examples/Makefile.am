@@ -2,4 +2,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 
 AM_DEFAULT_SOURCE_EXT = .cpp
 
-noinst_PROGRAMS = spinors
+noinst_PROGRAMS = \
+	eval \
+	mainpage \
+	spinors

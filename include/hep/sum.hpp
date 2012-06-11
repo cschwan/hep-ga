@@ -31,7 +31,7 @@ namespace hep
  */
 
 /**
- * 
+ * Type definition for the result of adding expression of type \c L to \c R.
  */
 template <typename L, typename R>
 using sum = common_sum<false, L, R>;

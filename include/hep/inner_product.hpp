@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/utils/pop_count.hpp>
 #include <hep/common_product.hpp>
 #include <hep/inline.hpp>
 
@@ -26,49 +27,45 @@ namespace hep
 {
 
 /**
+ * \internal
+ */
+struct inner_product_predicate
+{
+	static constexpr bool check(int lhs, int rhs)
+	{
+#define grade_lhs hep::pop_count(lhs)
+#define grade_rhs hep::pop_count(rhs)
+#define grade_result hep::pop_count(lhs ^ rhs)
+
+		// check if resultant grade is the smallest possible one
+		return grade_result == ((grade_lhs > grade_rhs) ?
+			(grade_lhs - grade_rhs) : (grade_rhs - grade_lhs));
+
+#undef grade_result
+#undef grade_rhs
+#undef grade_lhs
+	}
+};
+
+/**
  * \addtogroup expressions
  * @{
  */
 
 /**
- * Predicate for inner products, see inner_prod().
- */
-struct inner_product_predicate
-{
-	/**
-	 * Checks if for two expressions \c l and \c r the combination of
-	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the inner product.
-	 */
-	static constexpr bool check(int lhs, int rhs)
-	{
-#define hep_grade_lhs pop_count(lhs)
-#define hep_grade_rhs pop_count(rhs)
-#define hep_grade_result pop_count(lhs ^ rhs)
-
-		// check if resultant grade is the smallest possible one
-		return hep_grade_result == ((hep_grade_lhs > hep_grade_rhs) ?
-			(hep_grade_lhs - hep_grade_rhs) : (hep_grade_rhs - hep_grade_lhs));
-
-#undef hep_grade_result
-#undef hep_grade_rhs
-#undef hep_grade_lhs
-	}
-};
-
-/**
- * Expression class for inner products. For blades \f$ A_n \f$ and \f$ B_m \f$
- * of grade \f$ n, m \f$ the inner product is defined as
- * \f[
- *     A_n \cdot B_m = \left< A_n B_m \right>_{|n - m|}
- * \f]
- * i.e. it is the lowest grade element of the geometric product.
+ * Expression class for inner products.
  */
 template <typename L, typename R>
 using inner_product = common_product<inner_product_predicate, L, R>;
 
 /**
- * Product function returning an expression object for the inner product of
- * expressions \c lhs and \c rhs.
+ * Function returning an expression object for the inner product of expressions
+ * \c lhs and \c rhs. For blades \f$ A_n \f$ and \f$ B_m \f$ of grade \f$ n,
+ * m \f$ the inner product is defined as
+ * \f[
+ *     A_n \cdot B_m = \left\langle A_n B_m \right\rangle_{|n - m|}
+ * \f]
+ * i.e. it is the lowest grade element of the geometric product.
  */
 template <typename L, typename R>
 hep_inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)

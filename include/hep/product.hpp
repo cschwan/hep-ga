@@ -26,39 +26,39 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
- * Predicate for geometric products, see operator*().
+ * \internal
  */
 struct product_predicate
 {
-	/**
-	 * Checks if for two expressions \c l and \c r the combination of
-	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the geometric product.
-	 */
 	static constexpr bool check(int, int)
 	{
+		// include every possible component
 		return true;
 	}
 };
 
 /**
- * Expression class for geometric products. The geometric product for two blades
- * \f$ A_n \f$ and \f$ B_m \f$ is written as \f$ A_n B_m \f$ and is computed
- * component-wise by making use of of the contraction rule for basis vectors.
- * For example, the geometric products of two vectors \f$ \gamma_1, \gamma_2
- * \in \mathcal{G}_{3,0} \f$ is: \f$ \gamma_1 \gamma_2 = \gamma_1 \wedge
- * \gamma_2 \f$.
+ * \addtogroup expressions
+ * @{
+ */
+
+/**
+ * Expression class for geometric products.
  */
 template <typename L, typename R>
 using product = common_product<product_predicate, L, R>;
 
 /**
- * Product operator returning an expression object for the geometric product of
- * expressions \c lhs and \c rhs.
+ * Operator returning an expression object for the geometric product of
+ * expressions \c lhs and \c rhs. The geometric product for two blades \f$ A_n
+ * \f$ and \f$ B_m \f$ is written as \f$ A_n B_m \f$ and is computed
+ * component-wise by making use of of the contraction rule for basis vectors.
+ * For example, the geometric products of two vectors \f$ e_1, e_2 \in
+ * \mathcal{G}(1,1) \f$ are:
+ *   - \f$ e_1 e_2 = e_1 \wedge e_2 \f$
+ *   - \f$ e_2 e_1 = - e_1 \wedge e_2 \f$
+ *   - \f$ e_1 e_1 = 1 \f$
+ *   - \f$ e_2 e_2 = -1 \f$
  */
 template <typename L, typename R>
 hep_inline product<L, R> operator*(L const& lhs, R const& rhs)

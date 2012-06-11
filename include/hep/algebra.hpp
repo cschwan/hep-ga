@@ -23,9 +23,9 @@ namespace hep
 {
 
 /**
- * Class representing a specific geometric algebra \f$ \mathcal{G}_{p,q} \f$.
- * \c P determines the number of basis-vectors \f$ e_i \f$ squaring to \f$ +1
- * \f$, \c Q the number of basis-vectors squaring to \f$ -1 \f$:
+ * Class representing the geometric algebra \f$ \mathcal{G}(p,q) \f$. \c P
+ * determines the number of basis-vectors \f$ e_i \f$ squaring to \f$ +1 \f$,
+ * \c Q the number of basis-vectors squaring to \f$ -1 \f$:
  * \f[
  *     e_i^2 = \begin{cases}
  *                 +1 \quad \forall \; 0 \le i < p \\
@@ -34,9 +34,21 @@ namespace hep
  * \f]
  * \c T is the type which is used for numerical operations. \c T does not
  * neccessarily need to be an intrinsic type like \c float or \c double, but it
- * has to support the multiplication, division, addition and subtraction
- * operator. It must also be possible to convert a \c double literal to
- * \c T, i.e. expressions like <tt>T(0.0)</tt>, <tt>T(1.0)</tt> must be valid.
+ * has to support multiplication, division, addition and subtraction. It must
+ * also be possible to convert a \c double literal to \c T, i.e. expressions
+ * like <tt>T(0.0)</tt>, <tt>T(1.0)</tt> must be valid.
+ *
+ * Examples for common algebras are:
+ * \code
+ * // Geometric Algebra for the euclidean (2 dimensional) plane
+ * typedef hep::algebra<double, 2, 0> eucl_2d;
+ *
+ * // Geometric Algebra for the euclidean (3 dimensional) space
+ * typedef hep::algebra<double, 3, 0> eucl_3d;
+ *
+ * // Space Time Algebra with signature (+,-,-,-)
+ * typedef hep::algebra<double, 1, 3> sta;
+ * \endcode
  */
 template <typename T, int P, int Q>
 struct algebra
@@ -47,17 +59,19 @@ struct algebra
 	typedef T scalar_type;
 
 	/**
-	 * The number of basis-vectors squaring to \f$ +1 \f$.
+	 * The number of basis-vectors \f$ e_i \f$ with \f$ 0 \le i < p \f$ squaring
+	 * to \f$ +1 \f$.
 	 */
 	static constexpr int p = P;
 
 	/**
-	 * The number of basis-vectors squaring to \f$ -1 \f$.
+	 * The number of basis-vectors \f$ e_i \f$ with \f$ 0 \le i < p \f$ squaring
+	 * to \f$ -1 \f$.
 	 */
 	static constexpr int q = Q;
 
 	/**
-	 * The number of all basis-vectors.
+	 * The dimension of the algebra, i.e. the number of all basis-vectors.
 	 */
 	static constexpr int dim = P + Q;
 };

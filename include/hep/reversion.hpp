@@ -65,7 +65,7 @@ class reversion : public unary_expression<E, typename E::algebra,
 {
 public:
 	/**
-	 * Constructor for a reversion expression reversing expression \c expr.
+	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline reversion(E const& expr)
 		: unary_expression<E, typename E::algebra, typename E::list>(expr)

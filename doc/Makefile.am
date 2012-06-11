@@ -1,6 +1,5 @@
 doxygen-files: Doxyfile references.bib $(top_builddir)/include/stamp-headers
 	$(DOXYGEN) Doxyfile
-	-rm html/installdox
 	tar cf html.tar html/
 	tar tf html.tar > doxygen-files
 

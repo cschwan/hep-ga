@@ -54,7 +54,7 @@ public:
 	typedef grade_list<E, grades...> list;
 
 	/**
-	 * 
+	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline grade_projection(E const& expr)
 		: unary_expression<E, typename E::algebra, list>(expr)

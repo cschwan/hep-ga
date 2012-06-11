@@ -30,7 +30,7 @@ namespace hep
  */
 
 /**
- * Base-class for all expressions.
+ * Base-class for all expressions with algebra \c A and component list \c L.
  */
 template <typename A, typename L>
 class expression
@@ -39,7 +39,7 @@ class expression
 
 public:
 	/**
-	 * Algebra of the expression.
+	 * The algebra of the expression.
 	 */
 	typedef A algebra;
 

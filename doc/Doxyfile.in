@@ -1,5 +1,5 @@
 CITE_BIB_FILES         = @srcdir@/references.bib
-ENABLE_PREPROCESSING   = NO
+ENABLE_PREPROCESSING   = YES
 EXAMPLE_PATH           = @top_srcdir@/examples
 EXTRACT_ALL            = YES
 GENERATE_HTML          = YES

@@ -31,26 +31,28 @@ namespace hep
  */
 
 /**
- * 
+ * List containing the components for the sum/difference of subexpressions of
+ * type \c L and \c R.
  */
 template <typename L, typename R>
 using sum_list = typename merge<typename L::list, typename R::list>::type;
 
 /**
- * 
+ * Parent class for sum of difference of two subexpressions of type \c L and
+ * \c R. \c sign determines wether the components should subtracted or summed.
  */
 template <bool sign, typename L, typename R>
 class common_sum : public binary_expression<L, R, sum_list<L, R>>
 {
 public:
 	/**
-	 * Constructor for a sum expression summing two expressions \c lhs and
-	 * \c rhs.
+	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	common_sum(L const& lhs, R const& rhs);
 
 	/**
-	 * Performs the computation of the component represented by \c index.
+	 * Performs the computation of the component represented by \c index and
+	 * returns it.
 	 */
 	template <int index>
 	typename L::algebra::scalar_type at() const;

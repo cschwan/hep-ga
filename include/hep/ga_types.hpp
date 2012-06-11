@@ -24,18 +24,27 @@
 		HEP_ALGEBRA_Q \
 	>
 
+/**
+ * 
+ */
 template <int... components>
 using mv2 = hep::multi_vector<
 	hep::algebra<HEP_ALGEBRA_SCALAR_TYPE, 2, 0>,
 	hep::list<components...>
 >;
 
+/**
+ * 
+ */
 template <int... components>
 using mv3 = hep::multi_vector<
 	hep::algebra<HEP_ALGEBRA_SCALAR_TYPE, 3, 0>,
 	hep::list<components...>
 >;
 
+/**
+ * 
+ */
 template <int... components>
 using mv4 = hep::multi_vector<
 	hep::algebra<HEP_ALGEBRA_SCALAR_TYPE, 1, 3>,

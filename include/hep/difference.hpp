@@ -31,14 +31,15 @@ namespace hep
  */
 
 /**
- * 
+ * Type definition for the result of subtracting expression of type \c R from
+ * \c L.
  */
 template <typename L, typename R>
 using difference = common_sum<true, L, R>;
 
 /**
- * Addition operator returning an expression object for the sum of expressions
- * \c lhs and \c rhs.
+ * Difference operator returning an expression object for the difference of
+ * expressions \c lhs and \c rhs.
  */
 template <typename L, typename R>
 hep_inline difference<L, R> operator-(L const& lhs, R const& rhs)

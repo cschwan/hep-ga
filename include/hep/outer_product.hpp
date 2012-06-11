@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/utils/pop_count.hpp>
 #include <hep/common_product.hpp>
 #include <hep/inline.hpp>
 
@@ -26,40 +27,37 @@ namespace hep
 {
 
 /**
+ * \internal
+ */
+struct outer_product_predicate
+{
+	static constexpr bool check(int lhs, int rhs)
+	{
+		// check if resulting grade is the biggest possible one
+		return hep::pop_count(lhs ^ rhs) == 
+			(hep::pop_count(lhs) + hep::pop_count(rhs));
+	}
+};
+
+/**
  * \addtogroup expressions
  * @{
  */
 
 /**
- * Predicate for inner products, see inner_prod().
- */
-struct outer_product_predicate
-{
-	/**
-	 * Checks if for two expressions \c l and \c r the combination of
-	 * <tt>l.at(lhs) * r.at(rhs)</tt> contributes to the outer product.
-	 */
-	static constexpr bool check(int lhs, int rhs)
-	{
-		// check if resultant grade is the biggest possible one
-		return pop_count(lhs ^ rhs) == (pop_count(lhs) + pop_count(rhs));
-	}
-};
-
-/**
- * Expression class for outer products. For blades \f$ A_n \f$ and \f$ B_m \f$
- * of grade \f$ n, m \f$ the outer product is defined as
- * \f[
- *     A_n \wedge B_m = \left< A_n B_m \right>_{n + m}
- * \f]
- * i.e. it is the biggest grade element of the geometric product.
+ * Expression class for outer products.
  */
 template <typename L, typename R>
 using outer_product = common_product<outer_product_predicate, L, R>;
 
 /**
- * Product operator returning an expression object for the outer product of
- * expressions \c lhs and \c rhs.
+ * Operator returning an expression object for the outer product of expressions
+ * \c lhs and \c rhs. For blades \f$ A_n \f$ and \f$ B_m \f$ of grade \f$ n, m
+ * \f$ the outer product is defined as
+ * \f[
+ *     A_n \wedge B_m = \left< A_n B_m \right>_{n + m}
+ * \f]
+ * i.e. it is the biggest grade element of the geometric product.
  */
 template <typename L, typename R>
 hep_inline outer_product<L, R> operator^(L const& lhs, R const& rhs)

@@ -31,11 +31,11 @@ namespace hep
 
 /**
  * An implementation for multi-vectors of a geometric algebra represented by
- * \c A which must be of type hep::algebra. The template parameter \c L must be
- * a hep::list and is used to specify the components which should be included
+ * \c A which must be of type \ref algebra. The template parameter \c L must be
+ * a \ref list and is used to specify the components which should be included
  * in this multi_vector. This list also specifies the order of components. For
  * example, the following type includes the scalar component and the bivector
- * component of a multi-vector in \f$ \mathcal{G}_{2,0} \f$:
+ * component of a multi-vector in \f$ \mathcal{G}(2,0) \f$:
  * \code
  * typedef hep::algebra<float, 2, 0> euclidean_plane;
  * typedef hep::list<0, 3> scalar_bivector;
@@ -54,10 +54,10 @@ class multi_vector : public expression<A, L>
 public:
 	/**
 	 * Constructor. This constructor is used to initialize all of the
-	 * multi-vector's components. Note that unspecified components will be
-	 * default-initialized (i.e. to zero for built-in types). Furthmore note
+	 * multi_vector's components. Note that unspecified components will be
+	 * default-initialized (i.e. to zero for built-in types). Furthermore note
 	 * that you have to specify the components in one-to-one correspondence
-	 * with the component-list. See class documentation for examples.
+	 * with the component-list. See class documentation for an example.
 	 * 
 	 * \param components Components of the multi-vector
 	 */

@@ -39,8 +39,7 @@ class negation : public unary_expression<E, typename E::algebra,
 {
 public:
 	/**
-	 * Constructs an expression changes the sign of every component of the
-	 * expression \c expr.
+	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline negation(E const& expr)
 		: unary_expression<E, typename E::algebra, typename E::list>(expr)

@@ -34,7 +34,14 @@
 #define hep_inline __forceinline
 
 #else
+
+#warning compiler not supported - inlining will most likely not work
+
+/**
+ * Keyword forcing the compiler to inline.
+ */
 #define hep_inline inline
+
 #endif
 
 #endif

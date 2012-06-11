@@ -16,7 +16,9 @@ namespace hep
  */
 
 /**
- * 
+ * Parent class for all expressions involving two subexpressions. The
+ * left-hand subexpression is of type \c L and the right-hand expression of type
+ * \c R. The combined expression contains components specified with \c List.
  */
 template <typename L, typename R, typename List>
 class binary_expression : public expression<typename L::algebra, List>
@@ -28,7 +30,8 @@ class binary_expression : public expression<typename L::algebra, List>
 
 public:
 	/**
-	 * 
+	 * Constructor. This sets the left- and right-hand subexpressions \c lhs and
+	 * \c rhs.
 	 */
 	hep_inline binary_expression(L const& lhs, R const& rhs)
 		: lhs(lhs)

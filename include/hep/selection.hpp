@@ -41,7 +41,7 @@ class selection : public unary_expression<E, typename E::algebra,
 {
 public:
 	/**
-	 * Creates a new selection object based on expression \c expr.
+	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline selection(E const& expr)
 		: unary_expression<E, typename E::algebra, list<indices...>>(expr)

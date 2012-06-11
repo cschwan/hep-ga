@@ -27,59 +27,37 @@ namespace hep
  * @{
  */
 
-/// \cond DOXYGEN_IGNORE
-template <int... C>
-struct list;
-/// \endcond
-
 /**
- * A list for components contained in a hep::multi_vector. The indices of the
- * desired components have to be specified as a type definition, for example:
+ * A list for components contained in an \ref expression, e.g. a
+ * \ref multi_vector. The indices of the desired components have to be given as
+ * a type definition, for example:
  * \code
  * typedef hep::list<1, 2, 4, 8> vectors;
  * \endcode
- * Note that you have to specify the components always in ascending order.
+ * \b Note: You always have to specify the components in \em ascending order!
  */
+template <int... C>
+struct list
+{
+};
+
+/// \cond DOXYGEN_IGNORE
 template <int component, int... C>
 struct list<component, C...>
 {
-	/**
-	 * Type definition for internal use to iterate over the components in the
-	 * list.
-	 */
 	typedef list<C...> next;
 
-	/**
-	 * The total number of components in this list.
-	 */
 	static constexpr int size = sizeof... (C) + 1;
 
-	/**
-	 * The value of the first component in this list.
-	 */
 	static constexpr int value = component;
 
-	/**
-	 * Adds \c new_element to the front of this list. Example:
-	 * \code
-	 * typedef hep::list<1, 2>::push_front<0>::type result;
-	 * \endcode
-	 * This will define a new type which is identical to
-	 * \code
-	 * typedef hep::list<0, 1, 2> result;
-	 * \endcode
-	 */
 	template <int new_component>
 	struct push_front
 	{
-		/**
-		 * Result of this operation.
-		 */
 		typedef list<new_component, component, C...> type;
 	};
 };
 
-/// \cond DOXYGEN_IGNORE
 template <>
 struct list<>
 {
