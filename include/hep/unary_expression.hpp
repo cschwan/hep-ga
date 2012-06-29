@@ -2,8 +2,8 @@
 #define HEP_UNARY_EXPRESSION_HPP
 
 #include <hep/expression.hpp>
+#include <hep/expression_ref.hpp>
 #include <hep/inline.hpp>
-#include <hep/multi_vector.hpp>
 
 #include <type_traits>
 
@@ -16,14 +16,16 @@ namespace hep
  */
 
 /**
- * Parent class for unary expressions.
+ * Parent class for all unary operations. The operand of type \c E must be an
+ * \ref expression. The component list \c L of the resultant expression must be
+ * a \ref list.
  */
-template <typename E, typename A, typename L>
-class unary_expression : public expression<A, L>
+template <typename E, typename L>
+class unary_expression : public expression<typename E::algebra, L>
 {
 public:
 	/**
-	 * Constructor.
+	 * Constructor. This sets the operand \c expr.
 	 */
 	hep_inline unary_expression(E const& expr)
 		: expr(expr)
@@ -32,10 +34,9 @@ public:
 
 protected:
 	/**
-	 * The expression.
+	 * The operand of this expression.
 	 */
-	typename std::conditional<
-		std::is_same<E, multi_vector<A, L>>::value, E const&, E>::type expr;
+	expression_ref<E> expr;
 };
 
 /**

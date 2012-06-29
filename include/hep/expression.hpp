@@ -19,8 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <type_traits>
-
 namespace hep
 {
 
@@ -31,6 +29,30 @@ namespace hep
 
 /**
  * Base-class for all expressions with algebra \c A and component list \c L.
+ * \c A must be an \ref algebra, \c L must be a \ref list. Inheriting classes
+ * are valid expressions if the following member function is implemented:
+ * \code
+ * template <int index>
+ * typename L::algebra::scalar_type at() const;
+ * \endcode
+ * The definition of \c at must also be inlined with \c hep_inline:
+ * \code
+ * template <int index>
+ * hep_inline typename L::algebra::scalar_type at() const
+ * {
+ *     // ...
+ * }
+ * \endcode
+ *
+ * The function \c at is used to evaluate the expression for the component
+ * specified with \c index. If the expression is a composed one, i.e. \c at
+ * calls \c at from another another expression-object, and it limits the range
+ * of valid components (e.g. a grade operator) it is responsible for checking if
+ * \c index is valid. This in turn has to be done with
+ * \code
+ * static_cast (is_valid(index), "component does not exist");
+ * \endcode
+ * inside \c at.
  */
 template <typename A, typename L>
 class expression

@@ -2,8 +2,8 @@
 #define HEP_BINARY_EXPRESSION_HPP
 
 #include <hep/expression.hpp>
+#include <hep/expression_ref.hpp>
 #include <hep/inline.hpp>
-#include <hep/multi_vector.hpp>
 
 #include <type_traits>
 
@@ -16,9 +16,9 @@ namespace hep
  */
 
 /**
- * Parent class for all expressions involving two subexpressions. The
- * left-hand subexpression is of type \c L and the right-hand expression of type
- * \c R. The combined expression contains components specified with \c List.
+ * Parent class for all binary operations. Both the left-hand operand of type
+ * \c L and the right-hand operand of type \c R must be an \ref expression. The
+ * component list \c List of the resultant expression must be a \ref list.
  */
 template <typename L, typename R, typename List>
 class binary_expression : public expression<typename L::algebra, List>
@@ -30,7 +30,7 @@ class binary_expression : public expression<typename L::algebra, List>
 
 public:
 	/**
-	 * Constructor. This sets the left- and right-hand subexpressions \c lhs and
+	 * Constructor. This sets the left- and right-hand operands \c lhs and
 	 * \c rhs.
 	 */
 	hep_inline binary_expression(L const& lhs, R const& rhs)
@@ -41,24 +41,14 @@ public:
 
 protected:
 	/**
-	 * Left-hand expression.
+	 * Left-hand operand of this expression.
 	 */
-	typename std::conditional<
-		std::is_same<L, multi_vector<typename L::algebra,
-			typename L::list>>::value,
-		L const&,
-		L
-	>::type lhs;
+	expression_ref<L> lhs;
 
 	/**
-	 * Right-hand expression.
+	 * Right-hand operand of this expression.
 	 */
-	typename std::conditional<
-		std::is_same<R, multi_vector<typename R::algebra,
-			typename R::list>>::value,
-		R const&,
-		R
-	>::type rhs;
+	expression_ref<R> rhs;
 };
 
 /**

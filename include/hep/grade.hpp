@@ -44,8 +44,7 @@ using grade_list = typename intersection<typename grades_to_list<typename
  * Expression class for grade projections.
  */
 template <typename E, int... grades>
-class grade_projection : public unary_expression<E, typename E::algebra,
-	grade_list<E, grades...>>
+class grade_projection : public unary_expression<E, grade_list<E, grades...>>
 {
 public:
 	/**
@@ -57,7 +56,7 @@ public:
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline grade_projection(E const& expr)
-		: unary_expression<E, typename E::algebra, list>(expr)
+		: unary_expression<E, list>(expr)
 	{
 	}
 

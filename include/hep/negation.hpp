@@ -34,15 +34,14 @@ namespace hep
  * Expression class for negations.
  */
 template <typename E>
-class negation : public unary_expression<E, typename E::algebra,
-	typename E::list>
+class negation : public unary_expression<E, typename E::list>
 {
 public:
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline negation(E const& expr)
-		: unary_expression<E, typename E::algebra, typename E::list>(expr)
+		: unary_expression<E, typename E::list>(expr)
 	{
 	}
 

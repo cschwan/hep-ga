@@ -60,15 +60,14 @@ namespace hep
  * Expression class for reversions.
  */
 template <typename E>
-class reversion : public unary_expression<E, typename E::algebra,
-	typename E::list>
+class reversion : public unary_expression<E, typename E::list>
 {
 public:
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline reversion(E const& expr)
-		: unary_expression<E, typename E::algebra, typename E::list>(expr)
+		: unary_expression<E, typename E::list>(expr)
 	{
 	}
 
@@ -86,8 +85,8 @@ public:
 };
 
 /**
- * Reversion operator returning an expression object for the reversion of
- * expression \c expr.
+ * Reversion operator returning an expression object for the reversed expression
+ * \c expr.
  */
 template <typename E>
 hep_inline reversion<E> operator~(E const& expr)

@@ -18,6 +18,7 @@ nobase_include_HEADERS = \
 	hep/blade.hpp \
 	hep/eval.hpp \
 	hep/expression.hpp \
+	hep/expression_ref.hpp \
 	hep/common_product.hpp \
 	hep/common_sum.hpp \
 	hep/difference.hpp \

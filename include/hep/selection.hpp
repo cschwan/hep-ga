@@ -36,15 +36,14 @@ namespace hep
  * Expression class for selection of specific components.
  */
 template <typename E, int... indices>
-class selection : public unary_expression<E, typename E::algebra,
-	list<indices...>>
+class selection : public unary_expression<E, list<indices...>>
 {
 public:
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline selection(E const& expr)
-		: unary_expression<E, typename E::algebra, list<indices...>>(expr)
+		: unary_expression<E, list<indices...>>(expr)
 	{
 	}
 
