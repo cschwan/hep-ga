@@ -27,7 +27,7 @@ namespace hep
 {
 
 /**
- * \addtogroup list
+ * \addtogroup lists
  * @{
  */
 

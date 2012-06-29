@@ -23,7 +23,7 @@ namespace hep
 {
 
 /**
- * \defgroup list Lists
+ * \defgroup lists Lists
  * @{
  */
 
