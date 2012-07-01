@@ -20,10 +20,62 @@
  */
 
 #include <hep/list/find.hpp>
-#include <hep/list/grades_to_list.hpp>
+#include <hep/list/list.hpp>
 #include <hep/list/intersection.hpp>
+#include <hep/list/merge.hpp>
+#include <hep/utils/next_bit_permutation.hpp>
 #include <hep/inline.hpp>
 #include <hep/unary_expression.hpp>
+
+namespace
+{
+
+template <typename A, int grade, int component, int last_component>
+struct grade_to_list_helper
+{
+	typedef typename grade_to_list_helper<
+		A, grade, hep::next_bit_permutation(component),
+			((1 << grade) - 1) << (A::dim - grade)
+	>::type::template push_front<component>::type type;
+};
+
+template <typename A, int grade, int component>
+struct grade_to_list_helper<A, grade, component, component>
+{
+	typedef hep::list<component> type;
+};
+
+// TODO: merge grade_to_list with grade_to_list_helper once clang can compile
+// default arguments depending on template parameters (see llvm bug #11851)
+template <typename A, int grade>
+struct grade_to_list
+{
+	typedef typename grade_to_list_helper<
+		A, grade, (1 << grade) - 1, ((1 << grade) - 1) << (A::dim - grade)
+	>::type type;
+};
+
+template <typename A, int... grades>
+struct grades_to_list;
+
+template <typename A>
+struct grades_to_list<A>
+{
+	typedef hep::list<> type;
+};
+
+template <typename A, int grade, int... grades>
+struct grades_to_list<A, grade, grades...>
+{
+	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
+
+	typedef typename hep::merge<
+		typename grade_to_list<A, grade>::type,
+		typename grades_to_list<A, grades...>::type
+	>::type type;
+};
+
+}
 
 namespace hep
 {
@@ -34,11 +86,12 @@ namespace hep
  */
 
 /**
- * 
+ *
  */
 template <typename E, int... grades>
-using grade_list = typename intersection<typename grades_to_list<typename
-	E::algebra, grades...>::type, typename E::list>::type;
+using grade_list = typename intersection<
+	typename grades_to_list<typename E::algebra, grades...>::type,
+	typename E::list>::type;
 
 /**
  * Expression class for grade projections.
@@ -73,7 +126,10 @@ public:
 };
 
 /**
- * Selects components from \c expr based on the grades specified with \c grades.
+ * Selects components from the \ref expression \c expr based on the grades
+ * specified with \c grades. Note that some components may be omitted (although
+ * they are requested with certain grades) if they are not present in the
+ * expression \c E and therefore zero by * default.
  */
 template <int... grades, typename E>
 hep_inline grade_projection<E, grades...> grade(E const& expr)

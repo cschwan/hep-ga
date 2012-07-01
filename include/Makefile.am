@@ -4,12 +4,9 @@ nobase_include_HEADERS = \
 	hep/impl/multi_vector.hpp \
 	hep/impl/stream.hpp \
 	hep/list/find.hpp \
-	hep/list/grade_to_list.hpp \
-	hep/list/grades_to_list.hpp \
 	hep/list/intersection.hpp \
 	hep/list/list.hpp \
 	hep/list/merge.hpp \
-	hep/list/multiply.hpp \
 	hep/utils/next_bit_permutation.hpp \
 	hep/utils/pop_count.hpp \
 	hep/utils/sign_table.hpp \

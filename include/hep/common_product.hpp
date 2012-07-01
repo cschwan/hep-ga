@@ -19,8 +19,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/list/multiply.hpp>
+#include <hep/list/list.hpp>
+#include <hep/list/merge.hpp>
 #include <hep/binary_expression.hpp>
+
+#include <type_traits>
+
+namespace
+{
+
+template <typename L, typename R, typename P>
+struct multiply
+{
+	typedef typename hep::merge<
+		typename hep::merge<
+			typename std::conditional<
+				P::check(L::value, R::value),
+				hep::list<L::value ^ R::value>,
+				hep::list<>
+			>::type,
+			typename multiply<typename L::next, R, P>::type
+		>::type,
+		typename multiply<L, typename R::next, P>::type
+	>::type type;
+};
+
+template <typename R, typename P>
+struct multiply<hep::list<>, R, P>
+{
+	typedef hep::list<> type;
+};
+
+template <typename L, typename P>
+struct multiply<L, hep::list<>, P>
+{
+	typedef hep::list<> type;
+};
+
+}
 
 namespace hep
 {

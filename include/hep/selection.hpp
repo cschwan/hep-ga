@@ -20,6 +20,7 @@
  */
 
 #include <hep/list/find.hpp>
+#include <hep/list/intersection.hpp>
 #include <hep/list/list.hpp>
 #include <hep/inline.hpp>
 #include <hep/unary_expression.hpp>
@@ -33,17 +34,29 @@ namespace hep
  */
 
 /**
+ *
+ */
+template <typename E, int... indices>
+using selection_list = typename intersection<typename E::list,
+	list<indices...>>::type;
+
+/**
  * Expression class for selection of specific components.
  */
 template <typename E, int... indices>
-class selection : public unary_expression<E, list<indices...>>
+class selection : public unary_expression<E, selection_list<E, indices...>>
 {
 public:
+	/**
+	 * Type definition for the components contained in this expression.
+	 */
+	typedef selection_list<E, indices...> list;
+
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
 	hep_inline selection(E const& expr)
-		: unary_expression<E, list<indices...>>(expr)
+		: unary_expression<E, list>(expr)
 	{
 	}
 
@@ -53,8 +66,7 @@ public:
 	template <int index>
 	hep_inline typename E::algebra::scalar_type at() const
 	{
-		static_assert (find<list<indices...>>(index) != -1,
-			"component does not exist");
+		static_assert (find<list>(index) != -1, "component does not exist");
 
 		return this->expr.template at<index>();
 	}
