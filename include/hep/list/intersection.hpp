@@ -32,42 +32,45 @@ namespace hep
  */
 
 /**
- * Computes the intersection of two lists \c L1 and \c L2. Only elements which
- * appear both in \c L1 and \c L2 are stored in the result. Example:
+ * Computes the intersection of two lists \c L and \c R which both have to be
+ * \ref list. Example:
  * \code
  * typedef hep::list<0,1,2> one;
  * typedef hep::list<1,2,3> two;
  * typedef hep::intersection<one, two>::type result;
  * \endcode
- * The definition of \c result is equal to the following:
+ * The definition of \c result is equal to the following
  * \code
  * typedef hep::list<1,2> result;
  * \endcode
+ * because \c 1 and \c 2 appear in both lists.
  */
-template <typename L1, typename L2>
+template <typename L, typename R>
 struct intersection
 {
 	/**
-	 * The result of the operation.
+	 * The result of the \ref intersection operation.
 	 */
-	typedef typename std::conditional<L1::value == L2::value,
-		typename intersection<typename L1::next, typename L2::next>::type::
-			template push_front<L1::value>::type,
-		typename std::conditional<L1::value < L2::value,
-			typename intersection<typename L1::next, L2>::type,
-			typename intersection<L1, typename L2::next>::type>::type>::type
-		type;
+	typedef typename std::conditional<L::value == R::value,
+		typename intersection<typename L::next, typename R::next>::type::
+			template push_front<L::value>::type,
+		typename std::conditional<
+			L::value < R::value,
+			typename intersection<typename L::next, R>::type,
+			typename intersection<L, typename R::next>::type
+		>::type>::type
+	type;
 };
 
 /// \cond DOYXGEN_IGNORE
-template <typename L1>
-struct intersection<L1, list<>>
+template <typename L>
+struct intersection<L, list<>>
 {
 	typedef list<> type;
 };
 
-template <typename L2>
-struct intersection<list<>, L2>
+template <typename R>
+struct intersection<list<>, R>
 {
 	typedef list<> type;
 };

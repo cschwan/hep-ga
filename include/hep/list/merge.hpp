@@ -32,48 +32,48 @@ namespace hep
  */
 
 /**
- * Adds two sorted lists \c T and \c S together. The result contains the
+ * Adds two sorted lists \c L and \c R together. The result contains the
  * elements of both lists, without duplicates and sorted in ascending order.
  * Example:
  * \code
- * typedef hep::list<1, 2, 4, 8> one;
- * typedef hep:.list<3, 5, 6, 9, 10, 12> two;
+ * typedef hep::list<1, 2, 3, 4> one;
+ * typedef hep::list<2, 4, 5, 6> two;
  *
  * typedef hep::merge<one, two>::type result;
  * \endcode
  * The result is identical to the definition of the following type:
  * \code
- * typedef hep::list<1, 2, 3, 4, 5, 6, 8, 9, 10, 12> result;
+ * typedef hep::list<1, 2, 3, 4, 5, 6> result;
  * \endcode
  */
-template <typename T, typename S>
+template <typename L, typename R>
 struct merge
 {
 	/**
-	 * Result of this operation.
+	 * Result of the \ref merge operation.
 	 */
 	typedef typename merge<
-		typename std::conditional<(T::value <= S::value),
-			typename T::next, T>::type,
-		typename std::conditional<(T::value < S::value),
-			S, typename S::next>::type
-		>::type::template push_front<(T::value < S::value) ? T::value :
-			S::value>::type type;
+		typename std::conditional<L::value <= R::value, typename L::next, L>
+			::type,
+		typename std::conditional<L::value < R::value, R, typename R::next>
+			::type
+	>::type::template push_front<(L::value < R::value) ? L::value : R::value>
+		::type type;
 };
 
 /// \cond DOXYGEN_IGNORE
-template <typename T>
-struct merge<T, list<>>
+template <typename L>
+struct merge<L, list<>>
 {
-	typedef typename merge<typename T::next, list<>>::type::
-		template push_front<T::value>::type type;
+	typedef typename merge<typename L::next, list<>>::type::
+		template push_front<L::value>::type type;
 };
 
-template <typename S>
-struct merge<list<>, S>
+template <typename R>
+struct merge<list<>, R>
 {
-	typedef typename merge<list<>, typename S::next>::type::
-		template push_front<S::value>::type type;
+	typedef typename merge<list<>, typename R::next>::type::
+		template push_front<R::value>::type type;
 };
 
 template <>
