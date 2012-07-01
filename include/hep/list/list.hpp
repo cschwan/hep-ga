@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <type_traits>
+
 namespace hep
 {
 
@@ -29,17 +31,44 @@ namespace hep
 
 /**
  * A list for components contained in an \ref expression, e.g. a
- * \ref multi_vector. The indices of the desired components have to be given as
- * a type definition, for example:
+ * \ref multi_vector. The indices of the desired components must be given as a
+ * type definition, for example:
  * \code
  * typedef hep::list<1, 2, 4, 8> vectors;
  * \endcode
- * \b Note: You always have to specify the components in \em ascending order!
+ * \b Note: You always have to specify the components in \em ascending order and
+ * \em without duplicates!
  */
 template <int... C>
 struct list
 {
 };
+
+/**
+ * @}
+ */
+
+}
+
+namespace
+{
+
+template <typename L>
+struct is_well_formed
+{
+	static constexpr bool value = L::value < L::next::value;
+};
+
+template <int component>
+struct is_well_formed<hep::list<component>>
+{
+	static constexpr bool value = true;
+};
+
+}
+
+namespace hep
+{
 
 /// \cond DOXYGEN_IGNORE
 template <int component, int... C>
@@ -56,6 +85,9 @@ struct list<component, C...>
 	{
 		typedef list<new_component, component, C...> type;
 	};
+
+	static_assert (is_well_formed<list<component, C...>>::value,
+		"list is malformed");
 };
 
 template <>
@@ -70,10 +102,6 @@ struct list<>
 	};
 };
 /// \endcond
-
-/**
- * @}
- */
 
 }
 
