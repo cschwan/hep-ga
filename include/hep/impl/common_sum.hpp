@@ -21,7 +21,6 @@
 
 #include <hep/list/find.hpp>
 #include <hep/common_sum.hpp>
-#include <hep/inline.hpp>
 
 namespace
 {
@@ -96,23 +95,19 @@ namespace hep
 {
 
 template <bool sign, typename L, typename R>
-hep_inline common_sum<sign, L, R>::common_sum(L const& lhs, R const& rhs)
-	: binary_expression<L, R, sum_list<L, R>>(lhs, rhs)
-{
-}
-
-template <bool sign, typename L, typename R>
 template <int index>
 hep_inline typename L::algebra::scalar_type common_sum<sign, L, R>::at() const
 {
-#define enable_lhs (find<typename L::list>(index) != -1)
-#define enable_rhs (find<typename R::list>(index) != -1)
+	// check which sides are non-zero ...
+	constexpr bool enable_lhs = find<typename L::list>(index) != -1;
+	constexpr bool enable_rhs = find<typename R::list>(index) != -1;
 
+	// .. and either return the left-hand side (rhs is zero), return the
+	// right-hand side (lhs is zero) or its negative (if sign is true), the sum
+	// of both (if both are non-zero) or the difference (if both are non-zero
+	// and sign is true)
 	return conditional_common_sum<enable_lhs, enable_rhs, sign>::
 		template at<index>(this->lhs, this->rhs);
-
-#undef enable_rhs
-#undef enable_lhs
 }
 
 }

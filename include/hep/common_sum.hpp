@@ -21,6 +21,7 @@
 
 #include <hep/list/merge.hpp>
 #include <hep/binary_expression.hpp>
+#include <hep/inline.hpp>
 
 namespace hep
 {
@@ -38,7 +39,7 @@ template <typename L, typename R>
 using sum_list = typename merge<typename L::list, typename R::list>::type;
 
 /**
- * Parent class for sum of difference of two subexpressions of type \c L and
+ * Parent class for sum or difference of two subexpressions of type \c L and
  * \c R. \c sign determines wether the components should subtracted or summed.
  */
 template <bool sign, typename L, typename R>
@@ -48,7 +49,10 @@ public:
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
-	common_sum(L const& lhs, R const& rhs);
+	hep_inline common_sum(L const& lhs, R const& rhs)
+		: binary_expression<L, R, sum_list<L, R>>(lhs, rhs)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index and

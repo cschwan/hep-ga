@@ -130,12 +130,6 @@ namespace hep
 {
 
 template <typename P, typename L, typename R>
-hep_inline common_product<P, L, R>::common_product(L const& lhs, R const& rhs)
-	: binary_expression<L, R, product_list<P, L, R>>(lhs, rhs)
-{
-}
-
-template <typename P, typename L, typename R>
 template <int index>
 hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 {

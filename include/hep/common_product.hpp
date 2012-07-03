@@ -22,6 +22,7 @@
 #include <hep/list/list.hpp>
 #include <hep/list/merge.hpp>
 #include <hep/binary_expression.hpp>
+#include <hep/inline.hpp>
 
 #include <type_traits>
 
@@ -76,10 +77,10 @@ using product_list =
 /**
  * Parent class for geometric product-like product expressions. The product is
  * computed for a subexpression of types \c L and \c R. The specific form is
- * determined by a predicate \c P. This must be a class containing a public
- * static constexpr function called \c check taking two integers representing
- * the indices of the multiplied basis blades and returning a boolean signaling
- * whether this component product is included or not:
+ * determined by a predicate \c P. This must be a class containing a \c public
+ * and <tt>static constexpr</tt> function called \c check taking two integers
+ * representing the indices of the multiplied basis blades and returning a
+ * boolean signaling whether this component product is included or not:
  * \code
  * struct my_predicate
  * {
@@ -101,7 +102,10 @@ public:
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.
 	 */
-	common_product(L const& lhs, R const& rhs);
+	hep_inline common_product(L const& lhs, R const& rhs)
+		: binary_expression<L, R, product_list<P, L, R>>(lhs, rhs)
+	{
+	}
 
 	/**
 	 * Performs the computation of the component represented by \c index and
