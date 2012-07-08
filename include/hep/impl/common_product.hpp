@@ -24,6 +24,7 @@
 #include <hep/utils/sign_table.hpp>
 #include <hep/common_product.hpp>
 #include <hep/inline.hpp>
+#include <hep/wrapper.hpp>
 
 namespace
 {
@@ -144,6 +145,41 @@ hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 	// subtract the sum of positive components from sum of negative components
 	return ::difference<positive, negative, index>::at(this->lhs, this->rhs);
 }
+
+/// \cond DOXYGEN_IGNORE
+
+// the following two classes enable all products containing (exactly one)
+// literal, e.g. '2.0 * v' with v being an arbitrary multi-vector
+
+template <typename P, typename L>
+class common_product<P, L, typename L::algebra::scalar_type> :
+	public common_product<P, L, wrapper<typename L::algebra>>
+{
+public:
+	hep_inline common_product(
+		L const& lhs,
+		typename L::algebra::scalar_type const& rhs
+	)
+		: common_product<P, L,
+			wrapper<typename L::algebra>>(lhs, rhs)
+	{
+	}
+};
+
+template <typename P, typename R>
+class common_product<P, typename R::algebra::scalar_type, R> :
+	public common_product<P, wrapper<typename R::algebra>, R>
+{
+public:
+	hep_inline common_product(
+		typename R::algebra::scalar_type const& lhs,
+		R const& rhs
+	)
+		: common_product<P, wrapper<typename R::algebra>, R>(lhs, rhs)
+	{
+	}
+};
+/// \endcond
 
 }
 

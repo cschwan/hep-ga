@@ -5,4 +5,5 @@ AM_DEFAULT_SOURCE_EXT = .cpp
 noinst_PROGRAMS = \
 	eval \
 	mainpage \
-	spinors
+	spinors \
+	wrapper

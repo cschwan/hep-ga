@@ -32,7 +32,8 @@ nobase_include_HEADERS = \
 	hep/selection.hpp \
 	hep/stream.hpp \
 	hep/sum.hpp \
-	hep/unary_expression.hpp
+	hep/unary_expression.hpp \
+	hep/wrapper.hpp
 
 # create a timestamp file so we can depend on it instead of depending on every
 # single header

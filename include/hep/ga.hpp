@@ -213,6 +213,7 @@ namespace hep
  * \example eval.cpp
  * \example mainpage.cpp
  * \example spinors.cpp
+ * \example wrapper.cpp
  */
 
 #endif
