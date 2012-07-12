@@ -21,6 +21,7 @@
 
 #include <hep/list/find.hpp>
 #include <hep/common_sum.hpp>
+#include <hep/wrapper.hpp>
 
 namespace
 {
@@ -109,6 +110,40 @@ hep_inline typename L::algebra::scalar_type common_sum<sign, L, R>::at() const
 	return conditional_common_sum<enable_lhs, enable_rhs, sign>::
 		template at<index>(this->lhs, this->rhs);
 }
+
+/// \cond DOXYGEN_IGNORE
+
+// the following two classes enable all sums containing (exactly one) literal,
+// e.g. '2.0 + v' with v being an arbitrary multi-vector
+
+template <bool sign, typename L>
+class common_sum<sign, L, typename L::algebra::scalar_type> :
+	public common_sum<sign, L, wrapper<typename L::algebra>>
+{
+public:
+	hep_inline common_sum(
+		L const& lhs,
+		typename L::algebra::scalar_type const& rhs
+	)
+		: common_sum<sign, L, wrapper<typename L::algebra>>(lhs, rhs)
+	{
+	}
+};
+
+template <bool sign, typename R>
+class common_sum<sign, typename R::algebra::scalar_type, R> :
+	public common_sum<sign, wrapper<typename R::algebra>, R>
+{
+public:
+	hep_inline common_sum(
+		typename R::algebra::scalar_type const& lhs,
+		R const& rhs
+	)
+		: common_sum<sign, wrapper<typename R::algebra>, R>(lhs, rhs)
+	{
+	}
+};
+/// \endcond
 
 }
 

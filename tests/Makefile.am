@@ -26,7 +26,8 @@ check_PROGRAMS = \
 	test_reversion_in_g3 \
 	test_selection_in_g2 \
 	test_sign_table \
-	test_sum_in_g2
+	test_sum_in_g2 \
+	test_sum_with_scalar_in_g2
 
 LDADD = -lboost_unit_test_framework
 
