@@ -2,7 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <hep/ga_types.hpp>
-#include <hep/reversion.hpp>
+#include <hep/ga/reversion.hpp>
 
 BOOST_AUTO_TEST_CASE(negation)
 {

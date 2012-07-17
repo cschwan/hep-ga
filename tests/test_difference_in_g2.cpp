@@ -1,7 +1,7 @@
 #include <tuple>
 #include <boost/test/unit_test.hpp>
 
-#include <hep/difference.hpp>
+#include <hep/ga/difference.hpp>
 #include <hep/ga_types.hpp>
 
 BOOST_AUTO_TEST_CASE(difference)

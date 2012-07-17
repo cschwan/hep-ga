@@ -1,9 +1,9 @@
 #ifndef HEP_GA_TYPES_HPP
 #define HEP_GA_TYPES_HPP
 
-#include <hep/list/list.hpp>
-#include <hep/algebra.hpp>
-#include <hep/multi_vector.hpp>
+#include <hep/ga/list/list.hpp>
+#include <hep/ga/algebra.hpp>
+#include <hep/ga/multi_vector.hpp>
 
 #ifndef HEP_ALGEBRA_SCALAR_TYPE
 #define HEP_ALGEBRA_SCALAR_TYPE double

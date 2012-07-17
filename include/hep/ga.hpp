@@ -19,22 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <hep/list/list.hpp>
+#include <hep/ga/list/list.hpp>
 
-#include <hep/algebra.hpp>
-#include <hep/blade.hpp>
-#include <hep/difference.hpp>
-#include <hep/eval.hpp>
-#include <hep/grade.hpp>
-#include <hep/inner_product.hpp>
-#include <hep/multi_vector.hpp>
-#include <hep/negation.hpp>
-#include <hep/outer_product.hpp>
-#include <hep/product.hpp>
-#include <hep/reversion.hpp>
-#include <hep/selection.hpp>
-#include <hep/stream.hpp>
-#include <hep/sum.hpp>
+#include <hep/ga/algebra.hpp>
+#include <hep/ga/blade.hpp>
+#include <hep/ga/difference.hpp>
+#include <hep/ga/eval.hpp>
+#include <hep/ga/grade.hpp>
+#include <hep/ga/inner_product.hpp>
+#include <hep/ga/multi_vector.hpp>
+#include <hep/ga/negation.hpp>
+#include <hep/ga/outer_product.hpp>
+#include <hep/ga/product.hpp>
+#include <hep/ga/reversion.hpp>
+#include <hep/ga/selection.hpp>
+#include <hep/ga/stream.hpp>
+#include <hep/ga/sum.hpp>
 
 namespace hep
 {

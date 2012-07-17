@@ -2,7 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <hep/ga_types.hpp>
-#include <hep/selection.hpp>
+#include <hep/ga/selection.hpp>
 
 BOOST_AUTO_TEST_CASE(selection)
 {

@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp>
-#include <hep/utils/next_bit_permutation.hpp>
+#include <hep/ga/utils/next_bit_permutation.hpp>
 
 BOOST_AUTO_TEST_CASE(next_bit_permutation_1_bit)
 {

@@ -2,7 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <hep/ga_types.hpp>
-#include <hep/product.hpp>
+#include <hep/ga/product.hpp>
 
 BOOST_AUTO_TEST_CASE(product_with_scalar)
 {

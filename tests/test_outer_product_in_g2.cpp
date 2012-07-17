@@ -2,7 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <hep/ga_types.hpp>
-#include <hep/outer_product.hpp>
+#include <hep/ga/outer_product.hpp>
 
 BOOST_AUTO_TEST_CASE(outer_product)
 {
