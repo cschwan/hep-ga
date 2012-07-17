@@ -26,7 +26,11 @@ namespace hep
 {
 
 /**
- * \internal
+ * \ingroup predicates
+ *
+ * Predicate for the geometric product.
+ *
+ * \see operator*()
  */
 struct product_predicate
 {

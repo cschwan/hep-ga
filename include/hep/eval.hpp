@@ -26,11 +26,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Explicitly evaluates the given expression \c expr to the corresponding
  * \ref multi_vector. This is typically used in conjunction with the \c auto
  * keyword, for example in situations like the following one:
@@ -42,10 +39,6 @@ hep_inline multi_vector<typename E::algebra, typename E::list> eval(
 ) {
 	return expr;
 }
-
-/**
- * @}
- */
 
 }
 

@@ -40,19 +40,20 @@ namespace hep
  * template <int index>
  * hep_inline typename L::algebra::scalar_type at() const
  * {
+ *     static_cast (is_valid(index), "component does not exist");
+ *
  *     // ...
  * }
  * \endcode
- *
  * The function \c at is used to evaluate the expression for the component
  * specified with \c index. If the expression is a composed one, i.e. \c at
- * calls \c at from another another expression-object, and it limits the range
- * of valid components (e.g. a grade operator) it is responsible for checking if
- * \c index is valid. This in turn has to be done with
- * \code
- * static_cast (is_valid(index), "component does not exist");
- * \endcode
- * inside \c at.
+ * calls \c at from another expression-object, and it limits the range of valid
+ * components (e.g. a grade operator) it is responsible for checking if \c index
+ * is valid. This is done using \c static_assert as shown above.
+ *
+ * Using compile-time constant component indices is the key for efficient
+ * numerical operations in geometric algebra and was first used by Jaap Suter
+ * \cite JaapSuterVital.
  */
 template <typename A, typename L>
 class expression

@@ -75,6 +75,11 @@ struct grades_to_list<A, grade, grades...>
 	>::type type;
 };
 
+template <typename E, int... grades>
+using grade_list = typename hep::intersection<
+	typename grades_to_list<typename E::algebra, grades...>::type,
+	typename E::list>::type;
+
 }
 
 namespace hep
@@ -84,14 +89,6 @@ namespace hep
  * \addtogroup expressions
  * @{
  */
-
-/**
- *
- */
-template <typename E, int... grades>
-using grade_list = typename intersection<
-	typename grades_to_list<typename E::algebra, grades...>::type,
-	typename E::list>::type;
 
 /**
  * Expression class for grade projections.
@@ -129,7 +126,7 @@ public:
  * Selects components from the \ref expression \c expr based on the grades
  * specified with \c grades. Note that some components may be omitted (although
  * they are requested with certain grades) if they are not present in the
- * expression \c E and therefore zero by * default.
+ * expression \c E and therefore zero.
  */
 template <int... grades, typename E>
 hep_inline grade_projection<E, grades...> grade(E const& expr)

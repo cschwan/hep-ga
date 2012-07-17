@@ -20,10 +20,8 @@
  */
 
 #include <hep/list/find.hpp>
-#include <hep/list/list.hpp>
 #include <hep/utils/sign_table.hpp>
 #include <hep/common_product.hpp>
-#include <hep/inline.hpp>
 #include <hep/wrapper.hpp>
 
 namespace
@@ -94,29 +92,26 @@ struct difference<hep::list<>, N, index>
 template <typename A, typename L, typename R, typename P, int index, int sign>
 struct components
 {
-#define i ( L::value )
-#define j ( L::value ^ index )
+	// i = L::value
+	// j = L::value ^ index
 
 	typedef typename std::conditional<
 		// check if there is a component with index j in R so that i ^ j = index
-		(hep::find<R>(j) != -1) &&
+		(hep::find<R>(L::value ^ index) != -1) &&
 		// check if this tuple contributes to this type of product
-		(P::check(i, j)) &&
+		(P::check(L::value, L::value ^ index)) &&
 		// check if this tuple has the requested sign
-		(hep::sign_table<A, i, j>() == sign),
+		(hep::sign_table<A, L::value, L::value ^ index>() == sign),
 
 		// condition is fulfilled : add i to list and continue with the
 		// remaining indices
 		typename components<A, typename L::next, R, P, index, sign>::type::
-			template push_front<i>::type,
+			template push_front<L::value>::type,
 
 		// condition is not fulfilled: skip i and continue with the remaining
 		// elements
 		typename components<A, typename L::next, R, P, index, sign>::type
 	>::type type;
-
-#undef j
-#undef i
 };
 
 template <typename A, typename R, typename P, int index, int sign>
@@ -160,8 +155,7 @@ public:
 		L const& lhs,
 		typename L::algebra::scalar_type const& rhs
 	)
-		: common_product<P, L,
-			wrapper<typename L::algebra>>(lhs, rhs)
+		: common_product<P, L, wrapper<typename L::algebra>>(lhs, rhs)
 	{
 	}
 };

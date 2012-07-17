@@ -11,11 +11,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Parent class for all unary operations. The operand of type \c E must be an
  * \ref expression. The component list \c L of the resultant expression must be
  * a \ref list.
@@ -38,10 +35,6 @@ protected:
 	 */
 	expression_ref<E> expr;
 };
-
-/**
- * @}
- */
 
 }
 

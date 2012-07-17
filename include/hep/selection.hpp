@@ -25,6 +25,15 @@
 #include <hep/inline.hpp>
 #include <hep/unary_expression.hpp>
 
+namespace
+{
+
+template <typename E, int... indices>
+using selection_list = typename hep::intersection<typename E::list,
+	hep::list<indices...>>::type;
+
+}
+
 namespace hep
 {
 
@@ -32,13 +41,6 @@ namespace hep
  * \addtogroup expressions
  * @{
  */
-
-/**
- *
- */
-template <typename E, int... indices>
-using selection_list = typename intersection<typename E::list,
-	list<indices...>>::type;
 
 /**
  * Expression class for selection of specific components.
@@ -74,7 +76,9 @@ public:
 
 /**
  * Selects the components represented by \c indices from expression \c expr and
- * returns a new expression object.
+ * returns a new expression object. Note that some components may be omitted
+ * (although they are requested within \c indices) if they are not present in
+ * the expression \c E and therefore zero.
  */
 template <int... indices, typename E>
 hep_inline selection<E, indices...> select(E const& expr)

@@ -27,10 +27,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- */
-
-/**
+ * \ingroup expressions
+ *
  * Wrapper class for literals providing a component list and its algebra. This
  * enables one to write code similar to the following snippet:
  * \snippet wrapper.cpp product_with_scalar
@@ -65,10 +63,6 @@ private:
 	 */
 	typename A::scalar_type scalar;
 };
-
-/**
- * @}
- */
 
 }
 

@@ -27,17 +27,17 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * An implementation for multi-vectors of a geometric algebra represented by
  * \c A which must be of type \ref algebra. The template parameter \c L must be
  * a \ref list and is used to specify the components which should be included
- * in this multi_vector. This list also specifies the order of components. For
- * example, the following type includes the scalar component and the bivector
- * component of a multi-vector in \f$ \mathcal{G}(2,0) \f$:
+ * in this multi_vector. This list also specifies the order of components which
+ * is important for the component constructor.
+ *
+ * The following example demonstrates the use of a multi-vector in \f$
+ * \mathcal{G}(2,0) \f$ including the scalar and the pseudo-scalar (bivector)
+ * component:
  * \code
  * typedef hep::algebra<float, 2, 0> euclidean_plane;
  * typedef hep::list<0, 3> scalar_bivector;
@@ -48,7 +48,34 @@ namespace hep
  * The scalar part is set to \c 1.0f, the bivector to \c 2.0f. Note that the
  * component list must be sorted and thus the scalar component (component with
  * index \c 0) has to be specified before the bivector component (with index
- * \c 3) in the initialization of \c a.
+ * \c 3) in the initialization of \c a. Further information can be found on the
+ * page about \ref bitmap_representation.
+ *
+ * Note that this class is an \ref expression and therefore has the usual
+ * <tt>at</tt> member function. In addition there is also a non-\c const version
+ * allowing to write using the component indices:
+ * \code
+ * // set a to { 4.0f, 8.0f }
+ * a.at<0>() = 4.0f;
+ * a.at<3>() = 8.0f;
+ *
+ * // print the scalar component
+ * std::cout << a.at<0>() << std::endl;
+ * // print the pseudo-scalar component
+ * std::cout << a.at<3>() << std::endl;
+ * \endcode
+ * Sometimes it is not possible to use constant indices, e.g.
+ * \code
+ * int index = 3;
+ * a.at<index>() = 8.0f;
+ * \endcode
+ * will not work. In that case one has to use the array index operator
+ * \code
+ * int index = 1;
+ * a[index] = 8.0f;
+ * \endcode
+ * Note that \c index is \c 1 because the pseudo-scalar component is the second
+ * component is this multi-vector.
  */
 template <typename A, typename L>
 class multi_vector : public expression<A, L>
@@ -60,8 +87,6 @@ public:
 	 * default-initialized (i.e. to zero for built-in types). Furthermore note
 	 * that you have to specify the components in one-to-one correspondence
 	 * with the component-list. See class documentation for an example.
-	 * 
-	 * \param components Components of the multi-vector
 	 */
 	template <typename ... Args>
 	multi_vector(Args ... components)
@@ -110,6 +135,7 @@ public:
 	hep_inline typename A::scalar_type const& at() const
 	{
 		static_assert (find<L>(index) != -1, "component does not exist");
+
 		return components[find<L>(index)];
 	}
 
@@ -121,6 +147,7 @@ public:
 	hep_inline typename A::scalar_type& at()
 	{
 		static_assert (find<L>(index) != -1, "component does not exist");
+
 		return components[find<L>(index)];
 	}
 
@@ -131,10 +158,6 @@ private:
 	 */
 	typename A::scalar_type components[L::size];
 };
-
-/**
- * @}
- */
 
 }
 

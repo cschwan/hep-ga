@@ -11,11 +11,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Parent class for all binary operations. Both the left-hand operand of type
  * \c L and the right-hand operand of type \c R must be an \ref expression. The
  * component list \c List of the resultant expression must be a \ref list.
@@ -50,10 +47,6 @@ protected:
 	 */
 	expression_ref<R> rhs;
 };
-
-/**
- * @}
- */
 
 }
 

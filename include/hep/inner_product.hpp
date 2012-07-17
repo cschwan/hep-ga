@@ -27,7 +27,11 @@ namespace hep
 {
 
 /**
- * \internal
+ * \ingroup predicates
+ *
+ * Predicate for the inner product.
+ *
+ * \see inner_prod()
  */
 struct inner_product_predicate
 {

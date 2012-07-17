@@ -9,11 +9,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * A reference to an \ref expression used in \ref unary_expression and 
  * \ref binary_expression. Depending on the type of the expression \c E,
  * \c expr_ref is either a constant reference (<tt>E const&</tt>) or the type
@@ -33,10 +30,6 @@ using expression_ref = typename std::conditional<
 	E const&,
 	E
 >::type;
-
-/**
- * @}
- */
 
 }
 

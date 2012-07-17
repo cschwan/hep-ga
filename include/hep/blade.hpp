@@ -27,11 +27,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for basis-blades.
  */
 template <typename A, int blade_index>
@@ -49,10 +46,6 @@ public:
 		return 1.0;
 	}
 };
-
-/**
- * @}
- */
 
 }
 
