@@ -9,15 +9,22 @@ ifelse(sysval,
 	# VERSION file, ...
 	m4_esyscmd_s([echo `git describe 2>/dev/null` | tee VERSION])
 
-	# AUTHORS file and ...
+	# AUTHORS file, ...
 	m4_esyscmd_s([git log --format='%aN <%aE>' | uniq > AUTHORS])
 
-	# ChangeLog file
-	m4_esyscmd_s(
-		[git log --date=short --format='%ad  %aN  <%aE> %n%x09* %s%n' \
-		> ChangeLog]
-	),
-	[]
+	# ChangeLog file and ...
+	m4_esyscmd_s([
+		git log --date=short \
+			--format='%ad  %aN  <%aE> %n    %w(80,0,4)%B' > ChangeLog
+	])
+
+	# NEWS file
+	m4_esyscmd_s([
+		git for-each-ref --sort='-*committerdate' --format \
+			'News for %(refname:short):%0a===============%0a%0a%(body)' \
+			refs/tags > NEWS
+	])
+	, []
 )
 
 # read version number

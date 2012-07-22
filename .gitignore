@@ -47,6 +47,7 @@ m4/*
 # git-generated files
 AUTHORS
 ChangeLog
+NEWS
 VERSION
 
 # build related files
