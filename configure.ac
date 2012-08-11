@@ -42,11 +42,11 @@ AM_SILENT_RULES([yes])
 # put aclocal macros into m4
 AC_CONFIG_MACRO_DIR([m4])
 
-# check for C++11 conforming compiler (custom macro)
-AC_PROG_CXX_CXX11
-
 # C++ is our language
 AC_LANG([C++])
+
+# check for C++11 conforming compiler (autoconf-archive macro)
+AX_CXX_COMPILE_STDCXX_11([noext])
 
 # point to a source file in order to let ./configure find itself
 AC_CONFIG_SRCDIR([include/hep/ga.hpp])

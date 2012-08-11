@@ -36,10 +36,9 @@ doc/html
 *.lo
 *.o
 
-# ignore files in m4/ subdir, but track the directory itself via .keep
+# ignore files in m4/ subdir, but track autoconf-archive macros
 m4/*
-!m4/.keep
-!m4/std_cxx.m4
+!m4/ax_cxx_compile_stdcxx_11.m4
 
 # distribution packages
 *.tar.*
