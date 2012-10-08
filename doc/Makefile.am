@@ -6,7 +6,6 @@ doxygen-files: Doxyfile references.bib $(top_builddir)/include/stamp-headers
 all-local: doxygen-files
 
 mostlyclean-local:
-	rm -rf bib/
 	rm -rf html/
 
 install-data-local:
