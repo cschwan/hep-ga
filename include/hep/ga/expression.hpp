@@ -24,18 +24,20 @@ namespace hep
 
 /**
  * \defgroup expressions Expressions
- * @{
  */
 
 /**
- * Base-class for all expressions with algebra \c A and component list \c L.
- * \c A must be an \ref algebra, \c L must be a \ref list. Inheriting classes
- * are valid expressions if the following member function is implemented:
+ * \ingroup expressions
+ *
+ * Parent-class for all expressions with \ref algebra \c A and \ref list
+ * "component list" \c L. Inheriting classes are valid expressions if the
+ * following member function is implemented:
  * \code
  * template <int index>
  * typename L::algebra::scalar_type at() const;
  * \endcode
- * The definition of \c at must also be inlined with \c hep_inline:
+ * For performance reasons the definition of \c at must also be defined inline
+ * with \c hep_inline:
  * \code
  * template <int index>
  * hep_inline typename L::algebra::scalar_type at() const
@@ -49,7 +51,8 @@ namespace hep
  * specified with \c index. If the expression is a composed one, i.e. \c at
  * calls \c at from another expression-object, and it limits the range of valid
  * components (e.g. a grade operator) it is responsible for checking if \c index
- * is valid. This is done using \c static_assert as shown above.
+ * is valid. This is done using \c static_assert as shown above and a custom
+ * function \c is_valid.
  *
  * Using compile-time constant component indices is the key for efficient
  * numerical operations in geometric algebra and was first used by Jaap Suter
@@ -62,19 +65,15 @@ class expression
 
 public:
 	/**
-	 * The algebra of the expression.
+	 * The algebra of this expression.
 	 */
 	typedef A algebra;
 
 	/**
-	 * The component list of the expression.
+	 * The component list of this expression.
 	 */
 	typedef L list;
 };
-
-/**
- * @}
- */
 
 }
 

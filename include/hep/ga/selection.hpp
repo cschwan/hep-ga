@@ -38,12 +38,11 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
- * Expression class for selection of specific components.
+ * \ingroup expressions
+ *
+ * Expression class for the selection of specific components.
+ *
+ * \see select()
  */
 template <typename E, int... indices>
 class selection : public unary_expression<E, selection_list<E, indices...>>
@@ -55,7 +54,8 @@ public:
 	typedef selection_list<E, indices...> list;
 
 	/**
-	 * Constructor. This simply calls the contructor of the parent class.
+	 * Constructs a new expression containing only the components with indices
+	 * specified in the class-type.
 	 */
 	hep_inline selection(E const& expr)
 		: unary_expression<E, list>(expr)
@@ -75,6 +75,8 @@ public:
 };
 
 /**
+ * \ingroup main
+ *
  * Selects the components represented by \c indices from expression \c expr and
  * returns a new expression object. Note that some components may be omitted
  * (although they are requested within \c indices) if they are not present in
@@ -85,10 +87,6 @@ hep_inline selection<E, indices...> select(E const& expr)
 {
 	return selection<E, indices...>(expr);
 }
-
-/**
- * @}
- */
 
 }
 

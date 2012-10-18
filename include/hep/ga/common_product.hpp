@@ -86,8 +86,8 @@ namespace hep
  * \endcode
  * The fact that all type of products can be written in this general form with
  * a special predicate was first noticed by Jaap Suter \cite JaapSuterVital.
- * Using the predicate class, the every product is calculated in the following
- * way (pseudo-code):
+ * Using the predicate class, every product is calculated in the following way
+ * (pseudo-code):
  * \code
  * typedef ... algebra;
  * typedef ... list_a;
@@ -98,15 +98,21 @@ namespace hep
  * hep::expression<algebra, list_b> b;
  * hep::expression<algebra, list_c> c;
  *
+ * // loop over every possible combination (i,j)
  * for (int i : list_a)
  * {
- *     for (int j : list_b)
+ * for (int j : list_b)
+ * {
+ *     // check if resultant component 'i ^ j' may exist at all
+ *     if (hep::find<list_c>(i ^ j) != -1)
  *     {
- *         if ((hep::find<list_c>(i ^j) != -1) && my_predicate::check(i, j))
+ *         // check if this type of product includes the resultant component
+ *         if (my_predicate::check(i, j))
  *         {
  *             c.at<i ^ j> += hep::sign_table<i, j>() * a.at<i>() * b.at<j>();
  *         }
  *     }
+ * }
  * }
  * \endcode
  */

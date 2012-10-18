@@ -26,7 +26,7 @@ namespace hep
 {
 
 /**
- * \ingroup expressions
+ * \ingroup main
  *
  * Explicitly evaluates the given expression \c expr to the corresponding
  * \ref multi_vector. This is typically used in conjunction with the \c auto

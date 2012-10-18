@@ -26,29 +26,23 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
- * Type definition for the result of adding expression of type \c L to \c R.
+ * \ingroup expressions
+ *
+ * Type definition for the result of adding a expression of type \c L to \c R.
  */
 template <typename L, typename R>
 using sum = common_sum<false, L, R>;
 
 /**
- * Addition operator returning an expression object for the sum of expressions
- * \c lhs and \c rhs.
+ * \ingroup main
+ *
+ * Returns the sum of expressions \c lhs and \c rhs.
  */
 template <typename L, typename R>
 hep_inline sum<L, R> operator+(L const& lhs, R const& rhs)
 {
 	return sum<L, R>(lhs, rhs);
 }
-
-/**
- * @}
- */
 
 }
 

@@ -23,20 +23,22 @@ namespace hep
 {
 
 /**
- * Class representing the geometric algebra \f$ \mathcal{G}(p,q) \f$. \c P
- * determines the number of basis-vectors \f$ e_i \f$ squaring to \f$ +1 \f$,
- * \c Q the number of basis-vectors squaring to \f$ -1 \f$:
+ * \ingroup main
+ *
+ * Class representing the geometric algebra \f$ \mathcal{G}(p,q) \f$. The
+ * integer \c P determines the number of basis-vectors \f$ e_i \f$ squaring to
+ * \f$ +1 \f$ and \c Q the number of basis-vectors squaring to \f$ -1 \f$:
  * \f[
  *     e_i^2 = \begin{cases}
  *                 +1 \quad \forall \; 0 \le i < p \\
  *                 -1 \quad \forall \; p \le i < p+q
  *             \end{cases}
  * \f]
- * \c T is the type which is used for numerical operations. \c T does not
+ * The type \c T is used for numerical operations. This type does not
  * neccessarily need to be an intrinsic type like \c float or \c double, but it
- * has to support multiplication, division, addition and subtraction. It must
- * also be possible to convert a \c double literal to \c T, i.e. expressions
- * like <tt>T(0.0)</tt>, <tt>T(1.0)</tt> must be valid.
+ * must support multiplication, division, addition and subtraction. A further
+ * requirement is that a \c double literal must be convertible to \c T, i.e.
+ * expressions like <tt>T(0.0)</tt>, <tt>T(1.0)</tt> must be valid.
  *
  * Examples for common algebras are:
  * \code
@@ -54,7 +56,7 @@ template <typename T, int P, int Q>
 struct algebra
 {
 	/**
-	 * Type definition for \c T, so one can access it from outside the class.
+	 * Type definition for \c T, for access from outside the class.
 	 */
 	typedef T scalar_type;
 

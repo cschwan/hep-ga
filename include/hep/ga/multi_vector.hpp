@@ -27,13 +27,12 @@ namespace hep
 {
 
 /**
- * \ingroup expressions
+ * \ingroup expressions main
  *
- * An implementation for multi-vectors of a geometric algebra represented by
- * \c A which must be of type \ref algebra. The template parameter \c L must be
- * a \ref list and is used to specify the components which should be included
- * in this multi_vector. This list also specifies the order of components which
- * is important for the component constructor.
+ * An implementation for multi-vectors of a geometric algebra represented by an
+ * \ref algebra \c A. The \ref list \c L specifies the components which should
+ * be included in this multi_vector. This list also specifies the order of
+ * components which is important for the component constructor.
  *
  * The following example demonstrates the use of a multi-vector in \f$
  * \mathcal{G}(2,0) \f$ including the scalar and the pseudo-scalar (bivector)
@@ -52,8 +51,9 @@ namespace hep
  * page about \ref bitmap_representation.
  *
  * Note that this class is an \ref expression and therefore has the usual
- * <tt>at</tt> member function. In addition there is also a non-\c const version
- * allowing to write using the component indices:
+ * <tt>at</tt> member function. This class is also the only expression having
+ * a non-\c const version of \c at allowing to write using the component
+ * indices:
  * \code
  * // set a to { 4.0f, 8.0f }
  * a.at<0>() = 4.0f;
@@ -82,11 +82,11 @@ class multi_vector : public expression<A, L>
 {
 public:
 	/**
-	 * Constructor. This constructor is used to initialize all of the
-	 * multi_vector's components. Note that unspecified components will be
-	 * default-initialized (i.e. to zero for built-in types). Furthermore note
-	 * that you have to specify the components in one-to-one correspondence
-	 * with the component-list. See class documentation for an example.
+	 * Constructor. This constructor is used to initialize the multi_vector's
+	 * components. Note that unspecified components will be default-initialized
+	 * (i.e. to zero for built-in types). Furthermore note that you have to
+	 * specify the components in one-to-one correspondence with the
+	 * component-list. See the class documentation for an example.
 	 */
 	template <typename ... Args>
 	multi_vector(Args ... components)
@@ -96,7 +96,7 @@ public:
 
 	/**
 	 * Component-constructor. This initializes the first component with \c value
-	 * and default initializes all remaining components. The purpose of this
+	 * and default-initializes all remaining components. The purpose of this
 	 * constructor is to prevent the expression-contructor which would yield in
 	 * a compiler error.
 	 */
@@ -129,7 +129,7 @@ public:
 
 	/**
 	 * Literal-index read-access operator. This member function is primarily
-	 * intended for use with expression templates in this library.
+	 * intended for use within template expressions in this library.
 	 */
 	template <int index>
 	hep_inline typename A::scalar_type const& at() const
@@ -141,7 +141,7 @@ public:
 
 	/**
 	 * Literal-index read-/write-access operator. This member function is
-	 * primarily intended for use with expression templates in this library.
+	 * primarily intended for use within templates expressions in this library.
 	 */
 	template <int index>
 	hep_inline typename A::scalar_type& at()
@@ -154,7 +154,7 @@ public:
 private:
 	/**
 	 * Array storing the components of this multi-vector. The size of this array
-	 * is equal to the number of elements in \c L.
+	 * is equal to the number of entry of the \ref list \c L.
 	 */
 	typename A::scalar_type components[L::size];
 };

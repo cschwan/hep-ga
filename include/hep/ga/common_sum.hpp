@@ -27,11 +27,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * List containing the components for the sum/difference of subexpressions of
  * type \c L and \c R.
  */
@@ -39,6 +36,8 @@ template <typename L, typename R>
 using sum_list = typename merge<typename L::list, typename R::list>::type;
 
 /**
+ * \ingroup expressions
+ *
  * Parent class for sum or difference of two subexpressions of type \c L and
  * \c R. \c sign determines wether the components should subtracted or summed.
  */
@@ -61,10 +60,6 @@ public:
 	template <int index>
 	typename L::algebra::scalar_type at() const;
 };
-
-/**
- * @}
- */
 
 }
 

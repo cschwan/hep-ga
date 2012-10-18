@@ -19,22 +19,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/ga/list/find.hpp>
+#include <hep/ga/list/intersection.hpp>
 #include <hep/ga/list/list.hpp>
+#include <hep/ga/list/merge.hpp>
+
+#include <hep/ga/utils/next_bit_permutation.hpp>
+#include <hep/ga/utils/pop_count.hpp>
+#include <hep/ga/utils/sign_table.hpp>
 
 #include <hep/ga/algebra.hpp>
+#include <hep/ga/binary_expression.hpp>
 #include <hep/ga/blade.hpp>
+#include <hep/ga/common_product.hpp>
+#include <hep/ga/common_sum.hpp>
 #include <hep/ga/difference.hpp>
 #include <hep/ga/eval.hpp>
+#include <hep/ga/expression.hpp>
+#include <hep/ga/expression_ref.hpp>
 #include <hep/ga/grade.hpp>
+#include <hep/ga/inline.hpp>
 #include <hep/ga/inner_product.hpp>
 #include <hep/ga/multi_vector.hpp>
 #include <hep/ga/negation.hpp>
+#include <hep/ga/ostream.hpp>
 #include <hep/ga/outer_product.hpp>
 #include <hep/ga/product.hpp>
 #include <hep/ga/reversion.hpp>
 #include <hep/ga/selection.hpp>
-#include <hep/ga/stream.hpp>
 #include <hep/ga/sum.hpp>
+#include <hep/ga/unary_expression.hpp>
+#include <hep/ga/wrapper.hpp>
 
 namespace hep
 {
@@ -42,18 +57,20 @@ namespace hep
 /**
  * \mainpage Expression Template Library for Geometric Algebra
  *
- * \section description Description of the Project
+ * \section description Description
  *
- * <tt>hep-ga</tt> is a C++ library for efficient numeric calculations with
- * geometric algebra. It provides a template class for multi-vectors of
- * \f$ \mathcal{G}(p,q) \f$ and template-expressions for many operations such as
- * addition, geometric product, inner and outer product. Although intended to be
- * used in the context of high energy physics, <tt>hep-ga</tt> is not restricted
- * to it and can be used everywere geometric algebra is applied.
+ * <tt>hep-ga</tt> is a C++ header-only library for efficient numeric
+ * calculations with geometric algebra. It provides a template class for
+ * multi-vectors over the algebra of types \f$ \mathcal{G}(p,q) \f$ and
+ * template-expressions for many \ref main "operations" such as addition,
+ * geometric product, inner and outer product. Although intended to be used in
+ * high energy physics (hep), <tt>hep-ga</tt> is not restricted to this context
+ * can be used everywere geometric algebra finds its applications.
  *
- * \section introduction Short Introduction
+ * \section introduction Introduction
  *
- * To use this library, you have to include its header first:
+ * See the README file for how to install this library. To use this library,
+ * simply include its header:
  * \snippet mainpage.cpp header
  * The primary type you will be working with is the \ref multi_vector class.
  * Depending on how you specify its template parameters, this type represents
@@ -67,9 +84,9 @@ namespace hep
  * \snippet mainpage.cpp algebra
  * In this case we also stated that we want to work with \c double as the
  * underlying numerical type. In general, you can use any type supporting the
- * basic arithmetic operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt> and
- * <tt>/</tt>). You can find more about this in the documentation of the
- * \ref algebra class.
+ * basic arithmetic operations (<tt>+</tt>, <tt>-</tt>, <tt>*</tt> and
+ * <tt>/</tt>). You will find more details about this in the documentation of
+ * the \ref algebra class.
  *
  * Next, you need to specify the components you want to include in your type.
  * For example, if you want to get a type representing vectors, you would write
@@ -100,6 +117,10 @@ namespace hep
  * have written:
  * \snippet mainpage.cpp auto
  * For that you do not need to define the \c quaternion type.
+ */
+
+/**
+ * \defgroup main Main Classes and Functions
  */
 
 /**

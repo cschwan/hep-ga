@@ -52,19 +52,19 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for reversions.
+ *
+ * \see operator~()
  */
 template <typename E>
 class reversion : public unary_expression<E, typename E::list>
 {
 public:
 	/**
-	 * Constructor. This simply calls the contructor of the parent class.
+	 * Constructs a new expression containing the reversed expression of
+	 * \c expr.
 	 */
 	hep_inline reversion(E const& expr)
 		: unary_expression<E, typename E::list>(expr)
@@ -85,18 +85,20 @@ public:
 };
 
 /**
- * Reversion operator returning an expression object for the reversed expression
- * \c expr.
+ * \ingroup main
+ *
+ * Returns the reversion of expression \c expr.
+ *
+ * Let \f$ E \f$ be the expression \c expr. Then the reversion is defined as
+ * \f[
+ *     E^\dagger = \sum_i (-1)^{i (i-1) / 2} \langle E \rangle_i
+ * \f]
  */
 template <typename E>
 hep_inline reversion<E> operator~(E const& expr)
 {
 	return reversion<E>(expr);
 }
-
-/**
- * @}
- */
 
 }
 

@@ -29,9 +29,7 @@ namespace hep
 /**
  * \ingroup predicates
  *
- * Predicate for the inner product.
- *
- * \see inner_prod()
+ * Predicate for the \ref inner_product expresson class.
  */
 struct inner_product_predicate
 {
@@ -52,34 +50,38 @@ struct inner_product_predicate
 };
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for inner products.
+ *
+ * \see inner_prod()
  */
 template <typename L, typename R>
 using inner_product = common_product<inner_product_predicate, L, R>;
 
 /**
- * Function returning an expression object for the inner product of expressions
- * \c lhs and \c rhs. For blades \f$ A_n \f$ and \f$ B_m \f$ of grade \f$ n,
- * m \f$ the inner product is defined as
+ * \ingroup main
+ *
+ * Returns the inner product (dot product) for expressions \c lhs and \c rhs.
+ *
+ * Let \c lhs be the expression \f$ L \f$ and \c rhs be \f$ R \f$. Then the
+ * inner product is defined as
  * \f[
- *     A_n \cdot B_m = \left\langle A_n B_m \right\rangle_{|n - m|}
+ *     L \cdot R = \sum_{l,r} \langle \langle L \rangle_l \langle R \rangle_r
+ *                 \rangle_{|l-r|}
  * \f]
- * i.e. it is the lowest grade element of the geometric product.
+ * If both \f$ L \f$ and \f$ R \f$ are vectors with components \f$ L_i \f$ and
+ * \f$ R_j \f$, the inner product is the well-known scalar-product from vector
+ * calculus:
+ * \f[
+ *    L_i e^i \cdot R_j e^j = L_i R^i
+ * \f]
  */
 template <typename L, typename R>
 hep_inline inner_product<L, R> inner_prod(L const& lhs, R const& rhs)
 {
 	return inner_product<L, R>(lhs, rhs);
 }
-
-/**
- * @}
- */
 
 }
 

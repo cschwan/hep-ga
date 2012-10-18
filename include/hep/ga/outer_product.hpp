@@ -29,49 +29,45 @@ namespace hep
 /**
  * \ingroup predicates
  *
- * Predicate for the outer product.
- *
- * \see operator^()
+ * Predicate for the \ref outer_product expresson class.
  */
 struct outer_product_predicate
 {
 	static constexpr bool check(int lhs, int rhs)
 	{
 		// check if resulting grade is the biggest possible one
-		return hep::pop_count(lhs ^ rhs) == 
+		return hep::pop_count(lhs ^ rhs) ==
 			(hep::pop_count(lhs) + hep::pop_count(rhs));
 	}
 };
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for outer products.
+ *
+ * \see operator^()
  */
 template <typename L, typename R>
 using outer_product = common_product<outer_product_predicate, L, R>;
 
 /**
- * Operator returning an expression object for the outer product of expressions
- * \c lhs and \c rhs. For blades \f$ A_n \f$ and \f$ B_m \f$ of grade \f$ n, m
- * \f$ the outer product is defined as
+ * \ingroup main
+ *
+ * Returns the outer product for expressions \c lhs and \c rhs.
+ *
+ * Let \c lhs be the expression \f$ L \f$ and \c rhs be \f$ R \f$. Then the
+ * outer product is defined as
  * \f[
- *     A_n \wedge B_m = \left< A_n B_m \right>_{n + m}
+ *     L \wedge R = \sum_{l,r} \langle \langle L \rangle_l \langle R \rangle_r
+ *                  \rangle_{l+r}
  * \f]
- * i.e. it is the biggest grade element of the geometric product.
  */
 template <typename L, typename R>
 hep_inline outer_product<L, R> operator^(L const& lhs, R const& rhs)
 {
 	return outer_product<L, R>(lhs, rhs);
 }
-
-/**
- * @}
- */
 
 }
 

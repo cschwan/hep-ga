@@ -28,9 +28,7 @@ namespace hep
 /**
  * \ingroup predicates
  *
- * Predicate for the geometric product.
- *
- * \see operator*()
+ * Predicate for the \ref product expression class.
  */
 struct product_predicate
 {
@@ -42,37 +40,32 @@ struct product_predicate
 };
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for geometric products.
+ *
+ * \see operator*()
  */
 template <typename L, typename R>
 using product = common_product<product_predicate, L, R>;
 
 /**
- * Operator returning an expression object for the geometric product of
- * expressions \c lhs and \c rhs. The geometric product for two blades \f$ A_n
- * \f$ and \f$ B_m \f$ is written as \f$ A_n B_m \f$ and is computed
- * component-wise by making use of of the contraction rule for basis vectors.
- * For example, the geometric products of two vectors \f$ e_1, e_2 \in
- * \mathcal{G}(1,1) \f$ are:
- *   - \f$ e_1 e_2 = e_1 \wedge e_2 \f$
- *   - \f$ e_2 e_1 = - e_1 \wedge e_2 \f$
- *   - \f$ e_1 e_1 = 1 \f$
- *   - \f$ e_2 e_2 = -1 \f$
+ * \ingroup main
+ *
+ * Returns the geometric product for expressions \c lhs and \c rhs.
+ *
+ * Let \f$ L \f$ be the expression \c lhs and \f$ R \f$ be \c rhs. Then the
+ * geometric product is defined in terms of blades as
+ * \f[
+ *     L R = \sum_{l,r} \sum_{j=0}^{\min (l,r)} \langle \langle L \rangle_l
+ *           \langle R \rangle_r \rangle_{|l-r|+2j}
+ * \f]
  */
 template <typename L, typename R>
 hep_inline product<L, R> operator*(L const& lhs, R const& rhs)
 {
 	return product<L, R>(lhs, rhs);
 }
-
-/**
- * @}
- */
 
 }
 

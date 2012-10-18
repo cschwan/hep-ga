@@ -2,7 +2,6 @@ nobase_include_HEADERS = \
 	hep/ga/impl/common_product.hpp \
 	hep/ga/impl/common_sum.hpp \
 	hep/ga/impl/multi_vector.hpp \
-	hep/ga/impl/stream.hpp \
 	hep/ga/list/find.hpp \
 	hep/ga/list/intersection.hpp \
 	hep/ga/list/list.hpp \
@@ -24,11 +23,11 @@ nobase_include_HEADERS = \
 	hep/ga/inner_product.hpp \
 	hep/ga/multi_vector.hpp \
 	hep/ga/negation.hpp \
+	hep/ga/ostream.hpp \
 	hep/ga/outer_product.hpp \
 	hep/ga/product.hpp \
 	hep/ga/reversion.hpp \
 	hep/ga/selection.hpp \
-	hep/ga/stream.hpp \
 	hep/ga/sum.hpp \
 	hep/ga/unary_expression.hpp \
 	hep/ga/wrapper.hpp \

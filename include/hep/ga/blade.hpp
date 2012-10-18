@@ -27,7 +27,7 @@ namespace hep
 {
 
 /**
- * \ingroup expressions
+ * \ingroup expressions main
  *
  * Expression class for basis-blades.
  */

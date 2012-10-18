@@ -26,27 +26,25 @@ namespace hep
 
 /**
  * \defgroup lists Lists
- * @{
  */
 
 /**
+ * \ingroup lists
+ *
  * A list for components contained in an \ref expression, e.g. a
  * \ref multi_vector. The indices of the desired components must be given as a
  * type definition, for example:
  * \code
  * typedef hep::list<1, 2, 4, 8> vectors;
  * \endcode
- * \b Note: You always have to specify the components in \em ascending order and
- * \em without duplicates!
+ * Note that you always have to specify the components in \em ascending order
+ * and \em without duplicates. If this condition is not fulfilled, your code
+ * will not compile.
  */
 template <int... C>
 struct list
 {
 };
-
-/**
- * @}
- */
 
 }
 

@@ -1,5 +1,5 @@
-#ifndef HEP_GA_STREAM_HPP
-#define HEP_GA_STREAM_HPP
+#ifndef HEP_GA_OSTREAM_HPP
+#define HEP_GA_OSTREAM_HPP
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <hep/ga/list/list.hpp>
 #include <hep/ga/multi_vector.hpp>
 
 #include <ostream>
@@ -27,17 +28,17 @@ namespace std
 {
 
 /**
- * Outstream operator for scalars. This simply prints the first (and only)
+ * Output operator for scalars. This simply prints the first (and only)
  * component of \c scalar.
  */
 template <typename C, typename T, typename A>
-basic_ostream<C, T>& operator<<(
+inline basic_ostream<C, T>& operator<<(
 	basic_ostream<C, T>& out,
 	hep::multi_vector<A, hep::list<0>> const& scalar
-);
-
+) {
+	return out << scalar.template at<0>();
 }
 
-#include <hep/ga/impl/stream.hpp>
+}
 
 #endif

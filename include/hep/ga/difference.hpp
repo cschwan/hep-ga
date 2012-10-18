@@ -26,11 +26,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Type definition for the result of subtracting expression of type \c R from
  * \c L.
  */
@@ -38,18 +35,15 @@ template <typename L, typename R>
 using difference = common_sum<true, L, R>;
 
 /**
- * Difference operator returning an expression object for the difference of
- * expressions \c lhs and \c rhs.
+ * \ingroup main
+ *
+ * Returns the difference of the expressions \c lhs and \c rhs.
  */
 template <typename L, typename R>
 hep_inline difference<L, R> operator-(L const& lhs, R const& rhs)
 {
 	return difference<L, R>(lhs, rhs);
 }
-
-/**
- * @}
- */
 
 }
 

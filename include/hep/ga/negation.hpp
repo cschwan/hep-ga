@@ -26,19 +26,18 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for negations.
+ *
+ * \see operator-(E const&)
  */
 template <typename E>
 class negation : public unary_expression<E, typename E::list>
 {
 public:
 	/**
-	 * Constructor. This simply calls the contructor of the parent class.
+	 * Constructs a new expression containing the negative of \c expr.
 	 */
 	hep_inline negation(E const& expr)
 		: unary_expression<E, typename E::list>(expr)
@@ -56,18 +55,15 @@ public:
 };
 
 /**
- * Negation operator returning an expression object for the negative of
- * the expression \c expr.
+ * \ingroup main
+ *
+ * Returns the negative of expression \c expr.
  */
 template <typename E>
 hep_inline negation<E> operator-(E const& expr)
 {
 	return negation<E>(expr);
 }
-
-/**
- * @}
- */
 
 }
 

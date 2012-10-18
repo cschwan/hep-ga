@@ -86,11 +86,8 @@ namespace hep
 {
 
 /**
- * \addtogroup expressions
- * @{
- */
-
-/**
+ * \ingroup expressions
+ *
  * Expression class for grade projections.
  */
 template <typename E, int... grades>
@@ -123,6 +120,8 @@ public:
 };
 
 /**
+ * \ingroup main
+ *
  * Selects components from the \ref expression \c expr based on the grades
  * specified with \c grades. Note that some components may be omitted (although
  * they are requested with certain grades) if they are not present in the
@@ -133,10 +132,6 @@ hep_inline grade_projection<E, grades...> grade(E const& expr)
 {
 	return grade_projection<E, grades...>(expr);
 }
-
-/**
- * @}
- */
 
 }
 

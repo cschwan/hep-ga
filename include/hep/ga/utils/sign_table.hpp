@@ -45,7 +45,7 @@ constexpr int sign_table(int i, int j, int k, int grade)
 #undef condition_1
 #undef pop_count_i
 #undef kth_bit_set
-};
+}
 
 }
 
@@ -53,11 +53,8 @@ namespace hep
 {
 
 /**
- * \addtogroup utils
- * @{
- */
-
-/**
+ * \ingroup utils
+ *
  * Returns the sign for multiplication of components \c i and \c j of two
  * multi-vectors from algebra \c A.
  */
@@ -68,10 +65,6 @@ constexpr int sign_table()
 	return std::integral_constant<int,
 		::sign_table<A>(i, j, 0, pop_count(i))>::value;
 }
-
-/**
- * @}
- */
 
 }
 
