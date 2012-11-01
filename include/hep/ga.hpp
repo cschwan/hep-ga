@@ -59,7 +59,7 @@ namespace hep
  *
  * \section description Description
  *
- * <tt>hep-ga</tt> is a C++ header-only library for efficient numeric
+ * <tt>hep-ga</tt> is a C++11 header-only library for efficient numeric
  * calculations with geometric algebra. It provides a template class for
  * multi-vectors over the algebra of types \f$ \mathcal{G}(p,q) \f$ and
  * template-expressions for many \ref main "operations" such as addition,
