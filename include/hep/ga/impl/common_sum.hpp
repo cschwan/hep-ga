@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012-2013  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,6 @@ struct conditional_common_sum<true, true, false>
 	}
 };
 
-template <>
 template <bool sign>
 struct conditional_common_sum<true, false, sign>
 {
