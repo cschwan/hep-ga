@@ -30,7 +30,7 @@ If you want to run the test-suite, first make sure to configure with
     make check
 
 In every case you will need a C++ compiler supporting parts of C++11. At the
-time of writing, only GCC 4.7 and CLANG 3.1 are capable of compiling this
+time of writing, only GCC 4.7 and CLANG 3.2 are capable of compiling this
 library.
 
 A NOTE FOR GIT USERS

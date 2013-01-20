@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012-2013  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,29 +30,28 @@
 namespace
 {
 
-template <typename A, int grade, int component, int last_component>
-struct grade_to_list_helper
-{
-	typedef typename grade_to_list_helper<
-		A, grade, hep::next_bit_permutation(component),
-			((1 << grade) - 1) << (A::dim - grade)
-	>::type::template push_front<component>::type type;
-};
+#define hep_first_component ((1 << grade) - 1)
+#define hep_last_component (hep_first_component << (A::dim - grade))
+#define hep_next_component (hep::next_bit_permutation(component))
 
-template <typename A, int grade, int component>
-struct grade_to_list_helper<A, grade, component, component>
-{
-	typedef hep::list<component> type;
-};
-
-// TODO: merge grade_to_list with grade_to_list_helper once clang can compile
-// default arguments depending on template parameters (see llvm bug #11851)
-template <typename A, int grade>
+template <typename A, int grade, int component = hep_first_component,
+	int last_component = hep_last_component>
 struct grade_to_list
 {
-	typedef typename grade_to_list_helper<
-		A, grade, (1 << grade) - 1, ((1 << grade) - 1) << (A::dim - grade)
-	>::type type;
+	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
+
+	typedef typename grade_to_list<A, grade, hep_next_component>::type::
+		template push_front<component>::type type;
+};
+
+#undef hep_next_component
+#undef hep_last_component
+#undef hep_first_component
+
+template <typename A, int grade, int component>
+struct grade_to_list<A, grade, component, component>
+{
+	typedef hep::list<component> type;
 };
 
 template <typename A, int... grades>
