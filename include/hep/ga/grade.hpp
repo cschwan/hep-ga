@@ -74,9 +74,9 @@ struct grades_to_list<A, grade, grades...>
 };
 
 template <typename E, int... grades>
-using grade_list = typename hep::intersection<
+using grade_list = hep::intersection_t<
 	typename grades_to_list<typename E::algebra, grades...>::type,
-	typename E::list>::type;
+	typename E::list>;
 
 }
 

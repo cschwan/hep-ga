@@ -25,15 +25,6 @@
 #include <hep/ga/inline.hpp>
 #include <hep/ga/unary_expression.hpp>
 
-namespace
-{
-
-template <typename E, int... indices>
-using selection_list = typename hep::intersection<typename E::list,
-	hep::list<indices...>>::type;
-
-}
-
 namespace hep
 {
 
@@ -45,13 +36,13 @@ namespace hep
  * \see select()
  */
 template <typename E, int... indices>
-class selection : public unary_expression<E, selection_list<E, indices...>>
+class selection : public unary_expression<E, intersection_t<typename E::list, list<indices...>>>
 {
 public:
 	/**
 	 * Type definition for the components contained in this expression.
 	 */
-	using list = selection_list<E, indices...>;
+	using list = intersection_t<typename E::list, hep::list<indices...>>;
 
 	/**
 	 * Constructs a new expression containing only the components with indices

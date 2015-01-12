@@ -23,21 +23,26 @@
 
 #include <type_traits>
 
+namespace
+{
+
+template <typename L, typename R>
+struct intersection;
+
+}
+
 namespace hep
 {
 
 /**
- * \addtogroup lists
- * @{
- */
-
-/**
+ * \ingroup lists
+ *
  * Computes the intersection of two lists \c L and \c R which both have to be
  * \ref list. Example:
  * \code
  * using one = hep::list<0,1,2>;
  * using two = hep::list<1,2,3>;
- * using result = typename hep::intersection<one, two>::type;
+ * using result = hep::intersection_t<one, two>;
  * \endcode
  * The definition of \c result is equal to the following
  * \code
@@ -46,43 +51,47 @@ namespace hep
  * because \c 1 and \c 2 appear in both lists.
  */
 template <typename L, typename R>
+using intersection_t = typename intersection<L, R>::type;
+
+}
+
+namespace
+{
+
+template <typename L, typename R>
 struct intersection
 {
 	/**
 	 * The result of the \ref intersection operation.
 	 */
 	using type = typename std::conditional<L::value == R::value,
-		push_front_t<L::value, typename intersection<typename L::next, typename R::next>::type>,
+		hep::push_front_t<L::value, hep::intersection_t<typename L::next, typename R::next>>,
 		typename std::conditional<
 			L::value < R::value,
-			typename intersection<typename L::next, R>::type,
-			typename intersection<L, typename R::next>::type
+			hep::intersection_t<typename L::next, R>,
+			hep::intersection_t<L, typename R::next>
 		>::type>::type;
 };
 
 /// \cond DOYXGEN_IGNORE
 template <typename L>
-struct intersection<L, list<>>
+struct intersection<L, hep::list<>>
 {
-	using type = list<>;
+	using type = hep::list<>;
 };
 
 template <typename R>
-struct intersection<list<>, R>
+struct intersection<hep::list<>, R>
 {
-	using type = list<>;
+	using type = hep::list<>;
 };
 
 template <>
-struct intersection<list<>, list<>>
+struct intersection<hep::list<>, hep::list<>>
 {
-	using type = list<>;
+	using type = hep::list<>;
 };
 /// \endcond
-
-/**
- * @}
- */
 
 }
 
