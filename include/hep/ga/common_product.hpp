@@ -32,17 +32,17 @@ namespace
 template <typename L, typename R, typename P>
 struct multiply
 {
-	using type = typename hep::merge<
-		typename hep::merge<
+	using type = hep::merge_t<
+		hep::merge_t<
 			typename std::conditional<
 				P::check(L::value, R::value),
 				hep::list<L::value ^ R::value>,
 				hep::list<>
 			>::type,
 			typename multiply<typename L::next, R, P>::type
-		>::type,
+		>,
 		typename multiply<L, typename R::next, P>::type
-	>::type;
+	>;
 };
 
 template <typename R, typename P>

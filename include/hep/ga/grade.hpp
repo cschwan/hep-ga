@@ -67,10 +67,10 @@ struct grades_to_list<A, grade, grades...>
 {
 	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
-	using type = typename hep::merge<
+	using type = hep::merge_t<
 		typename grade_to_list<A, grade>::type,
 		typename grades_to_list<A, grades...>::type
-	>::type;
+	>;
 };
 
 template <typename E, int... grades>

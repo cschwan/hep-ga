@@ -23,15 +23,20 @@
 
 #include <type_traits>
 
+namespace
+{
+
+template <typename L, typename R>
+struct merge;
+
+}
+
 namespace hep
 {
 
 /**
- * \addtogroup lists
- * @{
- */
-
-/**
+ * \ingroup lists
+ *
  * Adds two sorted lists \c L and \c R together. The result contains the
  * elements of both lists, without duplicates and sorted in ascending order.
  * Example:
@@ -47,42 +52,42 @@ namespace hep
  * \endcode
  */
 template <typename L, typename R>
+using merge_t = typename merge<L, R>::type;
+
+}
+
+namespace
+{
+
+template <typename L, typename R>
 struct merge
 {
 	/**
 	 * Result of the \ref merge operation.
 	 */
-	using type = push_front_t<(L::value < R::value) ? L::value : R::value, typename merge<
-		typename std::conditional<L::value <= R::value, typename L::next, L>
-			::type,
-		typename std::conditional<L::value < R::value, R, typename R::next>
-			::type
-	>::type>;
+	using type = hep::push_front_t<(L::value < R::value) ? L::value : R::value, hep::merge_t<
+		typename std::conditional<L::value <= R::value, typename L::next, L>::type,
+		typename std::conditional<L::value <  R::value, R, typename R::next>::type
+	>>;
 };
 
-/// \cond DOXYGEN_IGNORE
 template <typename L>
-struct merge<L, list<>>
+struct merge<L, hep::list<>>
 {
-	using type = push_front_t<L::value, typename merge<typename L::next, list<>>::type>;
+	using type = hep::push_front_t<L::value, hep::merge_t<typename L::next, hep::list<>>>;
 };
 
 template <typename R>
-struct merge<list<>, R>
+struct merge<hep::list<>, R>
 {
-	using type = push_front_t<R::value, typename merge<list<>, typename R::next>::type>;
+	using type = hep::push_front_t<R::value, hep::merge_t<hep::list<>, typename R::next>>;
 };
 
 template <>
-struct merge<list<>, list<>>
+struct merge<hep::list<>, hep::list<>>
 {
-	using type = list<>;
+	using type = hep::list<>;
 };
-/// \endcond
-
-/**
- * @}
- */
 
 }
 
