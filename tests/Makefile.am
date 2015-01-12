@@ -1,5 +1,3 @@
-AUTOMAKE_OPTIONS = parallel-tests
-
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-DBOOST_TEST_NO_LIB \
@@ -30,7 +28,5 @@ check_PROGRAMS = \
 	test_sum_with_scalar_in_g2
 
 LDADD = -lboost_unit_test_framework
-
-LOG_COMPILER = BOOST_TEST_BUILD_INFO=yes BOOST_TEST_DETECT_FP_EXCEPTIONS=yes
 
 TESTS = $(check_PROGRAMS)

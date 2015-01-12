@@ -1,43 +1,15 @@
-AC_PREREQ([2.65])
-
-# check if git is available and current directory contains repository
-m4_esyscmd_s([git status])
-
-# if a repository is available use git to create files that are needed before
-# AC_INIT is called:
-ifelse(sysval,
-	# VERSION file, ...
-	m4_esyscmd_s([echo `git describe 2>/dev/null` | tee VERSION])
-
-	# AUTHORS file, ...
-	m4_esyscmd_s([git log --format='%aN <%aE>' | uniq > AUTHORS])
-
-	# ChangeLog file and ...
-	m4_esyscmd_s([
-		git log --date=short \
-			--format='%ad  %aN  <%aE> %n    %w(80,0,4)%B' > ChangeLog
-	])
-
-	# NEWS file
-	m4_esyscmd_s([
-		git for-each-ref --sort='-*committerdate' --format \
-			'News for %(refname:short):%0a===============%0a%0a%(body)' \
-			refs/tags > NEWS
-	])
-	, []
-)
-
-# read version number
-define([gitversion], m4_esyscmd_s([cat VERSION]))
+# AC_CONFIG_MACRO_DIR needs >=2.58
+AC_PREREQ([2.58])
 
 # initialize configure
-AC_INIT([hep-ga], [gitversion])
+AC_INIT([hep-ga], [0.0.1.9999], [https://github.com/cschwan/hep-ga/issues],
+	[hep-ga], [https://github.com/cschwan/hep-ga])
+
+# put autotools files into a separate directory
+AC_CONFIG_AUX_DIR([build-aux])
 
 # initialize automake
-AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2 no-dist-gzip nostdinc 1.11])
-
-# use silent rules by default
-AM_SILENT_RULES([yes])
+AM_INIT_AUTOMAKE([foreign -Wall dist-bzip2 no-dist-gzip nostdinc 1.11])
 
 # put aclocal macros into m4
 AC_CONFIG_MACRO_DIR([m4])
@@ -46,7 +18,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_LANG([C++])
 
 # check for C++11 conforming compiler (autoconf-archive macro)
-AX_CXX_COMPILE_STDCXX_11([noext])
+AX_CXX_COMPILE_STDCXX_11(, [mandatory])
 
 # point to a source file in order to let ./configure find itself
 AC_CONFIG_SRCDIR([include/hep/ga.hpp])
