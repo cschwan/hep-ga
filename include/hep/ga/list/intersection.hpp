@@ -52,8 +52,7 @@ struct intersection
 	 * The result of the \ref intersection operation.
 	 */
 	using type = typename std::conditional<L::value == R::value,
-		typename intersection<typename L::next, typename R::next>::type::
-			template push_front<L::value>::type,
+		push_front_t<L::value, typename intersection<typename L::next, typename R::next>::type>,
 		typename std::conditional<
 			L::value < R::value,
 			typename intersection<typename L::next, R>::type,

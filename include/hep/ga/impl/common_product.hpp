@@ -105,8 +105,7 @@ struct components
 
 		// condition is fulfilled : add i to list and continue with the
 		// remaining indices
-		typename components<A, typename L::next, R, P, index, sign>::type::
-			template push_front<L::value>::type,
+		hep::push_front_t<L::value, typename components<A, typename L::next, R, P, index, sign>::type>,
 
 		// condition is not fulfilled: skip i and continue with the remaining
 		// elements

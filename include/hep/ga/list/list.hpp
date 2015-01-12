@@ -46,6 +46,14 @@ struct list
 {
 };
 
+/**
+ * \ingroup lists
+ *
+ * Adds the entry \c new_component in front of the list \c L.
+ */
+template <int new_component, typename L>
+using push_front_t = typename L::template push_front<new_component>;
+
 }
 
 namespace
@@ -79,10 +87,7 @@ struct list<component, C...>
 	static constexpr int value = component;
 
 	template <int new_component>
-	struct push_front
-	{
-		using type = list<new_component, component, C...>;
-	};
+	using push_front = list<new_component, component, C...>;
 
 	static_assert (is_well_formed<list<component, C...>>::value,
 		"list is malformed");
@@ -94,10 +99,7 @@ struct list<>
 	static constexpr int size = 0;
 
 	template <int new_component>
-	struct push_front
-	{
-		using type = list<new_component>;
-	};
+	using push_front = list<new_component>;
 };
 /// \endcond
 

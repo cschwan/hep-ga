@@ -52,28 +52,25 @@ struct merge
 	/**
 	 * Result of the \ref merge operation.
 	 */
-	using type = typename merge<
+	using type = push_front_t<(L::value < R::value) ? L::value : R::value, typename merge<
 		typename std::conditional<L::value <= R::value, typename L::next, L>
 			::type,
 		typename std::conditional<L::value < R::value, R, typename R::next>
 			::type
-	>::type::template push_front<(L::value < R::value) ? L::value : R::value>
-		::type;
+	>::type>;
 };
 
 /// \cond DOXYGEN_IGNORE
 template <typename L>
 struct merge<L, list<>>
 {
-	using type = typename merge<typename L::next, list<>>::type::
-		template push_front<L::value>::type;
+	using type = push_front_t<L::value, typename merge<typename L::next, list<>>::type>;
 };
 
 template <typename R>
 struct merge<list<>, R>
 {
-	using type = typename merge<list<>, typename R::next>::type::
-		template push_front<R::value>::type;
+	using type = push_front_t<R::value, typename merge<list<>, typename R::next>::type>;
 };
 
 template <>

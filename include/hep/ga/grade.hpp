@@ -40,8 +40,7 @@ struct grade_to_list
 {
 	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
-	using type = typename grade_to_list<A, grade, hep_next_component>::type::
-		template push_front<component>::type;
+	using type = hep::push_front_t<component, typename grade_to_list<A, grade, hep_next_component>::type>;
 };
 
 #undef hep_next_component
