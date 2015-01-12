@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,13 +43,13 @@ namespace hep
  * Examples for common algebras are:
  * \code
  * // Geometric Algebra for the euclidean (2 dimensional) plane
- * typedef hep::algebra<double, 2, 0> eucl_2d;
+ * using eucl_2d = hep::algebra<double, 2, 0>;
  *
  * // Geometric Algebra for the euclidean (3 dimensional) space
- * typedef hep::algebra<double, 3, 0> eucl_3d;
+ * using eucl_3d = hep::algebra<double, 3, 0>;
  *
  * // Space Time Algebra with signature (+,-,-,-)
- * typedef hep::algebra<double, 1, 3> sta;
+ * using sta = hep::algebra<double, 1, 3>;
  * \endcode
  */
 template <typename T, int P, int Q>
@@ -58,7 +58,7 @@ struct algebra
 	/**
 	 * Type definition for \c T, for access from outside the class.
 	 */
-	typedef T scalar_type;
+	using scalar_type = T;
 
 	/**
 	 * The number of basis-vectors \f$ e_i \f$ with \f$ 0 \le i < p \f$ squaring

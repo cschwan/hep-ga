@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,12 +67,12 @@ public:
 	/**
 	 * The algebra of this expression.
 	 */
-	typedef A algebra;
+	using algebra = A;
 
 	/**
 	 * The component list of this expression.
 	 */
-	typedef L list;
+	using list = L;
 };
 
 }

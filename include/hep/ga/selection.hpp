@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ public:
 	/**
 	 * Type definition for the components contained in this expression.
 	 */
-	typedef selection_list<E, indices...> list;
+	using list = selection_list<E, indices...>;
 
 	/**
 	 * Constructs a new expression containing only the components with indices

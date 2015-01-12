@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2011-2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ namespace
 template <typename L, typename R, typename P>
 struct multiply
 {
-	typedef typename hep::merge<
+	using type = typename hep::merge<
 		typename hep::merge<
 			typename std::conditional<
 				P::check(L::value, R::value),
@@ -42,19 +42,19 @@ struct multiply
 			typename multiply<typename L::next, R, P>::type
 		>::type,
 		typename multiply<L, typename R::next, P>::type
-	>::type type;
+	>::type;
 };
 
 template <typename R, typename P>
 struct multiply<hep::list<>, R, P>
 {
-	typedef hep::list<> type;
+	using type = hep::list<>;
 };
 
 template <typename L, typename P>
 struct multiply<L, hep::list<>, P>
 {
-	typedef hep::list<> type;
+	using type = hep::list<>;
 };
 
 template <typename P, typename L, typename R>
@@ -89,10 +89,10 @@ namespace hep
  * Using the predicate class, every product is calculated in the following way
  * (pseudo-code):
  * \code
- * typedef ... algebra;
- * typedef ... list_a;
- * typedef ... list_b;
- * typedef ... list_c;
+ * using algebra = ...;
+ * using list_a = ...;
+ * using list_b = ...;
+ * using list_c = ...;
  *
  * hep::expression<algebra, list_a> a;
  * hep::expression<algebra, list_b> b;

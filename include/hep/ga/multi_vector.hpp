@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2011-2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ namespace hep
  * \mathcal{G}(2,0) \f$ including the scalar and the pseudo-scalar (bivector)
  * component:
  * \code
- * typedef hep::algebra<float, 2, 0> euclidean_plane;
- * typedef hep::list<0, 3> scalar_bivector;
- * typedef hep::multi_vector<euclidean_plane, scalar_bivector> complex;
+ * using euclidean_plane = hep::algebra<float, 2, 0>;
+ * using scalar_bivector =  hep::list<0, 3>;
+ * using complex = hep::multi_vector<euclidean_plane, scalar_bivector>;
  *
  * complex a = { 1.0f, 2.0f };
  * \endcode

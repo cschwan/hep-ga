@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ namespace hep
  * \ref multi_vector. The indices of the desired components must be given as a
  * type definition, for example:
  * \code
- * typedef hep::list<1, 2, 4, 8> vectors;
+ * using vectors = hep::list<1, 2, 4, 8>;
  * \endcode
  * Note that you always have to specify the components in \em ascending order
  * and \em without duplicates. If this condition is not fulfilled, your code
@@ -72,7 +72,7 @@ namespace hep
 template <int component, int... C>
 struct list<component, C...>
 {
-	typedef list<C...> next;
+	using next = list<C...>;
 
 	static constexpr int size = sizeof... (C) + 1;
 
@@ -81,7 +81,7 @@ struct list<component, C...>
 	template <int new_component>
 	struct push_front
 	{
-		typedef list<new_component, component, C...> type;
+		using type = list<new_component, component, C...>;
 	};
 
 	static_assert (is_well_formed<list<component, C...>>::value,
@@ -96,7 +96,7 @@ struct list<>
 	template <int new_component>
 	struct push_front
 	{
-		typedef list<new_component> type;
+		using type = list<new_component>;
 	};
 };
 /// \endcond

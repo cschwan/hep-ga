@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012-2013  Christopher Schwan
+ * Copyright (C) 2012-2013,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ struct grade_to_list
 {
 	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
-	typedef typename grade_to_list<A, grade, hep_next_component>::type::
-		template push_front<component>::type type;
+	using type = typename grade_to_list<A, grade, hep_next_component>::type::
+		template push_front<component>::type;
 };
 
 #undef hep_next_component
@@ -51,7 +51,7 @@ struct grade_to_list
 template <typename A, int grade, int component>
 struct grade_to_list<A, grade, component, component>
 {
-	typedef hep::list<component> type;
+	using type = hep::list<component>;
 };
 
 template <typename A, int... grades>
@@ -60,7 +60,7 @@ struct grades_to_list;
 template <typename A>
 struct grades_to_list<A>
 {
-	typedef hep::list<> type;
+	using type = hep::list<>;
 };
 
 template <typename A, int grade, int... grades>
@@ -68,10 +68,10 @@ struct grades_to_list<A, grade, grades...>
 {
 	static_assert (grade <= A::dim, "grade bigger than algebra dimension");
 
-	typedef typename hep::merge<
+	using type = typename hep::merge<
 		typename grade_to_list<A, grade>::type,
 		typename grades_to_list<A, grades...>::type
-	>::type type;
+	>::type;
 };
 
 template <typename E, int... grades>
@@ -96,7 +96,7 @@ public:
 	/**
 	 * Type definition for the components contained in this expression.
 	 */
-	typedef grade_list<E, grades...> list;
+	using list = grade_list<E, grades...>;
 
 	/**
 	 * Constructor. This simply calls the contructor of the parent class.

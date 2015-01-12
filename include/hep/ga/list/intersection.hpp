@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,13 +35,13 @@ namespace hep
  * Computes the intersection of two lists \c L and \c R which both have to be
  * \ref list. Example:
  * \code
- * typedef hep::list<0,1,2> one;
- * typedef hep::list<1,2,3> two;
- * typedef hep::intersection<one, two>::type result;
+ * using one = hep::list<0,1,2>;
+ * using two = hep::list<1,2,3>;
+ * using result = typename hep::intersection<one, two>::type;
  * \endcode
  * The definition of \c result is equal to the following
  * \code
- * typedef hep::list<1,2> result;
+ * using result = hep::list<1,2>;
  * \endcode
  * because \c 1 and \c 2 appear in both lists.
  */
@@ -51,34 +51,33 @@ struct intersection
 	/**
 	 * The result of the \ref intersection operation.
 	 */
-	typedef typename std::conditional<L::value == R::value,
+	using type = typename std::conditional<L::value == R::value,
 		typename intersection<typename L::next, typename R::next>::type::
 			template push_front<L::value>::type,
 		typename std::conditional<
 			L::value < R::value,
 			typename intersection<typename L::next, R>::type,
 			typename intersection<L, typename R::next>::type
-		>::type>::type
-	type;
+		>::type>::type;
 };
 
 /// \cond DOYXGEN_IGNORE
 template <typename L>
 struct intersection<L, list<>>
 {
-	typedef list<> type;
+	using type = list<>;
 };
 
 template <typename R>
 struct intersection<list<>, R>
 {
-	typedef list<> type;
+	using type = list<>;
 };
 
 template <>
 struct intersection<list<>, list<>>
 {
-	typedef list<> type;
+	using type = list<>;
 };
 /// \endcond
 

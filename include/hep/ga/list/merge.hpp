@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2012  Christopher Schwan
+ * Copyright (C) 2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,14 +36,14 @@ namespace hep
  * elements of both lists, without duplicates and sorted in ascending order.
  * Example:
  * \code
- * typedef hep::list<1, 2, 3, 4> one;
- * typedef hep::list<2, 4, 5, 6> two;
+ * using one = hep::list<1, 2, 3, 4>;
+ * using two = hep::list<2, 4, 5, 6>;
  *
- * typedef hep::merge<one, two>::type result;
+ * using result = typename hep::merge<one, two>::type;
  * \endcode
  * The result is identical to the definition of the following type:
  * \code
- * typedef hep::list<1, 2, 3, 4, 5, 6> result;
+ * using result = hep::list<1, 2, 3, 4, 5, 6>;
  * \endcode
  */
 template <typename L, typename R>
@@ -52,34 +52,34 @@ struct merge
 	/**
 	 * Result of the \ref merge operation.
 	 */
-	typedef typename merge<
+	using type = typename merge<
 		typename std::conditional<L::value <= R::value, typename L::next, L>
 			::type,
 		typename std::conditional<L::value < R::value, R, typename R::next>
 			::type
 	>::type::template push_front<(L::value < R::value) ? L::value : R::value>
-		::type type;
+		::type;
 };
 
 /// \cond DOXYGEN_IGNORE
 template <typename L>
 struct merge<L, list<>>
 {
-	typedef typename merge<typename L::next, list<>>::type::
-		template push_front<L::value>::type type;
+	using type = typename merge<typename L::next, list<>>::type::
+		template push_front<L::value>::type;
 };
 
 template <typename R>
 struct merge<list<>, R>
 {
-	typedef typename merge<list<>, typename R::next>::type::
-		template push_front<R::value>::type type;
+	using type = typename merge<list<>, typename R::next>::type::
+		template push_front<R::value>::type;
 };
 
 template <>
 struct merge<list<>, list<>>
 {
-	typedef list<> type;
+	using type = list<>;
 };
 /// \endcond
 

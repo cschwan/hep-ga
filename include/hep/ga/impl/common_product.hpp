@@ -3,7 +3,7 @@
 
 /*
  * hep-ga - An Efficient Numeric Template Library for Geometric Algebra
- * Copyright (C) 2011-2012  Christopher Schwan
+ * Copyright (C) 2011-2012,2015  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ struct components
 	// i = L::value
 	// j = L::value ^ index
 
-	typedef typename std::conditional<
+	using type = typename std::conditional<
 		// check if there is a component with index j in R so that i ^ j = index
 		(hep::find<R>(L::value ^ index) != -1) &&
 		// check if this tuple contributes to this type of product
@@ -111,13 +111,13 @@ struct components
 		// condition is not fulfilled: skip i and continue with the remaining
 		// elements
 		typename components<A, typename L::next, R, P, index, sign>::type
-	>::type type;
+	>::type;
 };
 
 template <typename A, typename R, typename P, int index, int sign>
 struct components<A, hep::list<>, R, P, index, sign>
 {
-	typedef hep::list<> type;
+	using type = hep::list<>;
 };
 
 }
@@ -130,12 +130,12 @@ template <int index>
 hep_inline typename L::algebra::scalar_type common_product<P, L, R>::at() const
 {
 	// list with components in L contributing to the product with POSITIVE sign
-	typedef typename components<typename L::algebra, typename L::list,
-		typename R::list, P, index, +1>::type positive;
+	using positive = typename components<typename L::algebra, typename L::list,
+		typename R::list, P, index, +1>::type;
 
 	// list with components in L contributing to the product with NEGATIVE sign
-	typedef typename components<typename L::algebra, typename L::list,
-		typename R::list, P, index, -1>::type negative;
+	using negative = typename components<typename L::algebra, typename L::list,
+		typename R::list, P, index, -1>::type;
 
 	// subtract the sum of positive components from sum of negative components
 	return ::difference<positive, negative, index>::at(this->lhs, this->rhs);
