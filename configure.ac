@@ -27,6 +27,10 @@ AC_CONFIG_SRCDIR([include/hep/ga.hpp])
 # into the specified header
 AC_CONFIG_HEADERS([config.hpp])
 
+# needed for linking
+AC_PROG_RANLIB
+AM_PROG_AR
+
 AC_ARG_ENABLE([examples], AS_HELP_STRING([--enable-examples],
 	[Enable building of example programs]))
 
@@ -48,27 +52,6 @@ AS_IF([test "x$enable_doxygen" = "xyes"], [
 
 # if doxygen is requested, define HAVE_DOXYGEN and configure Doxyfile.in
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
-
-# check if the user wants to test this library
-AC_ARG_ENABLE([tests], AS_HELP_STRING([--enable-tests],
-	[Enable unit tests (requires Boost Unit Test Framework)]))
-
-# check for header and library
-AS_IF([test "x$enable_tests" = "xyes"], [
-	# save content of LIBS variable
-	previous_libs="${LIBS}"
-
-	AC_CHECK_HEADERS([boost/test/unit_test.hpp], [],
-		AC_MSG_ERROR([header not found/usable]))
-	AC_SEARCH_LIBS([_ZN5boost9unit_test14unit_test_mainEPFbvEiPPc],
-		[boost_unit_test_framework], [], AC_MSG_ERROR([library not found]))
-
-	# restore LIBS variable - boost libs are only needed in unit tests
-	LIBS="${previous_libs}"
-])
-
-# if tests are requested, define HAVE_TESTS
-AM_CONDITIONAL([HAVE_TESTS], [test "x$enable_tests" = "xyes"])
 
 # configure Makefiles and Doxyfile
 AC_CONFIG_FILES([

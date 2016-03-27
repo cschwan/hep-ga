@@ -1,10 +1,11 @@
-#include <tuple>
-#include <boost/test/unit_test.hpp>
+#include "gtest/gtest.h"
 
 #include <hep/ga_types.hpp>
 #include <hep/ga/reversion.hpp>
 
-BOOST_AUTO_TEST_CASE(negation)
+#include <tuple>
+
+TEST(Reversion, CheckReversionInG3)
 {
 	auto mvs = std::make_tuple(
 		mv3<0>              { 2.0 },
@@ -32,110 +33,110 @@ BOOST_AUTO_TEST_CASE(negation)
 
 	mv3<0> mv00 = ~std::get<0>(mvs);
 
-	BOOST_CHECK_EQUAL(mv00.at<0>(), 2.0);
+	EXPECT_EQ(mv00.at<0>(), 2.0);
 
 	mv3<1,2,4> mv01 = ~std::get<1>(mvs);
 
-	BOOST_CHECK_EQUAL(mv01.at<1>(), 3.0);
-	BOOST_CHECK_EQUAL(mv01.at<2>(), 5.0);
-	BOOST_CHECK_EQUAL(mv01.at<4>(), 7.0);
+	EXPECT_EQ(mv01.at<1>(), 3.0);
+	EXPECT_EQ(mv01.at<2>(), 5.0);
+	EXPECT_EQ(mv01.at<4>(), 7.0);
 
 	mv3<3,5,6> mv02 = ~std::get<2>(mvs);
 
-	BOOST_CHECK_EQUAL(mv02.at<3>(), -11.0);
-	BOOST_CHECK_EQUAL(mv02.at<5>(), -13.0);
-	BOOST_CHECK_EQUAL(mv02.at<6>(), -17.0);
+	EXPECT_EQ(mv02.at<3>(), -11.0);
+	EXPECT_EQ(mv02.at<5>(), -13.0);
+	EXPECT_EQ(mv02.at<6>(), -17.0);
 
 	mv3<7> mv03 = ~std::get<3>(mvs);
 
-	BOOST_CHECK_EQUAL(mv03.at<7>(), -19.0);
+	EXPECT_EQ(mv03.at<7>(), -19.0);
 
 	mv3<0,1,2,4> mv04 = ~std::get<4>(mvs);
 
-	BOOST_CHECK_EQUAL(mv04.at<0>(), 23.0);
-	BOOST_CHECK_EQUAL(mv04.at<1>(), 29.0);
-	BOOST_CHECK_EQUAL(mv04.at<2>(), 31.0);
-	BOOST_CHECK_EQUAL(mv04.at<4>(), 37.0);
+	EXPECT_EQ(mv04.at<0>(), 23.0);
+	EXPECT_EQ(mv04.at<1>(), 29.0);
+	EXPECT_EQ(mv04.at<2>(), 31.0);
+	EXPECT_EQ(mv04.at<4>(), 37.0);
 
 	mv3<0,3,5,6> mv05 = ~std::get<5>(mvs);
 
-	BOOST_CHECK_EQUAL(mv05.at<0>(), 41.0);
-	BOOST_CHECK_EQUAL(mv05.at<3>(), -43.0);
-	BOOST_CHECK_EQUAL(mv05.at<5>(), -47.0);
-	BOOST_CHECK_EQUAL(mv05.at<6>(), -53.0);
+	EXPECT_EQ(mv05.at<0>(), 41.0);
+	EXPECT_EQ(mv05.at<3>(), -43.0);
+	EXPECT_EQ(mv05.at<5>(), -47.0);
+	EXPECT_EQ(mv05.at<6>(), -53.0);
 
 	mv3<0,7> mv06 = ~std::get<6>(mvs);
 
-	BOOST_CHECK_EQUAL(mv06.at<0>(), 59.0);
-	BOOST_CHECK_EQUAL(mv06.at<7>(), -61.0);
+	EXPECT_EQ(mv06.at<0>(), 59.0);
+	EXPECT_EQ(mv06.at<7>(), -61.0);
 
 	mv3<1,2,3,4,5,6> mv07 = ~std::get<7>(mvs);
 
-	BOOST_CHECK_EQUAL(mv07.at<1>(), 67.0);
-	BOOST_CHECK_EQUAL(mv07.at<2>(), 71.0);
-	BOOST_CHECK_EQUAL(mv07.at<3>(), -73.0);
-	BOOST_CHECK_EQUAL(mv07.at<4>(), 79.0);
-	BOOST_CHECK_EQUAL(mv07.at<5>(), -83.0);
-	BOOST_CHECK_EQUAL(mv07.at<6>(), -89.0);
+	EXPECT_EQ(mv07.at<1>(), 67.0);
+	EXPECT_EQ(mv07.at<2>(), 71.0);
+	EXPECT_EQ(mv07.at<3>(), -73.0);
+	EXPECT_EQ(mv07.at<4>(), 79.0);
+	EXPECT_EQ(mv07.at<5>(), -83.0);
+	EXPECT_EQ(mv07.at<6>(), -89.0);
 
 	mv3<1,2,4,7> mv08 = ~std::get<8>(mvs);
 
-	BOOST_CHECK_EQUAL(mv08.at<1>(), 97.0);
-	BOOST_CHECK_EQUAL(mv08.at<2>(), 101.0);
-	BOOST_CHECK_EQUAL(mv08.at<4>(), 103.0);
-	BOOST_CHECK_EQUAL(mv08.at<7>(), -107.0);
+	EXPECT_EQ(mv08.at<1>(), 97.0);
+	EXPECT_EQ(mv08.at<2>(), 101.0);
+	EXPECT_EQ(mv08.at<4>(), 103.0);
+	EXPECT_EQ(mv08.at<7>(), -107.0);
 
 	mv3<3,5,6,7> mv09 = ~std::get<9>(mvs);
 
-	BOOST_CHECK_EQUAL(mv09.at<3>(), -109.0);
-	BOOST_CHECK_EQUAL(mv09.at<5>(), -113.0);
-	BOOST_CHECK_EQUAL(mv09.at<6>(), -127.0);
-	BOOST_CHECK_EQUAL(mv09.at<7>(), -131.0);
+	EXPECT_EQ(mv09.at<3>(), -109.0);
+	EXPECT_EQ(mv09.at<5>(), -113.0);
+	EXPECT_EQ(mv09.at<6>(), -127.0);
+	EXPECT_EQ(mv09.at<7>(), -131.0);
 
 	mv3<0,1,2,3,4,5,6> mv10 = ~std::get<10>(mvs);
 
-	BOOST_CHECK_EQUAL(mv10.at<0>(), 137.0);
-	BOOST_CHECK_EQUAL(mv10.at<1>(), 139.0);
-	BOOST_CHECK_EQUAL(mv10.at<2>(), 149.0);
-	BOOST_CHECK_EQUAL(mv10.at<3>(), -151.0);
-	BOOST_CHECK_EQUAL(mv10.at<4>(), 157.0);
-	BOOST_CHECK_EQUAL(mv10.at<5>(), -163.0);
-	BOOST_CHECK_EQUAL(mv10.at<6>(), -167.0);
+	EXPECT_EQ(mv10.at<0>(), 137.0);
+	EXPECT_EQ(mv10.at<1>(), 139.0);
+	EXPECT_EQ(mv10.at<2>(), 149.0);
+	EXPECT_EQ(mv10.at<3>(), -151.0);
+	EXPECT_EQ(mv10.at<4>(), 157.0);
+	EXPECT_EQ(mv10.at<5>(), -163.0);
+	EXPECT_EQ(mv10.at<6>(), -167.0);
 
 	mv3<0,1,2,4,7> mv11 = ~std::get<11>(mvs);
 
-	BOOST_CHECK_EQUAL(mv11.at<0>(), 173.0);
-	BOOST_CHECK_EQUAL(mv11.at<1>(), 179.0);
-	BOOST_CHECK_EQUAL(mv11.at<2>(), 181.0);
-	BOOST_CHECK_EQUAL(mv11.at<4>(), 191.0);
-	BOOST_CHECK_EQUAL(mv11.at<7>(), -193.0);
+	EXPECT_EQ(mv11.at<0>(), 173.0);
+	EXPECT_EQ(mv11.at<1>(), 179.0);
+	EXPECT_EQ(mv11.at<2>(), 181.0);
+	EXPECT_EQ(mv11.at<4>(), 191.0);
+	EXPECT_EQ(mv11.at<7>(), -193.0);
 
 	mv3<0,3,5,6,7> mv12 = ~std::get<12>(mvs);
 
-	BOOST_CHECK_EQUAL(mv12.at<0>(), 197.0);
-	BOOST_CHECK_EQUAL(mv12.at<3>(), -199.0);
-	BOOST_CHECK_EQUAL(mv12.at<5>(), -211.0);
-	BOOST_CHECK_EQUAL(mv12.at<6>(), -223.0);
-	BOOST_CHECK_EQUAL(mv12.at<7>(), -227.0);
+	EXPECT_EQ(mv12.at<0>(), 197.0);
+	EXPECT_EQ(mv12.at<3>(), -199.0);
+	EXPECT_EQ(mv12.at<5>(), -211.0);
+	EXPECT_EQ(mv12.at<6>(), -223.0);
+	EXPECT_EQ(mv12.at<7>(), -227.0);
 
 	mv3<1,2,3,4,5,6,7> mv13 = ~std::get<13>(mvs);
 
-	BOOST_CHECK_EQUAL(mv13.at<1>(), 229.0);
-	BOOST_CHECK_EQUAL(mv13.at<2>(), 233.0);
-	BOOST_CHECK_EQUAL(mv13.at<3>(), -239.0);
-	BOOST_CHECK_EQUAL(mv13.at<4>(), 241.0);
-	BOOST_CHECK_EQUAL(mv13.at<5>(), -251.0);
-	BOOST_CHECK_EQUAL(mv13.at<6>(), -257.0);
-	BOOST_CHECK_EQUAL(mv13.at<7>(), -263.0);
+	EXPECT_EQ(mv13.at<1>(), 229.0);
+	EXPECT_EQ(mv13.at<2>(), 233.0);
+	EXPECT_EQ(mv13.at<3>(), -239.0);
+	EXPECT_EQ(mv13.at<4>(), 241.0);
+	EXPECT_EQ(mv13.at<5>(), -251.0);
+	EXPECT_EQ(mv13.at<6>(), -257.0);
+	EXPECT_EQ(mv13.at<7>(), -263.0);
 
 	mv3<0,1,2,3,4,5,6,7> mv14 = ~std::get<14>(mvs);
 
-	BOOST_CHECK_EQUAL(mv14.at<0>(), 269.0);
-	BOOST_CHECK_EQUAL(mv14.at<1>(), 271.0);
-	BOOST_CHECK_EQUAL(mv14.at<2>(), 277.0);
-	BOOST_CHECK_EQUAL(mv14.at<3>(), -281.0);
-	BOOST_CHECK_EQUAL(mv14.at<4>(), 283.0);
-	BOOST_CHECK_EQUAL(mv14.at<5>(), -293.0);
-	BOOST_CHECK_EQUAL(mv14.at<6>(), -307.0);
-	BOOST_CHECK_EQUAL(mv14.at<7>(), -311.0);
+	EXPECT_EQ(mv14.at<0>(), 269.0);
+	EXPECT_EQ(mv14.at<1>(), 271.0);
+	EXPECT_EQ(mv14.at<2>(), 277.0);
+	EXPECT_EQ(mv14.at<3>(), -281.0);
+	EXPECT_EQ(mv14.at<4>(), 283.0);
+	EXPECT_EQ(mv14.at<5>(), -293.0);
+	EXPECT_EQ(mv14.at<6>(), -307.0);
+	EXPECT_EQ(mv14.at<7>(), -311.0);
 }

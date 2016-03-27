@@ -1,9 +1,10 @@
-#include <tuple>
-#include <boost/test/unit_test.hpp>
+#include "gtest/gtest.h"
 
 #include <hep/ga_types.hpp>
 
-BOOST_AUTO_TEST_CASE(index_access)
+#include <tuple>
+
+TEST(IndexAccess, CheckAtInG3)
 {
 	auto mvs = std::make_tuple(
 		mv3<0>              { 2.0 },
@@ -30,96 +31,96 @@ BOOST_AUTO_TEST_CASE(index_access)
 	);
 
 	// scalar
-	BOOST_CHECK_EQUAL(std::get<0>(mvs).at<0>(), 2.0);
+	EXPECT_EQ(std::get<0>(mvs).at<0>(), 2.0);
 
 	// vector
-	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<1>(), 3.0);
-	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<2>(), 5.0);
-	BOOST_CHECK_EQUAL(std::get<1>(mvs).at<4>(), 7.0);
+	EXPECT_EQ(std::get<1>(mvs).at<1>(), 3.0);
+	EXPECT_EQ(std::get<1>(mvs).at<2>(), 5.0);
+	EXPECT_EQ(std::get<1>(mvs).at<4>(), 7.0);
 
 	// bivector
-	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<3>(), 11.0);
-	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<5>(), 13.0);
-	BOOST_CHECK_EQUAL(std::get<2>(mvs).at<6>(), 17.0);
+	EXPECT_EQ(std::get<2>(mvs).at<3>(), 11.0);
+	EXPECT_EQ(std::get<2>(mvs).at<5>(), 13.0);
+	EXPECT_EQ(std::get<2>(mvs).at<6>(), 17.0);
 
 	// trivector
-	BOOST_CHECK_EQUAL(std::get<3>(mvs).at<7>(), 19.0);
+	EXPECT_EQ(std::get<3>(mvs).at<7>(), 19.0);
 
 	// scalar + vector
-	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<0>(), 23.0);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<1>(), 29.0);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<2>(), 31.0);
-	BOOST_CHECK_EQUAL(std::get<4>(mvs).at<4>(), 37.0);
+	EXPECT_EQ(std::get<4>(mvs).at<0>(), 23.0);
+	EXPECT_EQ(std::get<4>(mvs).at<1>(), 29.0);
+	EXPECT_EQ(std::get<4>(mvs).at<2>(), 31.0);
+	EXPECT_EQ(std::get<4>(mvs).at<4>(), 37.0);
 
 	// scalar + bivector
-	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<0>(), 41.0);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<3>(), 43.0);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<5>(), 47.0);
-	BOOST_CHECK_EQUAL(std::get<5>(mvs).at<6>(), 53.0);
+	EXPECT_EQ(std::get<5>(mvs).at<0>(), 41.0);
+	EXPECT_EQ(std::get<5>(mvs).at<3>(), 43.0);
+	EXPECT_EQ(std::get<5>(mvs).at<5>(), 47.0);
+	EXPECT_EQ(std::get<5>(mvs).at<6>(), 53.0);
 
 	// scalar + trivector
-	BOOST_CHECK_EQUAL(std::get<6>(mvs).at<0>(), 59.0);
-	BOOST_CHECK_EQUAL(std::get<6>(mvs).at<7>(), 61.0);
+	EXPECT_EQ(std::get<6>(mvs).at<0>(), 59.0);
+	EXPECT_EQ(std::get<6>(mvs).at<7>(), 61.0);
 
 	// vector + bivector
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<1>(), 67.0);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<2>(), 71.0);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<3>(), 73.0);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<4>(), 79.0);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<5>(), 83.0);
-	BOOST_CHECK_EQUAL(std::get<7>(mvs).at<6>(), 89.0);
+	EXPECT_EQ(std::get<7>(mvs).at<1>(), 67.0);
+	EXPECT_EQ(std::get<7>(mvs).at<2>(), 71.0);
+	EXPECT_EQ(std::get<7>(mvs).at<3>(), 73.0);
+	EXPECT_EQ(std::get<7>(mvs).at<4>(), 79.0);
+	EXPECT_EQ(std::get<7>(mvs).at<5>(), 83.0);
+	EXPECT_EQ(std::get<7>(mvs).at<6>(), 89.0);
 
 	// vector + trivector
-	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<1>(), 97.0);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<2>(), 101.0);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<4>(), 103.0);
-	BOOST_CHECK_EQUAL(std::get<8>(mvs).at<7>(), 107.0);
+	EXPECT_EQ(std::get<8>(mvs).at<1>(), 97.0);
+	EXPECT_EQ(std::get<8>(mvs).at<2>(), 101.0);
+	EXPECT_EQ(std::get<8>(mvs).at<4>(), 103.0);
+	EXPECT_EQ(std::get<8>(mvs).at<7>(), 107.0);
 
 	// bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<3>(), 109.0);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<5>(), 113.0);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<6>(), 127.0);
-	BOOST_CHECK_EQUAL(std::get<9>(mvs).at<7>(), 131.0);
+	EXPECT_EQ(std::get<9>(mvs).at<3>(), 109.0);
+	EXPECT_EQ(std::get<9>(mvs).at<5>(), 113.0);
+	EXPECT_EQ(std::get<9>(mvs).at<6>(), 127.0);
+	EXPECT_EQ(std::get<9>(mvs).at<7>(), 131.0);
 
 	// scalar + vector + bivector
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<0>(), 137.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<1>(), 139.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<2>(), 149.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<3>(), 151.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<4>(), 157.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<5>(), 163.0);
-	BOOST_CHECK_EQUAL(std::get<10>(mvs).at<6>(), 167.0);
+	EXPECT_EQ(std::get<10>(mvs).at<0>(), 137.0);
+	EXPECT_EQ(std::get<10>(mvs).at<1>(), 139.0);
+	EXPECT_EQ(std::get<10>(mvs).at<2>(), 149.0);
+	EXPECT_EQ(std::get<10>(mvs).at<3>(), 151.0);
+	EXPECT_EQ(std::get<10>(mvs).at<4>(), 157.0);
+	EXPECT_EQ(std::get<10>(mvs).at<5>(), 163.0);
+	EXPECT_EQ(std::get<10>(mvs).at<6>(), 167.0);
 
 	// scalar + vector + trivector
-	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<0>(), 173.0);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<1>(), 179.0);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<2>(), 181.0);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<4>(), 191.0);
-	BOOST_CHECK_EQUAL(std::get<11>(mvs).at<7>(), 193.0);
+	EXPECT_EQ(std::get<11>(mvs).at<0>(), 173.0);
+	EXPECT_EQ(std::get<11>(mvs).at<1>(), 179.0);
+	EXPECT_EQ(std::get<11>(mvs).at<2>(), 181.0);
+	EXPECT_EQ(std::get<11>(mvs).at<4>(), 191.0);
+	EXPECT_EQ(std::get<11>(mvs).at<7>(), 193.0);
 
 	// scalar + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<0>(), 197.0);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<3>(), 199.0);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<5>(), 211.0);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<6>(), 223.0);
-	BOOST_CHECK_EQUAL(std::get<12>(mvs).at<7>(), 227.0);
+	EXPECT_EQ(std::get<12>(mvs).at<0>(), 197.0);
+	EXPECT_EQ(std::get<12>(mvs).at<3>(), 199.0);
+	EXPECT_EQ(std::get<12>(mvs).at<5>(), 211.0);
+	EXPECT_EQ(std::get<12>(mvs).at<6>(), 223.0);
+	EXPECT_EQ(std::get<12>(mvs).at<7>(), 227.0);
 
 	// vector + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<1>(), 229.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<2>(), 233.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<3>(), 239.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<4>(), 241.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<5>(), 251.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<6>(), 257.0);
-	BOOST_CHECK_EQUAL(std::get<13>(mvs).at<7>(), 263.0);
+	EXPECT_EQ(std::get<13>(mvs).at<1>(), 229.0);
+	EXPECT_EQ(std::get<13>(mvs).at<2>(), 233.0);
+	EXPECT_EQ(std::get<13>(mvs).at<3>(), 239.0);
+	EXPECT_EQ(std::get<13>(mvs).at<4>(), 241.0);
+	EXPECT_EQ(std::get<13>(mvs).at<5>(), 251.0);
+	EXPECT_EQ(std::get<13>(mvs).at<6>(), 257.0);
+	EXPECT_EQ(std::get<13>(mvs).at<7>(), 263.0);
 
 	// scalar + vector + bivector + trivector
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<0>(), 269.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<1>(), 271.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<2>(), 277.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<3>(), 281.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<4>(), 283.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<5>(), 293.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<6>(), 307.0);
-	BOOST_CHECK_EQUAL(std::get<14>(mvs).at<7>(), 311.0);
+	EXPECT_EQ(std::get<14>(mvs).at<0>(), 269.0);
+	EXPECT_EQ(std::get<14>(mvs).at<1>(), 271.0);
+	EXPECT_EQ(std::get<14>(mvs).at<2>(), 277.0);
+	EXPECT_EQ(std::get<14>(mvs).at<3>(), 281.0);
+	EXPECT_EQ(std::get<14>(mvs).at<4>(), 283.0);
+	EXPECT_EQ(std::get<14>(mvs).at<5>(), 293.0);
+	EXPECT_EQ(std::get<14>(mvs).at<6>(), 307.0);
+	EXPECT_EQ(std::get<14>(mvs).at<7>(), 311.0);
 }

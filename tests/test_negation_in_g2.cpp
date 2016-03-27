@@ -1,10 +1,11 @@
-#include <tuple>
-#include <boost/test/unit_test.hpp>
+#include "gtest/gtest.h"
 
 #include <hep/ga_types.hpp>
 #include <hep/ga/negation.hpp>
 
-BOOST_AUTO_TEST_CASE(negation)
+#include <tuple>
+
+TEST(Negation, CheckMinusInG2)
 {
 	auto rhs = std::make_tuple(
 		mv2<0>      { 3.0 },
@@ -18,38 +19,38 @@ BOOST_AUTO_TEST_CASE(negation)
 
 	mv2<0> mv00 = -std::get<0>(rhs);
 
-	BOOST_CHECK_EQUAL(mv00.at<0>(), -3.0);
+	EXPECT_EQ(mv00.at<0>(), -3.0);
 
 	mv2<1,2> mv01 = -std::get<1>(rhs);
 
-	BOOST_CHECK_EQUAL(mv01.at<1>(), -11.0);
-	BOOST_CHECK_EQUAL(mv01.at<2>(), -13.0);
+	EXPECT_EQ(mv01.at<1>(), -11.0);
+	EXPECT_EQ(mv01.at<2>(), -13.0);
 
 	mv2<3> mv02 = -std::get<2>(rhs);
 
-	BOOST_CHECK_EQUAL(mv02.at<3>(), -19.0);
+	EXPECT_EQ(mv02.at<3>(), -19.0);
 
 	mv2<0,1,2> mv03 = -std::get<3>(rhs);
 
-	BOOST_CHECK_EQUAL(mv03.at<0>(), -37.0);
-	BOOST_CHECK_EQUAL(mv03.at<1>(), -41.0);
-	BOOST_CHECK_EQUAL(mv03.at<2>(), -43.0);
+	EXPECT_EQ(mv03.at<0>(), -37.0);
+	EXPECT_EQ(mv03.at<1>(), -41.0);
+	EXPECT_EQ(mv03.at<2>(), -43.0);
 
 	mv2<0,3> mv04 = -std::get<4>(rhs);
 
-	BOOST_CHECK_EQUAL(mv04.at<0>(), -59.0);
-	BOOST_CHECK_EQUAL(mv04.at<3>(), -61.0);
+	EXPECT_EQ(mv04.at<0>(), -59.0);
+	EXPECT_EQ(mv04.at<3>(), -61.0);
 
 	mv2<1,2,3> mv05 = -std::get<5>(rhs);
 
-	BOOST_CHECK_EQUAL(mv05.at<1>(), -79.0);
-	BOOST_CHECK_EQUAL(mv05.at<2>(), -83.0);
-	BOOST_CHECK_EQUAL(mv05.at<3>(), -89.0);
+	EXPECT_EQ(mv05.at<1>(), -79.0);
+	EXPECT_EQ(mv05.at<2>(), -83.0);
+	EXPECT_EQ(mv05.at<3>(), -89.0);
 
 	mv2<0,1,2,3> mv06 = -std::get<6>(rhs);
 
-	BOOST_CHECK_EQUAL(mv06.at<0>(), -109.0);
-	BOOST_CHECK_EQUAL(mv06.at<1>(), -113.0);
-	BOOST_CHECK_EQUAL(mv06.at<2>(), -127.0);
-	BOOST_CHECK_EQUAL(mv06.at<3>(), -131.0);
+	EXPECT_EQ(mv06.at<0>(), -109.0);
+	EXPECT_EQ(mv06.at<1>(), -113.0);
+	EXPECT_EQ(mv06.at<2>(), -127.0);
+	EXPECT_EQ(mv06.at<3>(), -131.0);
 }
