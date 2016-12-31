@@ -27,24 +27,24 @@ namespace
 {
 
 template <typename A>
-constexpr int sign_table(int i, int j, int k, int grade)
+constexpr int sign_table(int i, int j, int grade)
 {
-#define kth_bit_set(x)  (((x) & (1 << k)) != 0)
-#define pop_count_i     (grade + (kth_bit_set(i) ? -1 : 0))
-#define condition_1     (kth_bit_set(j))
-#define condition_2     (kth_bit_set(i) && (k >= A::p))
-#define condition_3     (pop_count_i & 1)
-#define this_sign       ((condition_1 && (condition_2 != condition_3)) ? -1 : 1)
+	int result = 1;
 
-	return (k == A::dim) ? 1 : this_sign *
-		sign_table<A>(i, j, k + 1, pop_count_i);
+	for (int k = 0; k != A::dim; ++k)
+	{
+		bool const kth_bit_set_of_i = (i & (1 << k)) != 0;
+		bool const kth_bit_set_of_j = (j & (1 << k)) != 0;
 
-#undef this_sign
-#undef condition_3
-#undef condition_2
-#undef condition_1
-#undef pop_count_i
-#undef kth_bit_set
+		grade -= kth_bit_set_of_i ? 1 : 0;
+
+		bool const condition2 = kth_bit_set_of_i && (k >= A::p);
+		bool const condition3 = grade & 1;
+
+		result *= (kth_bit_set_of_j && (condition2 != condition3)) ? -1 : 1;
+	}
+
+	return result;
 }
 
 }
@@ -63,7 +63,7 @@ constexpr int sign_table()
 {
 	// wrapping with std::integral_constant forces compile-time evaluation
 	return std::integral_constant<int,
-		::sign_table<A>(i, j, 0, pop_count(i))>::value;
+		::sign_table<A>(i, j, pop_count(i))>::value;
 }
 
 }

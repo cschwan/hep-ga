@@ -18,7 +18,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_LANG([C++])
 
 # check for C++11 conforming compiler (autoconf-archive macro)
-AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+AX_CXX_COMPILE_STDCXX([14], [noext], [mandatory])
 
 # point to a source file in order to let ./configure find itself
 AC_CONFIG_SRCDIR([include/hep/ga.hpp])

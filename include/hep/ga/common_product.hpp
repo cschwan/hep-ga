@@ -34,11 +34,8 @@ struct multiply
 {
 	using type = hep::merge_t<
 		hep::merge_t<
-			typename std::conditional<
-				P::check(L::value, R::value),
-				hep::list<L::value ^ R::value>,
-				hep::list<>
-			>::type,
+			std::conditional_t<P::check(L::value, R::value),
+				hep::list<L::value ^ R::value>, hep::list<>>,
 			typename multiply<typename L::next, R, P>::type
 		>,
 		typename multiply<L, typename R::next, P>::type

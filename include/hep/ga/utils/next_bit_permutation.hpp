@@ -37,14 +37,11 @@ namespace hep
  */
 constexpr unsigned next_bit_permutation(unsigned permutation)
 {
-#define v permutation
-#define t ((v | (v - 1)) + 1)
+	unsigned v = permutation;
+	unsigned t = (v | (v - 1)) + 1;
 
 	// Taken from http://graphics.stanford.edu/~seander/bithacks.html
 	return t | ((((t & -t) / (v & -v)) >> 1) - 1);
-
-#undef t
-#undef v
 }
 
 /**

@@ -64,13 +64,13 @@ struct intersection
 	/**
 	 * The result of the \ref intersection operation.
 	 */
-	using type = typename std::conditional<L::value == R::value,
+	using type = std::conditional_t<L::value == R::value,
 		hep::push_front_t<L::value, hep::intersection_t<typename L::next, typename R::next>>,
-		typename std::conditional<
+		std::conditional_t<
 			L::value < R::value,
 			hep::intersection_t<typename L::next, R>,
 			hep::intersection_t<L, typename R::next>
-		>::type>::type;
+		>>;
 };
 
 /// \cond DOYXGEN_IGNORE

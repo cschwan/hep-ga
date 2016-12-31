@@ -1,7 +1,7 @@
 Project Description
 ===================
 
-``hep-ga`` is a C++11 library for efficient numeric calculations with geometric
+``hep-ga`` is a C++14 library for efficient numeric calculations with geometric
 algebra. It provides a template class for multi-vectors of G_{p,q} and
 template-expressions for many operations such as addition, geometric product,
 inner and outer product.

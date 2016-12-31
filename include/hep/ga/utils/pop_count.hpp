@@ -32,8 +32,16 @@ namespace hep
  */
 constexpr unsigned pop_count(unsigned bits)
 {
-	// Brian Kernighan's bit count - one recursion for every bit set to '1'
-	return (bits == 0) ? 0 : 1 + pop_count(bits & (bits - 1));
+	unsigned result = 0;
+
+	// Brian Kernighan's bit count - one iteration for every bit set to '1'
+	while (bits != 0)
+	{
+		++result;
+		bits &= bits - 1;
+	}
+
+	return result;
 }
 
 /**

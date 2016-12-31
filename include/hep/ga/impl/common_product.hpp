@@ -95,7 +95,7 @@ struct components
 	// i = L::value
 	// j = L::value ^ index
 
-	using type = typename std::conditional<
+	using type = std::conditional_t<
 		// check if there is a component with index j in R so that i ^ j = index
 		(hep::find<R>(L::value ^ index) != -1) &&
 		// check if this tuple contributes to this type of product
@@ -110,7 +110,7 @@ struct components
 		// condition is not fulfilled: skip i and continue with the remaining
 		// elements
 		typename components<A, typename L::next, R, P, index, sign>::type
-	>::type;
+	>;
 };
 
 template <typename A, typename R, typename P, int index, int sign>

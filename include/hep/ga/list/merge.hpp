@@ -66,8 +66,8 @@ struct merge
 	 * Result of the \ref merge operation.
 	 */
 	using type = hep::push_front_t<(L::value < R::value) ? L::value : R::value, hep::merge_t<
-		typename std::conditional<L::value <= R::value, typename L::next, L>::type,
-		typename std::conditional<L::value <  R::value, R, typename R::next>::type
+		std::conditional_t<L::value <= R::value, typename L::next, L>,
+		std::conditional_t<L::value <  R::value, R, typename R::next>
 	>>;
 };
 

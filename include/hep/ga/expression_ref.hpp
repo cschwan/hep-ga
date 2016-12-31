@@ -39,11 +39,11 @@ namespace hep
  * copied because they are created as temporary objects.
  */
 template <typename E>
-using expression_ref = typename std::conditional<
+using expression_ref = std::conditional_t<
 	std::is_same<E, multi_vector<typename E::algebra, typename E::list>>::value,
 	E const&,
 	E
->::type;
+>;
 
 }
 
